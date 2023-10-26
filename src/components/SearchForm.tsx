@@ -1,39 +1,35 @@
-import { ChangeEvent, Component, ReactNode } from 'react';
+import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
 import SubmitBtn from './SubmitBtn';
 import Input from './Input';
 
-type SearchFormState = {
+export default class SearchForm extends Component<{
   keyword: string;
-};
-
-export default class SearchForm extends Component<
-  Record<string, never>,
-  SearchFormState
-> {
-  constructor(props: Record<string, never>) {
-    super(props);
-    this.state = {
-      keyword: localStorage.getItem('keyword') || '',
-    };
-  }
+  sendRequest: (str: string) => void;
+}> {
+  state = {
+    keyword: this.props.keyword,
+  };
+  handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    this.props.sendRequest(this.state.keyword);
+  };
 
   handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newKeyword = e.target.value;
-    localStorage.setItem('keyword', newKeyword);
     this.setState({ keyword: newKeyword });
+    localStorage.setItem('keyword', newKeyword);
   };
 
   render(): ReactNode {
     return (
       <>
-        <form>
+        <form className={`search-form`} onSubmit={this.handleSubmit}>
           <Input
             value={this.state.keyword}
             onChange={this.handleKeywordChange}
           />
-          <SubmitBtn str={this.state.keyword} />
+          <SubmitBtn />
         </form>
-        <p>{this.state.keyword}</p>
       </>
     );
   }

@@ -1,9 +1,5 @@
-import { ChangeEvent, Component, ReactNode } from 'react';
-
-type InputProps = {
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-};
+import { Component, ReactNode } from 'react';
+import { InputProps } from '../types';
 
 export default class Input extends Component<InputProps> {
   render(): ReactNode {
