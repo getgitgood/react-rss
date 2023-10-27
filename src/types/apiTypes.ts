@@ -14,4 +14,11 @@ export type ResponseItem = {
   background_image: string;
   rating_top: string;
   metacritic_url: string;
+  genres: Genres[];
+};
+
+type Genres = {
+  id: number;
+  name: string;
+  slug: string;
 };

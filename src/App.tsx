@@ -2,13 +2,14 @@ import { Component, ReactNode } from 'react';
 import './index.scss';
 import './components/SearchForm/SearchForm';
 import SearchForm from './components/SearchForm/SearchForm';
-import ContentItems from './components/Content/Content';
+import Content from './components/Content/Content';
 import { ApiResponse, ResponseItem } from './types';
 
 export default class App extends Component {
   state = {
     keyword: localStorage.getItem('keyword') || '',
     data: [],
+    isLoading: false,
   };
 
   sendRequest = async (str: string) => {
@@ -17,17 +18,20 @@ export default class App extends Component {
 
   fetchData = async (str: string) => {
     const apiKey = '2de256abeb6040da91f0216d56988978';
+    this.setState({ isLoading: true });
     try {
       const request = await fetch(
-        `https://rawg.io/api/games?token&key=${apiKey}&search=${str}&page_size=3`
+        `https://rawg.io/api/games?token&key=${apiKey}&search=${str}&page_size=5`
       );
       if (request.ok) {
         const response: ApiResponse = await request.json();
         const results: ResponseItem[] = response.results;
         this.setState({ data: results });
+        this.setState({ isLoading: false });
         console.log(response);
       }
     } catch (e) {
+      this.setState({ isLoading: false });
       console.log(e);
     }
   };
@@ -43,7 +47,7 @@ export default class App extends Component {
           />
         </div>
         <div className="main">
-          <ContentItems data={this.state.data} />
+          <Content data={this.state.data} loading={this.state.isLoading} />
         </div>
       </>
     );

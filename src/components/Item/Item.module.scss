@@ -1,13 +1,29 @@
 .item {
   display: flex;
-  max-width: 30vw;
+  max-width: 20%;
   max-height: 20%;
   flex-direction: column;
-  justify-content: space-between;
-}
+  justify-content: space-around;
+  transition: transform 0.2s ease;
 
-.item_image {
-  max-width: 100%;
-  height: 30%;
-  overflow: hidden;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .item_image_wrapper {
+    height: 50%;
+    img {
+      object-fit:cover;
+      object-position: 50% 50%;
+      width: 100%;
+      max-height: 100%;
+      
+    }
+  }
+
+  .text_content {
+    padding: 1rem;
+  }
 }
