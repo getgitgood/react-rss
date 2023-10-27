@@ -1,12 +1,11 @@
 import { Component, ReactNode } from 'react';
 import './index.scss';
-import './components/SearchForm';
-import SearchForm from './components/SearchForm';
-import PageHeading from './components/PageHeading';
-import Content from './components/Content';
-import { ResponseItem } from './types';
+import './components/SearchForm/SearchForm';
+import SearchForm from './components/SearchForm/SearchForm';
+import ContentItems from './components/Content/Content';
+import { ApiResponse, ResponseItem } from './types';
 
-export default class App extends Component<Record<string, never>> {
+export default class App extends Component {
   state = {
     keyword: localStorage.getItem('keyword') || '',
     data: [],
@@ -17,35 +16,34 @@ export default class App extends Component<Record<string, never>> {
   };
 
   fetchData = async (str: string) => {
-    const requestOptions: RequestInit = {
-      method: 'GET',
-      redirect: 'follow',
-    };
+    const apiKey = '2de256abeb6040da91f0216d56988978';
     try {
       const request = await fetch(
-        `https://www.cheapshark.com/api/1.0/games?title=${str}`,
-        requestOptions
+        `https://rawg.io/api/games?token&key=${apiKey}&search=${str}&page_size=3`
       );
       if (request.ok) {
-        const data: ResponseItem[] = await request.json();
-        this.setState({ data: data });
+        const response: ApiResponse = await request.json();
+        const results: ResponseItem[] = response.results;
+        this.setState({ data: results });
+        console.log(response);
       }
     } catch (e) {
       console.log(e);
     }
   };
+
   render(): ReactNode {
     return (
       <>
         <div className="header">
-          <PageHeading />
+          <h1>Welcome to API</h1>
           <SearchForm
             keyword={this.state.keyword}
             sendRequest={this.sendRequest}
           />
         </div>
         <div className="main">
-          <Content data={this.state.data} />
+          <ContentItems data={this.state.data} />
         </div>
       </>
     );

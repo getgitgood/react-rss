@@ -1,6 +1,6 @@
 import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
-import SubmitBtn from './SubmitBtn';
-import Input from './Input';
+import SubmitBtn from '../Button/Button';
+import Input from '../Input/Input';
 
 export default class SearchForm extends Component<{
   keyword: string;

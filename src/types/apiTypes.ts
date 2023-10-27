@@ -1,8 +1,17 @@
+export type ApiResponse = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: ResponseItem[] | [];
+  user_platforms: boolean;
+};
+
 export type ResponseItem = {
-  cheapest: string;
-  cheapestDealID: string;
-  gameID: string;
-  internalName: string;
-  steamAppId: string;
-  thumb: string;
+  id: number;
+  slug: string;
+  name: string;
+  description: string;
+  background_image: string;
+  rating_top: string;
+  metacritic_url: string;
 };
