@@ -12,13 +12,18 @@ export type ResponseItem = {
   name: string;
   description: string;
   background_image: string;
-  rating_top: string;
+  metacritic: number;
   metacritic_url: string;
   genres: Genres[];
+  platforms: Platforms<Genres>[];
 };
 
-type Genres = {
+interface Genres {
   id: number;
   name: string;
   slug: string;
-};
+}
+
+interface Platforms<T> {
+  platform: T;
+}

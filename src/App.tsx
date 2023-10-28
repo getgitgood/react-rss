@@ -12,7 +12,7 @@ export default class App extends Component {
     isLoading: false,
   };
 
-  sendRequest = async (str: string) => {
+  sendRequest = (str: string) => {
     this.setState({ keyword: str }, () => this.fetchData(str));
   };
 
@@ -21,13 +21,12 @@ export default class App extends Component {
     this.setState({ isLoading: true });
     try {
       const request = await fetch(
-        `https://rawg.io/api/games?token&key=${apiKey}&search=${str}&page_size=5`
+        `https://rawg.io/api/games?token&key=${apiKey}&search=${str}&ordering=-metacritic`
       );
       if (request.ok) {
         const response: ApiResponse = await request.json();
         const results: ResponseItem[] = response.results;
-        this.setState({ data: results });
-        this.setState({ isLoading: false });
+        this.setState({ data: results, isLoading: false });
         console.log(response);
       }
     } catch (e) {
@@ -39,16 +38,17 @@ export default class App extends Component {
   render(): ReactNode {
     return (
       <>
-        <div className="header">
+        <header className="header">
           <h1>Welcome to API</h1>
           <SearchForm
             keyword={this.state.keyword}
             sendRequest={this.sendRequest}
           />
-        </div>
-        <div className="main">
+        </header>
+        <main className="main">
           <Content data={this.state.data} loading={this.state.isLoading} />
-        </div>
+        </main>
+        <footer>2023</footer>
       </>
     );
   }

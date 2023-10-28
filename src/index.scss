@@ -1,10 +1,2 @@
-* {
-  margin: 0;
-  box-sizing: border-box;
-}
-
-#root {
-  min-height: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-}
+@import './scss/variables';
+@import './scss/base';

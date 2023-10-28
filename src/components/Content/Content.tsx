@@ -1,7 +1,7 @@
 import { Component, ReactNode } from 'react';
 import { ResponseItem } from '../../types';
 import Loader from '../Loader/Loader';
-import ContentItem from '../Item/Item';
+import Item from '../Item/Item';
 import classes from './content.module.scss';
 
 export default class ContentItems extends Component<{
@@ -13,9 +13,9 @@ export default class ContentItems extends Component<{
     return (
       <div className={classes.contents}>
         {loading ? (
-          <Loader />
+          <Loader></Loader>
         ) : (
-          data.map((item) => <ContentItem key={item.id} item={item} />)
+          data.map((item) => <Item key={item.id} item={item} />)
         )}
       </div>
     );

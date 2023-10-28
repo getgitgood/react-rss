@@ -14,3 +14,7 @@ export type State = {
   keyword: string;
   data: [] | ResponseItem[];
 };
+
+export type PlatformsSlug = {
+  [key: string]: string;
+};
