@@ -14,7 +14,7 @@ export default class App extends Component {
   };
 
   componentDidMount(): void {
-    this.fetchData();
+    this.fetchData(this.state.keyword);
   }
 
   sendRequest = (str: string) => {
@@ -27,7 +27,7 @@ export default class App extends Component {
     return `https:/rawg.io/api/games?token&key=${apiKey}&search=${query}&ordering=-metacritic`;
   };
 
-  fetchData = async (str = '') => {
+  fetchData = async (str: string) => {
     this.setState({ isLoading: true });
     try {
       const request = await fetch(this.formatLink(str));
