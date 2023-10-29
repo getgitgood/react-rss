@@ -24,11 +24,14 @@ export default class Item extends Component<{ item: ResponseItem }> {
         <div className={classes.item_title}>
           <h3 className={classes.item_heading}>{item.name}</h3>
           {item.metacritic ? (
-            <p className={classes.item_rate}>Metacritic {item.metacritic}</p>
+            <p className={classes.item_rate}>
+              Metacritic: <strong>{item.metacritic} / 100 </strong>
+            </p>
           ) : (
             ''
           )}
         </div>
+
         <div className={classes.additional_info}>
           <div className={classes.item_genre_wrapper}>
             {item.genres.map((genre) => (

@@ -11,13 +11,13 @@ export default class ContentItems extends Component<{
   render(): ReactNode {
     const { data, loading } = this.props;
     return (
-      <div className={classes.contents}>
+      <section className={classes.content}>
         {loading ? (
           <Loader></Loader>
         ) : (
           data.map((item) => <Item key={item.id} item={item} />)
         )}
-      </div>
+      </section>
     );
   }
 }

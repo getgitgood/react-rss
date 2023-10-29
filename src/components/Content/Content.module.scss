@@ -1,8 +1,14 @@
-.contents {
+@use '../../scss/variables' as var;
+
+.content {
   height: 100%;
   padding: 2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.5rem;
+
+  @media screen and (max-width: var.$mobile) {
+    justify-content: center;
+  }
 }

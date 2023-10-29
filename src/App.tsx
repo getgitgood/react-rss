@@ -14,20 +14,23 @@ export default class App extends Component {
   };
 
   componentDidMount(): void {
-    this.fetchData(this.state.keyword);
+    this.fetchData();
   }
 
   sendRequest = (str: string) => {
     this.setState({ keyword: str }, () => this.fetchData(str));
   };
 
-  fetchData = async (str = '') => {
+  formatLink = (...args: string[]) => {
     const apiKey = '2de256abeb6040da91f0216d56988978';
+    const [query] = args;
+    return `https:/rawg.io/api/games?token&key=${apiKey}&search=${query}&ordering=-metacritic`;
+  };
+
+  fetchData = async (str = '') => {
     this.setState({ isLoading: true });
     try {
-      const request = await fetch(
-        `https://rawg.io/api/games?token&key=${apiKey}&search=${str}&ordering=-metacritic`
-      );
+      const request = await fetch(this.formatLink(str));
       if (request.ok) {
         const response: ApiResponse = await request.json();
         const results: ResponseItem[] = response.results;
