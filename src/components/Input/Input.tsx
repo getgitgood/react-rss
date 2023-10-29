@@ -5,7 +5,7 @@ export default class Input extends Component<InputProps> {
   render(): ReactNode {
     return (
       <input
-        placeholder="Type your request"
+        placeholder="Search"
         value={this.props.value}
         onChange={this.props.onChange}
       ></input>

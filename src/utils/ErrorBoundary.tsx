@@ -18,11 +18,11 @@ export default class ErrorBoundary extends Component<ErrorProps, ErrorState> {
     if (this.state.hasError) {
       return (
         <>
-          <header className="header">
-            <button onClick={this.clickHandler}>Restore the App</button>
-          </header>
-          <main>
+          <header>
             <h1>Something went wrong!</h1>
+          </header>
+          <main className="error_occured">
+            <button onClick={this.clickHandler}>Restore the App</button>
           </main>
         </>
       );

@@ -11,7 +11,7 @@ export default class ErrorButton extends Button {
       <>
         <button
           type="submit"
-          className={classes.submit_button}
+          className={classes.error_button}
           onClick={this.clickHandler}
         >
           {this.props.text}
