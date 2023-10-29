@@ -3,7 +3,7 @@
 .item {
   display: flex;
   max-width: 15%;
-  max-height: 20%;
+  max-height: 30%;
   flex-direction: column;
   justify-content: space-between;
 
@@ -46,9 +46,10 @@
 
   .additional_info {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     font-size: 1.2rem;
+    padding: 1rem;
   }
   .item_genre_wrapper {
     display: flex;
@@ -59,7 +60,9 @@
   .item_platforms_wrapper {
     display: flex;
     flex-wrap: wrap;
+    gap: 0.5vh;
     justify-content: flex-end;
+    align-self: flex-end;
     width: 40%;
   }
   .item_platform {
@@ -81,59 +84,120 @@
 }
 
 .platform_logo {
+  position: relative;
   width: 2rem;
   height: 2rem;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('/fallback.png');
+
+  transition: all 0.2s ease;
+
+  &:hover::after {
+    content: attr(data-platform);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    z-index: 10;
+    background-color: var.$accent-color;
+    font-size: 1rem;
+    padding: 0.1rem 0.2rem;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
 }
 
 .ps5 {
-  background: no-repeat url('../../assets/img/ps5.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/ps5.png');
+  
 }
 
 
 .ps4 {
-  background: no-repeat url('../../assets/img/ps4.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/ps4.png');
+  
 }
 
 
 .ps3 {
-  background: no-repeat url('../../assets/img/ps3.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/ps3.png');
+  
 }
 
 
 .ps2 {
-  background: no-repeat url('../../assets/img/ps2.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/ps2.png');
+  
 }
 
 .ps1 {
-  background: no-repeat url('../../assets/img/ps1.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/ps1.png');
+  
 }
 
 .xbox_one {
-  background: no-repeat url('../../assets/img/xone.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/xone.png');
+  
 }
 
 .xbox_x {
-  background: no-repeat url('../../assets/img/series_x.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/series_x.png');
+  
 }
 
-
 .xbox_s {
-  background: no-repeat url('../../assets/img/series_s.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/series_s.png');
+  
 }
 
 .xbox_360 {
-  background: no-repeat url('../../assets/img/xbox360.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/xbox360.png');
+  
 }
+
 .pc {
-  background: no-repeat url('../../assets/img/pc.png');
-  background-size: 100%;
+  background-image:  url('../../assets/img/pc.png');
+  
+}
+
+.ios {
+  background-image:  url('../../assets/img/ios.png');
+  
+}
+
+.android {
+  background-image:  url('../../assets/img/android.png');
+  
+}
+
+.xbox_old {
+  background-image:  url('../../assets/img/xbox-old.png');
+  
+}
+
+.wii {
+  background-image:  url('../../assets/img/wii.png');
+  
+}
+
+.switch {
+  background-image: url('../../assets/img/switch.png');
+  
+}
+
+.macos {
+  background-image:  url('../../assets/img/macos.png');
+  
+}
+
+.psp {
+  background-image:  url('../../assets/img/psp.png');
+  
+}
+
+.vita {
+  background-image:  url('../../assets/img/vita.png');
+  
 }

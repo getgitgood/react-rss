@@ -1,6 +1,7 @@
 import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
-import SubmitBtn from '../Button/Button';
+import Button from '../Button/Button';
 import Input from '../Input/Input';
+import classes from './SearchForm.module.scss';
 
 export default class SearchForm extends Component<{
   keyword: string;
@@ -23,12 +24,12 @@ export default class SearchForm extends Component<{
   render(): ReactNode {
     return (
       <>
-        <form className={`search-form`} onSubmit={this.handleSubmit}>
+        <form className={classes.search_form} onSubmit={this.handleSubmit}>
           <Input
             value={this.state.keyword}
             onChange={this.handleKeywordChange}
           />
-          <SubmitBtn />
+          <Button text={'Search'} />
         </form>
       </>
     );

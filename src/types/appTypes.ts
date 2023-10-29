@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 import { ResponseItem } from './apiTypes';
 
 export type SearchFormState = {
@@ -18,3 +18,11 @@ export type State = {
 export type PlatformsSlug = {
   [key: string]: string;
 };
+
+export interface ErrorState {
+  hasError: boolean;
+}
+
+export interface ErrorProps {
+  children: ReactNode;
+}
