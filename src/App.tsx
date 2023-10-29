@@ -14,7 +14,7 @@ export default class App extends Component {
   };
 
   componentDidMount(): void {
-    this.fetchData();
+    this.fetchData(this.state.keyword);
   }
 
   sendRequest = (str: string) => {
