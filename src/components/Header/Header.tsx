@@ -13,8 +13,10 @@ export default class Header extends Component<{
       <header>
         <h1 className={classes.heading}>
           Welcome to videogames API. This project using the
-          <a href="https://rawg.io/apidocs"> RAWG API</a>. <br /> Please, type
-          your request below.
+          <a href="https://rawg.io/apidocs"></a> RAWG API to display the most
+          <br />
+          high-ranked videogames on Metacritic site by entered keyword. Please,
+          type your request below.
         </h1>
         <SearchForm
           keyword={this.props.keyword}

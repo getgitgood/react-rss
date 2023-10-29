@@ -10,6 +10,7 @@ export default class SearchForm extends Component<{
   state = {
     keyword: this.props.keyword,
   };
+
   handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     this.props.sendRequest(this.state.keyword);

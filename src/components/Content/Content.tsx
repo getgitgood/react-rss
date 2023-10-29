@@ -4,7 +4,7 @@ import Loader from '../Loader/Loader';
 import Item from '../Item/Item';
 import classes from './content.module.scss';
 
-export default class ContentItems extends Component<{
+export default class Content extends Component<{
   data: ResponseItem[];
   loading: boolean;
 }> {
