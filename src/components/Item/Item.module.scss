@@ -1,0 +1,202 @@
+@use '../../scss/variables' as var;
+
+.item {
+  display: flex;
+  max-width: 15%;
+  max-height: 30%;
+  flex-direction: column;
+  align-content: space-between;
+  flex-basis: 300px;
+  cursor: pointer;
+
+  border-radius: 5px;
+  background-color: var.$secondary-color;
+  transition: transform 0.2s ease;
+  box-shadow: 0 0 5px 0 rgba($color: #000000, $alpha: 0.5);
+
+  @media screen and (max-width: var.$fhd) {
+    max-width: 30%;
+    max-height: 20%;
+  }
+
+  @media screen and (max-width: var.$tablet) {
+    max-width: 45%;
+    max-height: 20%;
+  }
+
+  @media screen and (max-width: var.$mobile) {
+    max-width: 60%;
+    max-height: 20%;
+  }
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  .item_image_wrapper {
+    max-height: 40%;
+    img {
+      object-position: 50% 50%;
+      width: 100%;
+      max-height: 100%;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+      transition: object-fit 0.2s ease;
+    }
+  }
+
+  .text_content {
+    padding: 1rem;
+  }
+
+  .additional_info {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: var.$accent-color;
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+
+  .item_genre_wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 30%;
+  }
+
+  .item_platforms_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5vh;
+    justify-content: flex-end;
+    align-self: flex-end;
+    width: 40%;
+  }
+  .item_platform {
+    padding: 0.2rem;
+  }
+
+  .item_heading,
+  .item_rate {
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: var.$accent-color;
+  }
+
+  .item_rate {
+    display: inline-block;
+    padding: 0.5rem;
+  }
+
+  .item_heading {
+    font-weight: 700;
+    font-size: calc(2vh + 0.2rem);
+    margin-bottom: 2rem;
+  }
+
+  .item_title {
+    padding: 0.5rem;
+    height: 100%;
+  }
+}
+
+.platform_logo {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('/fallback.png');
+
+  transition: all 0.2s ease;
+
+  &:hover::after {
+    content: attr(data-platform);
+    color: var.$primary-color;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    z-index: 10;
+    background-color: var.$accent-color;
+    font-size: 1rem;
+    padding: 0.1rem 0.2rem;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+}
+
+.ps5 {
+  background-image: url('../../assets/img/ps5.png');
+}
+
+.ps4 {
+  background-image: url('../../assets/img/ps4.png');
+}
+
+.ps3 {
+  background-image: url('../../assets/img/ps3.png');
+}
+
+.ps2 {
+  background-image: url('../../assets/img/ps2.png');
+}
+
+.ps1 {
+  background-image: url('../../assets/img/ps1.png');
+}
+
+.xbox_one {
+  background-image: url('../../assets/img/xone.png');
+}
+
+.xbox_x {
+  background-image: url('../../assets/img/series_x.png');
+}
+
+.xbox_s {
+  background-image: url('../../assets/img/series_s.png');
+}
+
+.xbox_360 {
+  background-image: url('../../assets/img/xbox360.png');
+}
+
+.pc {
+  background-image: url('../../assets/img/pc.png');
+}
+
+.ios {
+  background-image: url('../../assets/img/ios.png');
+}
+
+.android {
+  background-image: url('../../assets/img/android.png');
+}
+
+.xbox_old {
+  background-image: url('../../assets/img/xbox-old.png');
+}
+
+.wii {
+  background-image: url('../../assets/img/wii.png');
+}
+
+.switch {
+  background-image: url('../../assets/img/switch.png');
+}
+
+.macos {
+  background-image: url('../../assets/img/macos.png');
+}
+
+.psp {
+  background-image: url('../../assets/img/psp.png');
+}
+
+.vita {
+  background-image: url('../../assets/img/vita.png');
+}
