@@ -1,6 +1,13 @@
 import { ChangeEvent, ReactNode } from 'react';
 import { ResponseItem } from './apiTypes';
 
+export interface AppState {
+  keyword: string;
+  data: [] | ResponseItem[];
+  isLoading: boolean;
+  isError: boolean;
+}
+
 export type SearchFormState = {
   keyword: string;
 };

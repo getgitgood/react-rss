@@ -9,6 +9,7 @@ export default class Header extends Component<{
   setErrorStateCb: () => void;
 }> {
   render() {
+    const { keyword, requestCb, setErrorStateCb } = this.props;
     return (
       <header>
         <h1 className={classes.heading}>
@@ -18,14 +19,8 @@ export default class Header extends Component<{
           high-ranked videogames on Metacritic site by entered keyword. Please,
           type your request below.
         </h1>
-        <SearchForm
-          keyword={this.props.keyword}
-          sendRequest={this.props.requestCb}
-        />
-        <ErrorButton
-          text={'Throw an Error'}
-          onClick={this.props.setErrorStateCb}
-        />
+        <SearchForm keyword={keyword} sendRequest={requestCb} />
+        <ErrorButton text={'Throw an Error'} onClick={setErrorStateCb} />
       </header>
     );
   }

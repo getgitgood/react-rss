@@ -6,7 +6,7 @@ import platformsSlugData from '../../utils/platformsSlugData';
 export default class Item extends Component<{ item: ResponseItem }> {
   changeClassName = (slug: string) => {
     const platformsSlug = platformsSlugData;
-    const currentClassName = platformsSlug[slug] || 'platform_template';
+    const currentClassName = platformsSlug[slug];
     return `${classes.platform_logo} ${currentClassName}`;
   };
 
@@ -23,12 +23,10 @@ export default class Item extends Component<{ item: ResponseItem }> {
         </div>
         <div className={classes.item_title}>
           <h3 className={classes.item_heading}>{item.name}</h3>
-          {item.metacritic ? (
+          {item.metacritic && (
             <p className={classes.item_rate}>
               Metacritic: <strong>{item.metacritic} / 100 </strong>
             </p>
-          ) : (
-            ''
           )}
         </div>
 
@@ -49,7 +47,7 @@ export default class Item extends Component<{ item: ResponseItem }> {
                 <div
                   className={currentClassName}
                   data-platform={platform.platform.name}
-                  key={crypto.randomUUID()}
+                  key={platform.platform.id}
                 ></div>
               );
             })}

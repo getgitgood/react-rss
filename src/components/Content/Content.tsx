@@ -13,7 +13,7 @@ export default class Content extends Component<{
     return (
       <section className={classes.content}>
         {loading ? (
-          <Loader></Loader>
+          <Loader />
         ) : (
           data.map((item) => <Item key={item.id} item={item} />)
         )}
