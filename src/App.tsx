@@ -1,61 +1,44 @@
-import { Component, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import './index.scss';
 import './components/SearchForm/SearchForm';
 import Content from './components/Content/Content';
 import Header from './components/Header/Header';
-import ApiClient from './api/apiClient';
-import { AppState } from './types';
+import { ResponseItem } from './types';
+import makeFetchRequest from './api/apiClient';
 
-export default class App extends Component<object, AppState> {
-  private apiClient: ApiClient;
-  constructor(props: object) {
-    super(props);
-    this.apiClient = new ApiClient();
-    this.state = {
-      keyword: localStorage.getItem('keyword') || '',
-      data: [],
-      isLoading: false,
-      isError: false,
-    };
-  }
+export default function App() {
+  const initialState: ResponseItem[] = [];
+  const [searchStr, setSearchStr] = useState(
+    localStorage.getItem('searchStr') || ''
+  );
+  const [data, setData] = useState(initialState);
+  const [isLoading, setLoading] = useState(false);
 
-  componentDidMount(): void {
-    this.sendRequest(this.state.keyword);
-  }
+  useEffect(() => {
+    sendRequest(searchStr);
+  }, [searchStr]);
 
-  sendRequest = (str: string) => {
-    this.setState({ keyword: str, isLoading: true }, async () => {
-      try {
-        const fetchedData = await this.apiClient.makeFetchRequest(str);
-        if (fetchedData) {
-          this.setState({ data: fetchedData, isLoading: false });
-        }
-      } catch (e) {
-        this.setState({ isLoading: false });
-        console.log(e);
+  const sendRequest = async (str: string) => {
+    setSearchStr(str);
+    setLoading(true);
+    try {
+      const fetchedData = await makeFetchRequest(str);
+      if (fetchedData) {
+        setLoading(false);
+        setData(fetchedData);
       }
-    });
-  };
-
-  setErrorState = () => {
-    this.setState({ isError: true });
-  };
-
-  render(): ReactNode {
-    if (this.state.isError) {
-      throw new Error('CRASH DAT APP!');
+    } catch (e) {
+      setLoading(false);
+      console.log(e);
     }
-    return (
-      <>
-        <Header
-          keyword={this.state.keyword}
-          requestCb={this.sendRequest}
-          setErrorStateCb={this.setErrorState}
-        ></Header>
-        <main className="main">
-          <Content data={this.state.data} loading={this.state.isLoading} />
-        </main>
-      </>
-    );
-  }
+  };
+
+  return (
+    <>
+      <Header searchStr={searchStr} sendRequest={sendRequest}></Header>
+      <main className="main">
+        <Content items={data} isLoading={isLoading} />
+      </main>
+    </>
+  );
 }

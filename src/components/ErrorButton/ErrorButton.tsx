@@ -1,22 +1,27 @@
 import classes from './Error.module.scss';
-import Button from '../Button/Button';
+import { ButtonProps } from '../../types';
+import { useState } from 'react';
 
-export default class ErrorButton extends Button {
-  clickHandler = () => {
-    this.props.onClick!();
+export default function ErrorButton({ buttonText }: ButtonProps) {
+  const [isError, setError] = useState(false);
+
+  const clickHandler = () => {
+    setError(true);
   };
 
-  render() {
-    return (
-      <>
-        <button
-          type="submit"
-          className={classes.error_button}
-          onClick={this.clickHandler}
-        >
-          {this.props.text}
-        </button>
-      </>
-    );
+  if (isError) {
+    throw new Error('fff');
   }
+
+  return (
+    <>
+      <button
+        type="submit"
+        className={classes.error_button}
+        onClick={clickHandler}
+      >
+        {buttonText}
+      </button>
+    </>
+  );
 }
