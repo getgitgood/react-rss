@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { ResponseItem } from './apiTypes';
+import { NavData, ResponseItem } from './apiTypes';
 
 export type InputProps = {
   searchStr: string;
@@ -17,10 +17,18 @@ export interface ButtonProps {
 
 export interface SearchFormProps {
   searchStr: string;
+  updateSearchStr: (str: string) => void;
   sendRequest: (str: string) => void;
 }
+
+export type SearchFormCb = Pick<SearchFormProps, 'sendRequest'>;
 
 export interface ContentProps {
   items: ResponseItem[];
   isLoading: boolean;
+  navData: NavData;
 }
+
+export type FormRequest = {
+  url: URL;
+};

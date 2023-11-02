@@ -36,16 +36,17 @@ export default function Item(props: ResponseItem) {
           ))}
         </div>
         <div className={classes.item_platforms_wrapper}>
-          {props.platforms.map((platform) => {
-            const currentClassName = changeClassName(platform.platform.slug);
-            return (
-              <div
-                className={currentClassName}
-                data-platform={platform.platform.name}
-                key={platform.platform.id}
-              ></div>
-            );
-          })}
+          {props.platforms &&
+            props.platforms.map((platform) => {
+              const currentClassName = changeClassName(platform.platform.slug);
+              return (
+                <div
+                  className={currentClassName}
+                  data-platform={platform.platform.name}
+                  key={platform.platform.id}
+                />
+              );
+            })}
         </div>
       </div>
     </div>

@@ -1,32 +1,31 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import classes from './SearchForm.module.scss';
-import { SearchFormProps } from '../../types';
+import { Form } from 'react-router-dom';
+import { makeFetchRequest } from '../../api/apiClient';
 
-export default function SearchForm({
-  searchStr,
-  sendRequest,
-}: SearchFormProps) {
-  const [keyword, setKeyword] = useState(searchStr);
+export const loader = async () => {
+  const query = localStorage.getItem('searchStr') ?? '';
+  const data = await makeFetchRequest(query);
+  return data;
+};
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    sendRequest(keyword);
-  };
+export function SearchForm() {
+  const [keyword, setKeyword] = useState(
+    localStorage.getItem('searchStr') || ''
+  );
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newKeyword = e.target.value;
-    setKeyword(newKeyword);
     localStorage.setItem('searchStr', newKeyword);
+    setKeyword(newKeyword);
   };
 
   return (
-    <>
-      <form className={classes.search_form} onSubmit={handleSubmit}>
-        <Input searchStr={keyword} onChange={handleKeywordChange} />
-        <Button buttonText={'Search'} />
-      </form>
-    </>
+    <Form method="get" action={'/search'} className={classes.search_form}>
+      <Input searchStr={keyword} onChange={handleKeywordChange} />
+      <Button buttonText={'Search'} />
+    </Form>
   );
 }

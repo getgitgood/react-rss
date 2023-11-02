@@ -8,6 +8,9 @@ export default function Input({ searchStr, onChange }: InputProps) {
       placeholder="Search"
       value={searchStr}
       onChange={onChange}
+      aria-label="search games"
+      type="text"
+      name="game"
     ></input>
   );
 }
