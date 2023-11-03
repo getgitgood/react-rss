@@ -1,32 +1,42 @@
 import { useState } from 'react';
 import classes from './Pagination.module.scss';
 import { NavData } from '../../types';
-import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Pagination(navData: NavData) {
-  const [page, setPage] = useState(1);
-  const tab = useParams();
-  const clickNextHandler = () => {
-    console.log(tab);
+  const [page, setPage] = useState(Number(navData.current));
+
+  const clickNextHandler = async () => {
     setPage(page + 1);
   };
 
-  const clickPrevHandler = () => {
-    if (page > 1) {
-      console.log(navData.previous);
-      setPage(page - 1);
-    }
+  const clickPrevHandler = async () => {
+    setPage(page - 1);
   };
 
   return (
     <div className={classes.pagination_container}>
-      <a className={classes.pagination_button} onClick={clickPrevHandler}>
-        &lt;
-      </a>
+      {navData.previous && (
+        <Link
+          to={`/game=${navData.name}&page=${page - 1}`}
+          className={classes.pagination_button}
+          onClick={clickPrevHandler}
+        >
+          &lt;
+        </Link>
+      )}
+
       <a className={classes.pagination_button}>{page}</a>
-      <a className={classes.pagination_button} onClick={clickNextHandler}>
-        &gt;
-      </a>
+
+      {navData.next && (
+        <Link
+          to={`/game=${navData.name}&page=${page + 1}`}
+          className={classes.pagination_button}
+          onClick={clickNextHandler}
+        >
+          &gt;
+        </Link>
+      )}
     </div>
   );
 }

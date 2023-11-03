@@ -30,5 +30,5 @@ export interface ContentProps {
 }
 
 export type FormRequest = {
-  url: URL;
+  request: URL;
 };

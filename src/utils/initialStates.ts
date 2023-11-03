@@ -5,13 +5,15 @@ const initialResponse: ApiResponse = {
   next: null,
   previous: null,
   results: [],
-  user_platforms: false
+  user_platforms: false,
+  name: ''
 };
 
 const initialNavData: NavData = {
   count: 0,
   next: null,
-  previous: null
+  previous: null,
+  name: ''
 };
 
 export { initialResponse, initialNavData };
