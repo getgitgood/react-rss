@@ -6,14 +6,16 @@ const initialResponse: ApiResponse = {
   previous: null,
   results: [],
   user_platforms: false,
-  name: ''
+  name: '',
+  pageSize: '10'
 };
 
 const initialNavData: NavData = {
   count: 0,
   next: null,
   previous: null,
-  name: ''
+  name: '',
+  pageSize: '10'
 };
 
 export { initialResponse, initialNavData };

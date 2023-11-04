@@ -11,12 +11,14 @@ export type NavData = {
   next: string | null;
   previous: string | null;
   name: string;
+  pageSize: string;
 };
 
 export type LoaderResults = {
   response: ApiResponse;
   pageNumber: string;
   queryStr: string;
+  pageSize: string;
   request?: LoaderFunctionArgs;
 };
 

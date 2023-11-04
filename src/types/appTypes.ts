@@ -15,6 +15,11 @@ export interface ButtonProps {
   callback?: () => void;
 }
 
+export type SelectProps = {
+  onChange: (str: string) => void;
+  value: string;
+};
+
 export interface SearchFormProps {
   searchStr: string;
   updateSearchStr: (str: string) => void;

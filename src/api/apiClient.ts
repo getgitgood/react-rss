@@ -13,8 +13,7 @@ export async function makeFetchRequest({
       `https://rawg.io/api/games?key=${apiKey}&page_size=${pageSize}&search=${searchStr}&page=${pageNumber}&ordering=-metacritic`
     );
     const response: ApiResponse = await request.json();
-    console.log(queryStr);
-    return { response, pageNumber, queryStr };
+    return { response, pageNumber, queryStr, pageSize };
   } catch (e) {
     throw e;
   }

@@ -18,7 +18,9 @@ export default function Pagination(navData: NavData) {
     <div className={classes.pagination_container}>
       {navData.previous && (
         <Link
-          to={`/game=${navData.name}&page=${page - 1}`}
+          to={`/game=${navData.name || 'all'}&page=${page - 1}&page_limit=${
+            navData.pageSize
+          }`}
           className={classes.pagination_button}
           onClick={clickPrevHandler}
         >
@@ -30,7 +32,9 @@ export default function Pagination(navData: NavData) {
 
       {navData.next && (
         <Link
-          to={`/game=${navData.name}&page=${page + 1}`}
+          to={`/game=${navData.name || 'all'}&page=${page + 1}&page_limit=${
+            navData.pageSize
+          }`}
           className={classes.pagination_button}
           onClick={clickNextHandler}
         >

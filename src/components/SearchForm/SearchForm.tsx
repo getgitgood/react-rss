@@ -3,11 +3,13 @@ import Button from '../Button/Button';
 import Input from '../Input/Input';
 import classes from './SearchForm.module.scss';
 import { Form, useNavigate } from 'react-router-dom';
+import SelectInput from '../Select/SelectInput';
 
 export function SearchForm() {
   const [keyword, setKeyword] = useState(
     localStorage.getItem('searchStr') || ''
   );
+  const [limit, setLimit] = useState('10');
   const navigate = useNavigate();
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,13 +17,24 @@ export function SearchForm() {
     localStorage.setItem('searchStr', newKeyword);
     setKeyword(newKeyword);
   };
+
+  const changeLimit = (selectedLimit: string) => {
+    setLimit(selectedLimit);
+  };
+
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    navigate(`game=${keyword}&page=1`);
+    localStorage.setItem('searchStr', keyword);
+    if (!keyword) {
+      navigate(`game=all&page=1&page_limit=${limit}`);
+      return;
+    }
+    navigate(`game=${keyword}&page=1&page_limit=${limit}`);
   };
   return (
     <Form onSubmit={submitHandler} className={classes.search_form}>
       <Input searchStr={keyword} onChange={handleKeywordChange} />
+      <SelectInput onChange={changeLimit} value={limit} />
       <Button buttonText={'Search'} />
     </Form>
   );

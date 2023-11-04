@@ -7,25 +7,29 @@ import { makeFetchRequest } from '../../api/apiClient';
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const id = params.id;
+  const limit = params.limit;
   const gameId = localStorage.getItem('searchStr');
   const data: LoaderResults = await makeFetchRequest({
     queryStr: gameId ?? '',
-    pageNumber: id
+    pageNumber: id,
+    pageSize: limit
   });
   return data;
 }
 
 export function Content() {
   const data = useLoaderData() as LoaderResults;
-  console.log(data);
+
   const items = data.response.results;
   const navData: NavData = {
     current: data.pageNumber,
     count: data.response.count,
     next: data.response.next,
     previous: data.response.previous,
-    name: data.queryStr
+    name: data.queryStr,
+    pageSize: data.pageSize
   };
+
   return (
     <section className={classes.content}>
       <div className={classes.content_items}>

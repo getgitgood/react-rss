@@ -16,7 +16,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />}>
       <Route index={true} element={<Content />} loader={contentLoader} />
       <Route
-        path={'game=:gameId&page=:id'}
+        path={'game=:gameId&page=:id&page_limit=:limit'}
         element={<Content />}
         loader={contentLoader}
       />
