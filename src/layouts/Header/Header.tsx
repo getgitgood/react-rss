@@ -4,12 +4,14 @@ import ErrorButton from '../../components/ErrorButton/ErrorButton';
 
 export default function Header() {
   return (
-    <header>
+    <header className={classes.header}>
       <h1 className={classes.heading}>
-        Welcome to videogames API. This project using the &nbsp;
-        <a href="https://rawg.io/apidocs">RAWG API</a> to display the
-        <br /> videogames highest-ranked by Metacritic&apos;s site. Please, type
-        your request below.
+        This project using the &nbsp;
+        <a className={classes.link} href="https://rawg.io/apidocs">
+          RAWG API &nbsp;
+        </a>
+        to display the
+        <br /> videogames highest-ranked by Metacritic&apos;s site.
       </h1>
       <SearchForm />
       <ErrorButton buttonText="Throw an error" />

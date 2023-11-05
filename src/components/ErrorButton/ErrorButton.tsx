@@ -1,4 +1,3 @@
-import classes from './Error.module.scss';
 import { ButtonProps } from '../../types';
 import { useState } from 'react';
 
@@ -10,16 +9,12 @@ export default function ErrorButton({ buttonText }: ButtonProps) {
   };
 
   if (isError) {
-    throw new Error('fff');
+    throw new Error('Ooops');
   }
 
   return (
     <>
-      <button
-        type="submit"
-        className={classes.error_button}
-        onClick={clickHandler}
-      >
+      <button type="submit" onClick={clickHandler}>
         {buttonText}
       </button>
     </>

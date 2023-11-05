@@ -1,9 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import classes from './Pagination.module.scss';
-import { NavData } from '../../types';
-import { Link } from 'react-router-dom';
+import { LoaderResults } from '../../types';
+import { Link, useAsyncValue } from 'react-router-dom';
 
-export default function Pagination(navData: NavData) {
+export default function Pagination() {
+  const data = useAsyncValue() as LoaderResults;
+  const navData = useMemo(() => {
+    return {
+      current: data.pageNumber,
+      count: data.response.count,
+      next: data.response.next,
+      previous: data.response.previous,
+      name: data.queryStr
+    };
+  }, [
+    data.pageNumber,
+    data.response.count,
+    data.response.next,
+    data.response.previous,
+    data.queryStr
+  ]);
+
   const [page, setPage] = useState(Number(navData.current));
 
   useEffect(() => {
@@ -20,27 +37,31 @@ export default function Pagination(navData: NavData) {
 
   return (
     <div className={classes.pagination_container}>
-      {navData.previous && (
-        <Link
-          to={`/game=${navData.name || 'all'}&page=${page - 1}`}
-          className={classes.pagination_button}
-          onClick={clickPrevHandler}
-        >
-          &lt;
-        </Link>
-      )}
+      <div className={classes.wrapper}>
+        {navData.previous && (
+          <Link
+            to={`/game=${navData.name || 'all'}&page=${page - 1}`}
+            className={classes.pagination_button}
+            onClick={clickPrevHandler}
+          >
+            &lt;
+          </Link>
+        )}
 
-      <a className={classes.pagination_button}>{page}</a>
+        <a className={`${classes.pagination_button} ${classes.count}`}>
+          {page}
+        </a>
 
-      {navData.next && (
-        <Link
-          to={`/game=${navData.name || 'all'}&page=${page + 1}`}
-          className={classes.pagination_button}
-          onClick={clickNextHandler}
-        >
-          &gt;
-        </Link>
-      )}
+        {navData.next && (
+          <Link
+            to={`/game=${navData.name || 'all'}&page=${page + 1}`}
+            className={classes.pagination_button}
+            onClick={clickNextHandler}
+          >
+            &gt;
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

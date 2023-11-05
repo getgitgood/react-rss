@@ -1,17 +1,8 @@
 import { ResponseItem } from '../../types';
 import classes from './Item.module.scss';
-import platformsSlugData from '../../utils/platformsSlugData';
-// import { MouseEvent } from 'react';
-// import { makeDetailsRequest } from '../../api/apiClient';
 import { Link } from 'react-router-dom';
 
 export default function Item(props: ResponseItem) {
-  const changeClassName = (slug: string) => {
-    const platformsSlug = platformsSlugData;
-    const currentClassName = platformsSlug[slug];
-    return `${classes.platform_logo} ${currentClassName}`;
-  };
-
   return (
     <Link to={`details/${props.id}`} className={classes.item}>
       <div className={classes.item_image_wrapper}>
@@ -23,33 +14,21 @@ export default function Item(props: ResponseItem) {
       </div>
       <div className={classes.item_title}>
         <h3 className={classes.item_heading}>{props.name}</h3>
-        {props.metacritic && (
-          <p className={classes.item_rate}>
-            Metacritic: <strong>{props.metacritic} / 100 </strong>
-          </p>
-        )}
+        <p className={classes.item_rate}>
+          Metacritic:{' '}
+          {(props.metacritic && <strong>{props.metacritic} / 100 </strong>) ||
+            'Not Rated Yet'}
+        </p>
       </div>
 
       <div className={classes.additional_info}>
         <div className={classes.item_genre_wrapper}>
-          {props.genres.map((genre) => (
-            <div className={classes.item_genre} key={genre.id}>
-              {genre.name}
-            </div>
-          ))}
-        </div>
-        <div className={classes.item_platforms_wrapper}>
-          {props.platforms &&
-            props.platforms.map((platform) => {
-              const currentClassName = changeClassName(platform.platform.slug);
-              return (
-                <div
-                  className={currentClassName}
-                  data-platform={platform.platform.name}
-                  key={platform.platform.id}
-                />
-              );
-            })}
+          {props.genres &&
+            props.genres.map((genre) => (
+              <div className={classes.item_genre} key={genre.id}>
+                {genre.name}
+              </div>
+            ))}
         </div>
       </div>
     </Link>

@@ -31,3 +31,13 @@ header {
   text-align: center;
   margin: 1rem 0;
 }
+
+a {
+  color: $font-color;
+  text-decoration: none;
+  transition: color 0.4s ease;
+
+  &:hover {
+    color: $link-hover;
+  }
+}

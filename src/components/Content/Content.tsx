@@ -1,48 +1,50 @@
-import { LoaderResults, NavData } from '../../types';
-import Item from '../Item/Item';
+import { DeferData, ResponseItem } from '../../types';
 import classes from './content.module.scss';
 import Pagination from '../Pagination/Pagination';
 import {
+  Await,
   LoaderFunctionArgs,
   Outlet,
-  useLoaderData,
-  useNavigation
+  defer,
+  useLoaderData
 } from 'react-router-dom';
 import { makeFetchRequest } from '../../api/apiClient';
 import Loader from '../Loader/Loader';
+import { Suspense } from 'react';
+import { ContentItems } from '../ContentItems/ContentItems';
 
-export async function contentLoader({ params }: LoaderFunctionArgs) {
+export async function contentLoader({ params, request }: LoaderFunctionArgs) {
   const id = params.id;
   const gameId = localStorage.getItem('searchStr');
-  const data: LoaderResults = await makeFetchRequest({
-    queryStr: gameId ?? '',
-    pageNumber: id
+  const url = new URL(request.url);
+  const { pathname } = url;
+  return defer({
+    data: makeFetchRequest({
+      queryStr: gameId ?? '',
+      pageNumber: id
+    }),
+    pathname: pathname
   });
-  return data;
 }
 
 export function Content() {
-  const data = useLoaderData() as LoaderResults;
-  const navigation = useNavigation();
-  const items = data.response.results;
-  const navData: NavData = {
-    current: data.pageNumber,
-    count: data.response.count,
-    next: data.response.next,
-    previous: data.response.previous,
-    name: data.queryStr
-  };
+  const deferData = useLoaderData() as DeferData<ResponseItem>;
+  const data = deferData.data;
 
   return (
     <section className={classes.content}>
       <div className={classes.content_items}>
-        {navigation.state === 'loading' ? (
-          <Loader />
-        ) : (
-          items.map((item) => <Item key={item.id} {...item} />)
-        )}
+        <Suspense fallback={<Loader />}>
+          <Await resolve={data}>
+            <ContentItems />
+          </Await>
+        </Suspense>
       </div>
-      {navigation.state !== 'loading' && <Pagination {...navData} />}
+      <Suspense fallback={<div></div>}>
+        <Await resolve={data}>
+          <Pagination />
+        </Await>
+      </Suspense>
       <Outlet />
     </section>
   );

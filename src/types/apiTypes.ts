@@ -29,8 +29,9 @@ export interface ResponseItem extends Genres {
   platforms: Platforms<Genres>[];
 }
 
-export type DeferData = {
-  data: DetailsItem;
+export type DeferData<T> = {
+  data: T;
+  pathname?: string;
 };
 
 export interface DetailsItem extends ResponseItem {

@@ -37,8 +37,3 @@ export interface ContentProps {
 export type FormRequest = {
   request: URL;
 };
-
-export type RevalidateProps = {
-  currentUrl: URL;
-  nextUrl: URL;
-};
