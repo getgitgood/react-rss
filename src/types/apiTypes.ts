@@ -11,14 +11,12 @@ export type NavData = {
   next: string | null;
   previous: string | null;
   name: string;
-  pageSize: string;
 };
 
 export type LoaderResults = {
   response: ApiResponse;
   pageNumber: string;
   queryStr: string;
-  pageSize: string;
   request?: LoaderFunctionArgs;
 };
 
@@ -26,9 +24,21 @@ export interface ResponseItem extends Genres {
   description: string;
   background_image: string;
   metacritic: number;
-  metacritic_url: string;
+  id: number;
   genres: Genres[];
   platforms: Platforms<Genres>[];
+}
+
+export type DeferData = {
+  data: DetailsItem;
+};
+
+export interface DetailsItem extends ResponseItem {
+  playtime: number;
+  released: string;
+  metacritic_url: string;
+  reddit_description: string;
+  isLoading: boolean;
 }
 
 type Genres = {

@@ -1,6 +1,9 @@
 import { ResponseItem } from '../../types';
 import classes from './Item.module.scss';
 import platformsSlugData from '../../utils/platformsSlugData';
+// import { MouseEvent } from 'react';
+// import { makeDetailsRequest } from '../../api/apiClient';
+import { Link } from 'react-router-dom';
 
 export default function Item(props: ResponseItem) {
   const changeClassName = (slug: string) => {
@@ -10,7 +13,7 @@ export default function Item(props: ResponseItem) {
   };
 
   return (
-    <div className={classes.item}>
+    <Link to={`details/${props.id}`} className={classes.item}>
       <div className={classes.item_image_wrapper}>
         <img
           className={classes.item_image}
@@ -49,6 +52,6 @@ export default function Item(props: ResponseItem) {
             })}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

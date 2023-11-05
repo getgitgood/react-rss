@@ -9,7 +9,8 @@ export function SearchForm() {
   const [keyword, setKeyword] = useState(
     localStorage.getItem('searchStr') || ''
   );
-  const [limit, setLimit] = useState('10');
+
+  const [limit, setLimit] = useState(localStorage.getItem('pageLimit') || '20');
   const navigate = useNavigate();
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +19,8 @@ export function SearchForm() {
     setKeyword(newKeyword);
   };
 
-  const changeLimit = (selectedLimit: string) => {
+  const handleLimitChange = (selectedLimit: string) => {
+    localStorage.setItem('pageLimit', selectedLimit);
     setLimit(selectedLimit);
   };
 
@@ -26,15 +28,16 @@ export function SearchForm() {
     e.preventDefault();
     localStorage.setItem('searchStr', keyword);
     if (!keyword) {
-      navigate(`game=all&page=1&page_limit=${limit}`);
+      navigate(`game=all&page=1`);
       return;
     }
-    navigate(`game=${keyword}&page=1&page_limit=${limit}`);
+    navigate(`game=${keyword}&page=1`);
   };
+
   return (
     <Form onSubmit={submitHandler} className={classes.search_form}>
       <Input searchStr={keyword} onChange={handleKeywordChange} />
-      <SelectInput onChange={changeLimit} value={limit} />
+      <SelectInput onChange={handleLimitChange} value={limit} />
       <Button buttonText={'Search'} />
     </Form>
   );

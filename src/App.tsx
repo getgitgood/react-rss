@@ -9,18 +9,35 @@ import {
 } from 'react-router-dom';
 
 import { RootLayout } from './layouts/Root/RootLayout';
-import { Content, loader as contentLoader } from './components/Content/Content';
+import { Content, contentLoader } from './components/Content/Content';
+import { Details, detailsLoader } from './components/Details/Details';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
-      <Route index={true} element={<Content />} loader={contentLoader} />
-      <Route
-        path={'game=:gameId&page=:id&page_limit=:limit'}
-        element={<Content />}
-        loader={contentLoader}
-      />
-    </Route>
+    <>
+      <Route path={'/'} element={<RootLayout />}>
+        <Route index element={<Content />} loader={contentLoader} />
+
+        <Route path={'/'} element={<Content />} loader={contentLoader}>
+          <Route
+            path="details/:cardId"
+            element={<Details />}
+            loader={detailsLoader}
+          />
+        </Route>
+        <Route
+          path="game=:gameId&page=:id"
+          element={<Content />}
+          loader={contentLoader}
+        >
+          <Route
+            path="details/:cardId"
+            element={<Details />}
+            loader={detailsLoader}
+          />
+        </Route>
+      </Route>
+    </>
   )
 );
 
