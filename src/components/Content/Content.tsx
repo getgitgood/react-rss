@@ -12,24 +12,26 @@ import { makeFetchRequest } from '../../api/apiClient';
 import Loader from '../Loader/Loader';
 import { Suspense } from 'react';
 import { ContentItems } from '../ContentItems/ContentItems';
+import { sliceTrailingSlash } from '../../utils/helpers';
+import Fader from '../../layouts/Fallbacks/Fader';
 
-export async function contentLoader({ params, request }: LoaderFunctionArgs) {
-  const id = params.id;
-  const gameId = localStorage.getItem('searchStr');
-  const url = new URL(request.url);
-  const { pathname } = url;
+export async function contentLoader({ request }: LoaderFunctionArgs) {
+  const searchParams = new URLSearchParams(request.url);
+  const game = searchParams.get('game');
+  const page = searchParams.get('page');
+  const formattedPage = sliceTrailingSlash(page!);
+
   return defer({
     data: makeFetchRequest({
-      queryStr: gameId ?? '',
-      pageNumber: id
-    }),
-    pathname: pathname
+      queryStr: game ?? '',
+      pageNumber: formattedPage ?? '1'
+    })
   });
 }
 
 export function Content() {
   const deferData = useLoaderData() as DeferData<ResponseItem>;
-  const data = deferData.data;
+  const { data } = deferData;
 
   return (
     <section className={classes.content}>
@@ -40,12 +42,15 @@ export function Content() {
           </Await>
         </Suspense>
       </div>
-      <Suspense fallback={<div></div>}>
-        <Await resolve={data}>
-          <Pagination />
-        </Await>
-      </Suspense>
-      <Outlet />
+
+      <div className={classes.pagination_container}>
+        <Suspense fallback={<Fader />}>
+          <Await resolve={data}>
+            <Pagination />
+          </Await>
+        </Suspense>
+        <Outlet />
+      </div>
     </section>
   );
 }

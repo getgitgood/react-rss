@@ -25,3 +25,6 @@ dist-ssr
 
 # Other
 .env
+public/netlify
+public/_redirects
+.eslintignore

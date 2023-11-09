@@ -14,20 +14,21 @@ import Loader from '../Loader/Loader';
 import { removeTags } from '../../utils/helpers';
 import platformsSlugData from '../../utils/platformsSlugData';
 
-export async function detailsLoader({ params }: LoaderFunctionArgs) {
-  const cardId = params.cardId;
+export async function detailsLoader({ request }: LoaderFunctionArgs) {
+  const searchParams = new URLSearchParams(request.url);
+  const itemId = searchParams.get('item');
+
   return defer({
-    data: makeDetailsRequest(cardId)
+    data: makeDetailsRequest(itemId!)
   });
 }
 
 export function Details() {
   const deferData = useLoaderData() as DeferData<DetailsItem>;
   const data = deferData.data;
-
   const navigate = useNavigate();
 
-  const clickHandler = (e: MouseEvent<HTMLDivElement>) => {
+  const closeDetails = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
       navigate('..');
     }
@@ -36,19 +37,19 @@ export function Details() {
   const changeClassName = (slug: string, classes: Record<string, string>) => {
     const platformsSlug = platformsSlugData;
     const currentClassName = platformsSlug[slug];
-    console.log(platformsSlug);
+
     return `${classes.platform_logo} ${currentClassName}`;
   };
 
   return (
-    <div className={classes.overlay} onClick={clickHandler}>
+    <div className={classes.overlay} onClick={closeDetails}>
       <div className={classes.details}>
         <Suspense fallback={<Loader />}>
           <Await resolve={data}>
             {(resolvedData: DetailsItem) => {
               return (
                 <div className={classes.container}>
-                  <div onClick={clickHandler} className={classes.exit_button} />
+                  <div onClick={closeDetails} className={classes.exit_button} />
                   <div className={classes.image_container}>
                     <img
                       className={classes.image}
@@ -73,6 +74,7 @@ export function Details() {
                             platform.platform.slug,
                             classes
                           );
+
                           return (
                             <div
                               className={currentClassName}

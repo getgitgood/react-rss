@@ -2,7 +2,7 @@ import { Component, ReactNode } from 'react';
 
 export default class ErrorBoundary extends Component<{ children: ReactNode }> {
   state = {
-    hasError: false,
+    hasError: false
   };
 
   static getDerivedStateFromError() {
@@ -26,6 +26,7 @@ export default class ErrorBoundary extends Component<{ children: ReactNode }> {
         </>
       );
     }
+
     return this.props.children;
   }
 }

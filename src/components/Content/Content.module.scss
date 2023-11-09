@@ -18,3 +18,11 @@
     justify-content: center;
   }
 }
+
+.pagination_container {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  justify-content: center;
+  gap: 1rem;
+}

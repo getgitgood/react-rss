@@ -1,25 +1,19 @@
-.error_wrapper {
+.no_result_wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+
   * {
     padding-bottom: 1rem;
   }
 }
 
-.error_title {
+.title {
   font-size: 5rem;
 }
 
-.error_description {
+.description {
   font-size: 4rem;
-}
-
-.home {
-  padding: 4rem;
-  font-size: 3rem;
-  background-color: rgb(106, 53, 53);
 }

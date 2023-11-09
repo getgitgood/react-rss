@@ -20,6 +20,11 @@ export type LoaderResults = {
   request?: LoaderFunctionArgs;
 };
 
+export type FetchParams = {
+  queryStr: string;
+  pageNumber: string;
+};
+
 export interface ResponseItem extends Genres {
   description: string;
   background_image: string;
