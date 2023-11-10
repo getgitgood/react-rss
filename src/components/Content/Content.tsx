@@ -1,54 +1,43 @@
-import { DeferData, ResponseItem } from '../../types';
 import classes from './content.module.scss';
 import Pagination from '../Pagination/Pagination';
-import {
-  Await,
-  LoaderFunctionArgs,
-  Outlet,
-  defer,
-  useLoaderData
-} from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { ContentItems } from '../ContentItems/ContentItems';
+import { AppContext } from '../Context/Context';
 import { makeFetchRequest } from '../../api/apiClient';
 import Loader from '../Loader/Loader';
-import { Suspense } from 'react';
-import { ContentItems } from '../ContentItems/ContentItems';
-import { sliceTrailingSlash } from '../../utils/helpers';
 import Fader from '../../layouts/Fallbacks/Fader';
 
-export async function contentLoader({ request }: LoaderFunctionArgs) {
-  const searchParams = new URLSearchParams(request.url);
-  const game = searchParams.get('game');
-  const page = searchParams.get('page');
-  const formattedPage = sliceTrailingSlash(page!);
-
-  return defer({
-    data: makeFetchRequest({
-      queryStr: game ?? '',
-      pageNumber: formattedPage ?? '1'
-    })
-  });
-}
-
-export function Content() {
-  const deferData = useLoaderData() as DeferData<ResponseItem>;
-  const { data } = deferData;
+export default function Content() {
+  const { keyword, setData } = useContext(AppContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const { page } = useParams();
+  useEffect(() => {
+    const contentLoader = async () => {
+      setIsLoading(true);
+      try {
+        const data = await makeFetchRequest({
+          queryStr: keyword,
+          pageNumber: page || '1'
+        });
+        setIsLoading(false);
+        setData(data);
+      } catch (e) {
+        setIsLoading(false);
+        throw e;
+      }
+    };
+    contentLoader();
+  }, [keyword, page, setData]);
 
   return (
     <section className={classes.content}>
       <div className={classes.content_items}>
-        <Suspense fallback={<Loader />}>
-          <Await resolve={data}>
-            <ContentItems />
-          </Await>
-        </Suspense>
+        {isLoading ? <Loader /> : <ContentItems />}
       </div>
 
       <div className={classes.pagination_container}>
-        <Suspense fallback={<Fader />}>
-          <Await resolve={data}>
-            <Pagination />
-          </Await>
-        </Suspense>
+        {isLoading ? <Fader /> : <Pagination />}
         <Outlet />
       </div>
     </section>

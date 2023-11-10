@@ -1,4 +1,4 @@
-import { ApiResponse, FetchParams } from '../types';
+import { ApiResponse, DetailsItem, FetchParams } from '../types';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const url = import.meta.env.VITE_URL;
@@ -15,9 +15,9 @@ export async function makeFetchRequest({ queryStr, pageNumber }: FetchParams) {
 
   try {
     const request = await fetch(`${url}${queryUrl}`);
-    const response = await request.json();
+    const response: ApiResponse = await request.json();
 
-    return { response, pageNumber, queryStr, pageSize };
+    return response;
   } catch (e) {
     throw e;
   }
@@ -32,7 +32,7 @@ export async function makeDetailsRequest(id: string | undefined) {
 
   try {
     const request = await fetch(queryUrl);
-    const response: ApiResponse = await request.json();
+    const response: DetailsItem = await request.json();
 
     return response;
   } catch (e) {

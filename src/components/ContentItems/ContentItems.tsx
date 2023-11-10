@@ -1,15 +1,16 @@
-import { useAsyncValue } from 'react-router-dom';
-import { LoaderResults } from '../../types';
+// import { useAsyncValue } from 'react-router-dom';
 import Item from '../Item/Item';
 import NoResults from '../../layouts/NoResults/NoResults';
+// import { DeferredData } from '@remix-run/router/dist/utils';
+import { useContext } from 'react';
+import { AppContext } from '../Context/Context';
 
 export function ContentItems() {
-  const data = useAsyncValue() as LoaderResults;
-
+  const { data } = useContext(AppContext);
   return (
     <>
-      {data.response.count ? (
-        data.response.results.map((item) => <Item key={item.id} {...item} />)
+      {data.count ? (
+        data.results.map((item) => <Item key={item.id} {...item} />)
       ) : (
         <NoResults />
       )}
