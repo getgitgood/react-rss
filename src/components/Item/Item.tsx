@@ -6,7 +6,7 @@ export default function Item(props: ResponseItem) {
   const { id, name, metacritic, genres, background_image } = props;
 
   return (
-    <Link to={`&item=${id}`} className={classes.item}>
+    <Link to={`&item=${id}`} className={classes.item} data-testid="cardItem">
       <div className={classes.item_image_wrapper}>
         <img
           className={classes.item_image}
@@ -17,8 +17,10 @@ export default function Item(props: ResponseItem) {
       <div className={classes.item_title}>
         <h3 className={classes.item_heading}>{name}</h3>
         <p className={classes.item_rate}>
-          Metacritic:{' '}
-          {(metacritic && <strong>{metacritic} / 100 </strong>) ||
+          <span className={classes.item_rate_title}>Metacritic:</span>{' '}
+          {(metacritic && (
+            <span className={classes.item_rating}>{metacritic} / 100 </span>
+          )) ||
             'Not Rated Yet'}
         </p>
       </div>

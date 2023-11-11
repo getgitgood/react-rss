@@ -48,7 +48,7 @@ export default function Details() {
         {isLoading ? (
           <Loader />
         ) : (
-          <div className={classes.container}>
+          <div className={classes.container} data-testid="details">
             <div onClick={closeDetails} className={classes.exit_button} />
             <div className={classes.image_container}>
               <img

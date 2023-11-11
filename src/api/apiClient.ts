@@ -6,8 +6,8 @@ const netlifyUrl = import.meta.env.NETLIFY_URL;
 
 export async function makeFetchRequest({ queryStr, pageNumber }: FetchParams) {
   const pageSize = localStorage.getItem('pageLimit');
-
-  let queryUrl = `?key=${apiKey}&page_size=${pageSize}&search=${queryStr}&page=${pageNumber}&ordering=-metacritic`;
+  const searchStr = queryStr;
+  let queryUrl = `?key=${apiKey}&page_size=${pageSize}&search=${searchStr}&page=${pageNumber}&ordering=-metacritic`;
 
   if (!import.meta.env.DEV) {
     queryUrl = `${netlifyUrl}searchFetcher?search=${queryStr}&page=${pageNumber}&ordering=-metacritic`;

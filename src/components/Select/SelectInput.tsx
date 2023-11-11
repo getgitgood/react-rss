@@ -9,7 +9,13 @@ export default function SelectInput(formRef: React.RefObject<HTMLFormElement>) {
   };
 
   return (
-    <select onChange={changeHandler} name="limit" value={limit}>
+    <select
+      onChange={changeHandler}
+      name="limit"
+      aria-label="items per page"
+      value={limit}
+      data-testid={'count'}
+    >
       <option value={'10'}>10</option>
       <option value={'20'}>20</option>
       <option value={'30'}>30</option>

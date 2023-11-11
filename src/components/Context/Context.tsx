@@ -17,7 +17,7 @@ export function AppContextProvider({ children }: ContextProps) {
     localStorage.getItem('searchStr') || ''
   );
 
-  const [limit, setLimit] = useState(localStorage.getItem('pageLimit') || '20');
+  const [limit, setLimit] = useState(localStorage.getItem('pageLimit') || '30');
 
   const [data, setData] = useState(initialResponse);
 
