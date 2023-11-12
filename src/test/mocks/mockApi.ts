@@ -12,17 +12,17 @@ export const handlers = [
     const value = `${search}&${param}`;
     switch (value) {
       case 'game10&10': {
-        return new Response(JSON.stringify(mockData.limit10), {
+        return new Response(JSON.stringify(mockData.response10), {
           status: 200
         });
       }
       case 'game20&20': {
-        return new Response(JSON.stringify(mockData.limit20), {
+        return new Response(JSON.stringify(mockData.response20), {
           status: 200
         });
       }
       case 'game20&10': {
-        return new Response(JSON.stringify(mockData.limit20), {
+        return new Response(JSON.stringify(mockData.response20), {
           status: 200
         });
       }
@@ -32,12 +32,12 @@ export const handlers = [
         });
       }
       case 'specific_game&1': {
-        return new Response(JSON.stringify(mockData.limit1), {
+        return new Response(JSON.stringify(mockData.response1), {
           status: 200
         });
       }
       case 'specific_game&zelda': {
-        return new Response(JSON.stringify(mockData.anSpecificGame), {
+        return new Response(JSON.stringify(mockData.specificGame), {
           status: 200
         });
       }

@@ -1,11 +1,12 @@
-import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import * as apiClient from '../api/apiClient';
+import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import RouterContextComponent from './helpers/RouterContext';
+import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+import { RouterContextComponent } from './helpers/Routers';
 import ContentItems from '../components/ContentItems/ContentItems';
 import App from '../App';
-import * as apiClient from '../api/apiClient';
 
 const url = 'https://rawg.io/api/games?game=specific_game&page_size=1';
 const id = 'https://rawg.io/api/games?game=specific_game&name=zelda';

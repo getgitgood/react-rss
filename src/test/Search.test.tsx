@@ -1,9 +1,9 @@
-import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
-import { describe, it, vi } from 'vitest';
 import { SearchForm } from '../components/SearchForm/SearchForm';
-import CreateMemoryRouter from './helpers/CreateMemoryRouter';
+import { CreateContextMemoryRouter } from './helpers/Routers';
+import { userEvent } from '@testing-library/user-event';
+import { vi } from 'vitest';
+import { screen } from '@testing-library/react';
 
 const user = userEvent.setup();
 
@@ -22,7 +22,7 @@ beforeAll(() => {
 
 describe('Pagination component', () => {
   it('Verify that clicking the Search button saves the entered value to the local storage', async () => {
-    CreateMemoryRouter(<SearchForm />);
+    CreateContextMemoryRouter([<SearchForm key={1} />]);
     const search = screen.getByPlaceholderText('Search');
     await user.clear(search);
     await user.type(search, 'Hi, Reviewer!');
@@ -35,7 +35,7 @@ describe('Pagination component', () => {
   });
 
   it('Check that the component retrieves the value from the local storage upon mounting', async () => {
-    CreateMemoryRouter(<SearchForm />);
+    CreateContextMemoryRouter([<SearchForm key={1} />]);
     expect(window.localStorage.getItem).toHaveBeenCalled();
   });
 });

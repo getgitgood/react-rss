@@ -5,19 +5,12 @@ import {
   waitForElementToBeRemoved
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
-// import userEvent from '@testing-library/user-event';
 import { afterEach, describe, it, vi } from 'vitest';
-import RouterContextComponent from './helpers/RouterContext';
+import { RouterContextComponent } from './helpers/Routers';
 import Details from '../components/Details/Details';
+import userEvent from '@testing-library/user-event';
 
 const id = 'https://rawg.io/api/games?game=specific_game&name=zelda';
-vi.mock('../api/apiClient.ts', () => ({
-  makeDetailsRequest: vi.fn(async () => {
-    const request = await fetch(id);
-    const response = await request.json();
-    return response;
-  })
-}));
 
 vi.mock('../api/apiClient.ts', async () => {
   const actual = await vi.importActual<typeof import('../api/apiClient')>(
@@ -45,8 +38,6 @@ describe('Tests for the Detailed Card component:', () => {
     vi.restoreAllMocks();
   });
 
-  // const user = userEvent.setup();
-
   it('Check that a loading indicator is displayed while fetching data', async () => {
     render(RouterContextComponent(<Details />));
 
@@ -65,15 +56,16 @@ describe('Tests for the Detailed Card component:', () => {
     });
   });
 
-  // it('Ensure that clicking the close button hides the component.', async () => {
-  //   render(RouterContextComponent(<Details />));
-  //   await waitFor(async () => {
-  //     const exitBtn = screen.getByTestId('exit_btn');
-  //     await user.click(exitBtn);
-  //     await waitForElementToBeRemoved(exitBtn);
-  //     screen.debug();
-  //   });
+  it('Ensure that clicking the close button hides the component.', async () => {
+    render(RouterContextComponent(<Details />));
+    const user = userEvent.setup();
 
-  // await waitForElementToBeRemoved(exitBtn);
-  // });
+    await waitFor(async () => {
+      const exitBtn = screen.getByTestId('exit_btn');
+      const details = screen.getByTestId('details');
+      expect(details).toBeInTheDocument();
+      await user.click(exitBtn);
+      expect(details).not.toBeInTheDocument();
+    });
+  });
 });

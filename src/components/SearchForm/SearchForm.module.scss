@@ -1,9 +1,6 @@
 .search_form {
+  display: inline-flex;
   * {
     margin: 0 0.2rem;
   }
-}
-
-.input_label {
-  display: inline-flex;
 }

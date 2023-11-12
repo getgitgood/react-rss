@@ -1,4 +1,4 @@
-const limit10 = {
+const response10 = {
   count: 858995,
   next: 'https://api.rawg.io/api/games?key=9f5fcf156e3c425c9c39e0aaab1a182f&ordering=-metacritic&page=2&page_size=10&search=',
   previous: null,
@@ -2672,7 +2672,7 @@ const limit10 = {
   nofollow_collections: ['stores']
 };
 
-const limit20 = {
+const response20 = {
   count: 858995,
   next: 'https://api.rawg.io/api/games?key=9f5fcf156e3c425c9c39e0aaab1a182f&ordering=-metacritic&page=2&page_size=20&search=',
   previous: null,
@@ -8064,7 +8064,7 @@ const limit20 = {
   nofollow_collections: ['stores']
 };
 
-const limit1 = {
+const response1 = {
   count: 1,
   results: [
     {
@@ -8234,7 +8234,7 @@ const limit1 = {
   ]
 };
 
-const anSpecificGame = {
+const specificGame = {
   id: 25097,
   slug: 'the-legend-of-zelda-ocarina-of-time',
   name: 'The Legend of Zelda: Ocarina of Time',
@@ -8462,4 +8462,4 @@ const noResults = {
   results: []
 };
 
-export { limit10, limit20, limit1, noResults, anSpecificGame };
+export { response10, response20, response1, noResults, specificGame };

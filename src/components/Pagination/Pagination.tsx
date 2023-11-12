@@ -32,7 +32,9 @@ export default function Pagination() {
         </Link>
       )}
 
-      <a className={`${classes.pagination_button} ${classes.count}`}>{page}</a>
+      <a className={`${classes.pagination_button} ${classes.count}`}>
+        {pageNumber}
+      </a>
 
       {next && (
         <Link

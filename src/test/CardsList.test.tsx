@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import ContentItems from '../components/ContentItems/ContentItems.js';
-import RouterContextComponent from './helpers/RouterContext.js';
+import { RouterContextComponent } from './helpers/Routers.js';
 
 let url = ``;
 
@@ -43,7 +43,7 @@ describe('Tests for the Card List component:', () => {
     render(RouterContextComponent(<ContentItems />));
 
     await waitFor(async () => {
-      const notFoundPage = screen.getByTestId('404');
+      const notFoundPage = screen.getByTestId('no-results');
       expect(notFoundPage).toBeInTheDocument();
     });
   });
