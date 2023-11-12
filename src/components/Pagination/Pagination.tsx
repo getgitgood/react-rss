@@ -26,6 +26,7 @@ export default function Pagination() {
           to={`/&game=${keyword || 'all'}&page=${currentPage - 1}`}
           className={classes.pagination_button}
           onClick={clickPrevHandler}
+          data-testid="previous"
         >
           &lt;
         </Link>
@@ -38,6 +39,7 @@ export default function Pagination() {
           to={`/&game=${keyword || 'all'}&page=${currentPage + 1}`}
           className={classes.pagination_button}
           onClick={clickNextHandler}
+          data-testid="next"
         >
           &gt;
         </Link>

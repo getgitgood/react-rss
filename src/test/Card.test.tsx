@@ -23,13 +23,13 @@ vi.mock('../api/apiClient.ts', () => ({
   })
 }));
 
-const contentExample = {
+const cardContentExample = {
   title: 'The Legend of Zelda: Ocarina of Time',
   rating: '99 / 100',
   genres: ['Action', 'RPG', 'Adventure']
 };
 
-describe('Ensure that the card component renders the relevant card data', () => {
+describe('Tests for the Card component:', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -43,11 +43,11 @@ describe('Ensure that the card component renders the relevant card data', () => 
       const card = await screen.findByTestId('cardItem');
       expect(card).toBeInTheDocument();
 
-      expect(card).toHaveTextContent(contentExample.title);
+      expect(card).toHaveTextContent(cardContentExample.title);
 
-      expect(card).toHaveTextContent(contentExample.rating);
+      expect(card).toHaveTextContent(cardContentExample.rating);
 
-      contentExample.genres.forEach((str) => {
+      cardContentExample.genres.forEach((str) => {
         expect(card).toHaveTextContent(str);
       });
     });
@@ -63,7 +63,7 @@ describe('Ensure that the card component renders the relevant card data', () => 
 
       const details = await screen.findByTestId('details');
       expect(details).toBeInTheDocument();
-      expect(details).toHaveTextContent(contentExample.title);
+      expect(details).toHaveTextContent(cardContentExample.title);
     });
   });
 

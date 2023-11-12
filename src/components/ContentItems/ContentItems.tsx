@@ -45,8 +45,8 @@ export default function ContentItems() {
 
       <div className={classes.pagination_container}>
         {isLoading ? <Fader /> : <Pagination />}
-        <Outlet />
       </div>
+      <Outlet />
     </section>
   );
 }

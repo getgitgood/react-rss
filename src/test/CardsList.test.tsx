@@ -14,7 +14,7 @@ vi.mock('../api/apiClient.ts', () => ({
   })
 }));
 
-describe('Card List Component', () => {
+describe('Tests for the Card List component:', () => {
   it('Verify that the component renders the specified number of cards (10)', async () => {
     url = 'https://rawg.io/api/games?game=game10&page_size=10';
 

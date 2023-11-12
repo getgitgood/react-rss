@@ -28,3 +28,4 @@ dist-ssr
 public/netlify
 public/_redirects
 .eslintignore
+coverage

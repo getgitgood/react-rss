@@ -10,9 +10,6 @@ export const handlers = [
       url.searchParams.get('name') ??
       'void';
     const value = `${search}&${param}`;
-    // for (const i of url.searchParams) {
-    //   console.log(i, value);
-    // }
     switch (value) {
       case 'game10&10': {
         return new Response(JSON.stringify(mockData.limit10), {
@@ -20,6 +17,11 @@ export const handlers = [
         });
       }
       case 'game20&20': {
+        return new Response(JSON.stringify(mockData.limit20), {
+          status: 200
+        });
+      }
+      case 'game20&10': {
         return new Response(JSON.stringify(mockData.limit20), {
           status: 200
         });

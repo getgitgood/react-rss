@@ -48,41 +48,48 @@ export default function Details() {
         {isLoading ? (
           <Loader />
         ) : (
-          <div className={classes.container} data-testid="details">
-            <div onClick={closeDetails} className={classes.exit_button} />
-            <div className={classes.image_container}>
-              <img
-                className={classes.image}
-                src={itemData.background_image || '/fallback.png'}
-                alt={`${itemData.name}_image`}
+          <>
+            <div className={classes.container} data-testid="details">
+              <div
+                onClick={closeDetails}
+                className={classes.exit_button}
+                data-testid="exit_btn"
               />
-            </div>
-            <div className={classes.text_content}>
-              <h2>{itemData.name}</h2>
-              <h3>Description:</h3>
-              <p>
-                {removeTags(itemData.description) || 'Description not provided'}
-              </p>
-              <h3>Released: {itemData.released || 'No data availiable'}</h3>
-              <div className={`${classes.platforms_wrapper}`}>
-                {itemData.platforms &&
-                  itemData.platforms.map((platform) => {
-                    const currentClassName = changeClassName(
-                      platform.platform.slug,
-                      classes
-                    );
+              <div className={classes.image_container}>
+                <img
+                  className={classes.image}
+                  src={itemData.background_image || '/fallback.png'}
+                  alt={`${itemData.name}_image`}
+                />
+              </div>
+              <div className={classes.text_content}>
+                <h2>{itemData.name}</h2>
+                <h3>Description:</h3>
+                <p>
+                  {removeTags(itemData.description) ||
+                    'Description not provided'}
+                </p>
+                <h3>Released: {itemData.released || 'No data availiable'}</h3>
+                <div className={`${classes.platforms_wrapper}`}>
+                  {itemData.platforms &&
+                    itemData.platforms.map((platform) => {
+                      const currentClassName = changeClassName(
+                        platform.platform.slug,
+                        classes
+                      );
 
-                    return (
-                      <div
-                        className={currentClassName}
-                        data-platform={platform.platform.slug}
-                        key={platform.platform.id}
-                      />
-                    );
-                  })}
+                      return (
+                        <div
+                          className={currentClassName}
+                          data-platform={platform.platform.slug}
+                          key={platform.platform.id}
+                        />
+                      );
+                    })}
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>
