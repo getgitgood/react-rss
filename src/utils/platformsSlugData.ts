@@ -1,4 +1,4 @@
-import classes from '../components/Item/Item.module.scss';
+import classes from '../components/Details/Details.module.scss';
 import { PlatformsSlug } from '../types';
 
 const platformsSlugData: PlatformsSlug = {
@@ -18,7 +18,7 @@ const platformsSlugData: PlatformsSlug = {
   wii: classes.wii,
   'nintendo-switch': classes.switch,
   macos: classes.macos,
-  pc: classes.pc,
+  pc: classes.pc
 };
 
 export default platformsSlugData;

@@ -1,0 +1,27 @@
+@use '../../scss/variables' as var;
+
+.fadeout {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 0.05rem;
+  width: 9%;
+  animation: pulse 1.5s infinite;
+
+  .items {
+    background-color: var.$header-color;
+    padding: 2.5rem 0.1em;
+    width: 33%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}

@@ -1,35 +1,20 @@
-import { ChangeEvent, ReactNode } from 'react';
-import { ResponseItem } from './apiTypes';
-
-export interface AppState {
-  keyword: string;
-  data: [] | ResponseItem[];
-  isLoading: boolean;
-  isError: boolean;
-}
-
-export type SearchFormState = {
-  keyword: string;
-};
+import { ChangeEvent } from 'react';
 
 export type InputProps = {
-  value: string;
+  searchStr: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-};
-
-export type State = {
-  keyword: string;
-  data: [] | ResponseItem[];
 };
 
 export type PlatformsSlug = {
   [key: string]: string;
 };
 
-export interface ErrorState {
-  hasError: boolean;
+export interface ButtonProps {
+  buttonText: string;
+  callback?: () => void;
 }
 
-export interface ErrorProps {
-  children: ReactNode;
-}
+export type SelectProps = {
+  onChange: (str: string) => void;
+  value: string;
+};

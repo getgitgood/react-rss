@@ -1,0 +1,175 @@
+@use '../../scss/variables' as var;
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: rgba($color: #000000, $alpha: 0.2);
+}
+
+.details {
+  position: absolute;
+  background-color: var.$secondary-color;
+  top: 0;
+  left: 80%;
+  width: 20%;
+  height: 100%;
+  z-index: 10;
+}
+
+.container {
+  position: sticky;
+  top: 0;
+}
+
+.text_content {
+  padding: 1.5rem;
+
+  * {
+    padding-top: 1.5rem;
+  }
+}
+
+.image_container {
+  padding: 0.5rem;
+}
+
+.image {
+  width: 100%;
+  height: 20%;
+}
+
+.exit_button {
+  z-index: 20;
+  position: absolute;
+  display: block;
+  top: 10%;
+  background-color: var.$accent-color;
+  left: -10%;
+  width: 4rem;
+  height: 4rem;
+  background-image: url('/src/assets/img/exit.png');
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 80%;
+  border-radius: 5px;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.platform_logo {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('/fallback.png');
+
+  transition: all 0.2s ease;
+
+  &:hover::after {
+    content: attr(data-platform);
+    color: var.$primary-color;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    z-index: 10;
+    background-color: var.$accent-color;
+    font-size: 1rem;
+    padding: 0.1rem 0.2rem;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+}
+
+.platforms_wrapper {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-self: flex-end;
+}
+
+.platform {
+  padding: 0.2rem;
+}
+
+.ps5 {
+  background-image: url('../../assets/img/ps5.png');
+}
+
+.ps4 {
+  background-image: url('../../assets/img/ps4.png');
+}
+
+.ps3 {
+  background-image: url('../../assets/img/ps3.png');
+}
+
+.ps2 {
+  background-image: url('../../assets/img/ps2.png');
+}
+
+.ps1 {
+  background-image: url('../../assets/img/ps1.png');
+}
+
+.xbox_one {
+  background-image: url('../../assets/img/xone.png');
+}
+
+.xbox_x {
+  background-image: url('../../assets/img/series_x.png');
+}
+
+.xbox_s {
+  background-image: url('../../assets/img/series_s.png');
+}
+
+.xbox_360 {
+  background-image: url('../../assets/img/xbox360.png');
+}
+
+.pc {
+  background-image: url('../../assets/img/pc.png');
+}
+
+.ios {
+  background-image: url('../../assets/img/ios.png');
+}
+
+.android {
+  background-image: url('../../assets/img/android.png');
+}
+
+.xbox_old {
+  background-image: url('../../assets/img/xbox-old.png');
+}
+
+.wii {
+  background-image: url('../../assets/img/wii.png');
+}
+
+.switch {
+  background-image: url('../../assets/img/switch.png');
+}
+
+.macos {
+  background-image: url('../../assets/img/macos.png');
+}
+
+.psp {
+  background-image: url('../../assets/img/psp.png');
+}
+
+.vita {
+  background-image: url('../../assets/img/vita.png');
+}

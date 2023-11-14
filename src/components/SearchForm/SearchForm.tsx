@@ -1,38 +1,49 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
 import Button from '../Button/Button';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import Input from '../Input/Input';
 import classes from './SearchForm.module.scss';
+import { Form, useNavigate, useParams } from 'react-router-dom';
+import SelectInput from '../Select/SelectInput';
 
-export default class SearchForm extends Component<{
-  keyword: string;
-  sendRequest: (str: string) => void;
-}> {
-  state = {
-    keyword: this.props.keyword,
-  };
+export function SearchForm() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const params = useParams();
+  const navigate = useNavigate();
 
-  handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    this.props.sendRequest(this.state.keyword);
-  };
+  const [keyword, setKeyword] = useState(
+    localStorage.getItem('searchStr') || ''
+  );
 
-  handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const [limit, setLimit] = useState(localStorage.getItem('pageLimit') || '20');
+
+  const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newKeyword = e.target.value;
-    this.setState({ keyword: newKeyword });
-    localStorage.setItem('keyword', newKeyword);
+    localStorage.setItem('searchStr', newKeyword);
+    setKeyword(newKeyword);
   };
 
-  render(): ReactNode {
-    return (
-      <>
-        <form className={classes.search_form} onSubmit={this.handleSubmit}>
-          <Input
-            value={this.state.keyword}
-            onChange={this.handleKeywordChange}
-          />
-          <Button text={'Search'} />
-        </form>
-      </>
-    );
-  }
+  const handleLimitChange = (selectedLimit: string) => {
+    localStorage.setItem('pageLimit', selectedLimit);
+    setLimit(selectedLimit);
+    formRef.current?.submit();
+  };
+
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault();
+    const { page } = params;
+    localStorage.setItem('searchStr', keyword);
+    navigate(`&game=${keyword}&page=${page}`);
+  };
+
+  return (
+    <Form
+      ref={formRef}
+      onSubmit={submitHandler}
+      className={classes.search_form}
+    >
+      <Input searchStr={keyword} onChange={handleKeywordChange} />
+      <SelectInput onChange={handleLimitChange} value={limit} />
+      <Button buttonText={'Search'} />
+    </Form>
+  );
 }

@@ -1,17 +1,16 @@
-import { Component } from 'react';
 import classes from './Button.module.scss';
+import { ButtonProps } from '../../types';
 
-export default class Button extends Component<{
-  text: string;
-  onClick?: () => void;
-}> {
-  render() {
-    return (
-      <>
-        <button type="submit" className={classes.submit_button}>
-          {this.props.text}
-        </button>
-      </>
-    );
-  }
+export default function Button({ buttonText, callback }: ButtonProps) {
+  return (
+    <>
+      <button
+        type="submit"
+        onClick={callback}
+        className={classes.submit_button}
+      >
+        {buttonText}
+      </button>
+    </>
+  );
 }

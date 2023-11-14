@@ -4,7 +4,7 @@ import checker from 'vite-plugin-checker';
 
 export default defineConfig({
   server: {
-    port: 8000,
+    port: 8000
   },
-  plugins: [react(), checker({ typescript: true })],
+  plugins: [react(), checker({ typescript: true })]
 });

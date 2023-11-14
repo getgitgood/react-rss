@@ -1,14 +1,28 @@
 @use '../../scss/variables' as var;
-
 .content {
+  display: flex;
+  position: relative;
+  flex-direction: column;
   height: 100%;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+.content_items {
   display: flex;
   flex-wrap: wrap;
+  height: 100%;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.8rem;
 
   @media screen and (max-width: var.$mobile) {
     justify-content: center;
   }
+}
+
+.pagination_container {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  justify-content: center;
+  gap: 1rem;
 }

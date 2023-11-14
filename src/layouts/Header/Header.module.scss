@@ -1,0 +1,20 @@
+@use '../../scss/variables' as var;
+
+.header {
+  position: sticky;
+  top: 0;
+  padding-bottom: 1rem;
+  z-index: 10;
+  background-color: var.$header-color;
+  opacity: 0.96;
+  font-size: 0.8rem;
+  color: var.$contrast;
+}
+
+.heading {
+  text-align: center;
+
+  .link {
+    color: var.$link-color;
+  }
+}

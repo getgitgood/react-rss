@@ -4,16 +4,16 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'prettier',
+    'prettier'
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 'latest',
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['@typescript-eslint', 'react', 'react-hooks'],
   rules: {
@@ -21,7 +21,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'comma-dangle': [
       'error',
-      { arrays: 'only-multiline', objects: 'only-multiline' },
+      { arrays: 'only-multiline', objects: 'only-multiline' }
     ],
     'react/prop-types': 'off',
     'react/display-name': 'off',
@@ -33,13 +33,13 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-var-requires': 'off',
     'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
+    'react/react-in-jsx-scope': 'off'
   },
   settings: {
     react: {
       pragma: 'React',
-      version: 'detect',
-    },
+      version: 'detect'
+    }
   },
-  root: true,
+  root: true
 };
