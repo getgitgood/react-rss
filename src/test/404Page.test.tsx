@@ -5,6 +5,17 @@ import userEvent from '@testing-library/user-event';
 import { AppContextProvider } from '../components/Context/Context';
 import Page404 from '../layouts/Page404/Page404';
 import App from '../App';
+import { vi } from 'vitest';
+
+const url = 'https://rawg.io/api/games?game=game20&page_size=10';
+
+vi.mock('../api/apiClient.ts', () => ({
+  makeFetchRequest: vi.fn(async () => {
+    const request = await fetch(`${url}`);
+    const response = await request.json();
+    return response;
+  })
+}));
 
 describe('404 Page component:', () => {
   it('Ensure that the 404 page is displayed when navigating to an invalid route', async () => {

@@ -6,6 +6,16 @@ import App from '../App';
 
 const user = userEvent.setup();
 
+const url = 'https://rawg.io/api/games?game=game20&page_size=10';
+
+vi.mock('../api/apiClient.ts', () => ({
+  makeFetchRequest: vi.fn(async () => {
+    const request = await fetch(`${url}`);
+    const response = await request.json();
+    return response;
+  })
+}));
+
 beforeEach(() => {
   /* Note to reviewer:
   Console error was disabled for this one particular test 
