@@ -1,37 +1,22 @@
 import Button from '../Button/Button';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Input from '../Input/Input';
 import classes from './SearchForm.module.scss';
 import { Form, useNavigate, useParams } from 'react-router-dom';
 import SelectInput from '../Select/SelectInput';
+import { AppContext } from '../Context/Context';
 
 export function SearchForm() {
+  const { keyword, setKeyword } = useContext(AppContext);
+  const [localKeyword, setLocalKeyword] = useState(keyword);
+
   const formRef = useRef<HTMLFormElement>(null);
-  const params = useParams();
+  const { page } = useParams();
   const navigate = useNavigate();
 
-  const [keyword, setKeyword] = useState(
-    localStorage.getItem('searchStr') || ''
-  );
-
-  const [limit, setLimit] = useState(localStorage.getItem('pageLimit') || '20');
-
-  const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newKeyword = e.target.value;
-    localStorage.setItem('searchStr', newKeyword);
-    setKeyword(newKeyword);
-  };
-
-  const handleLimitChange = (selectedLimit: string) => {
-    localStorage.setItem('pageLimit', selectedLimit);
-    setLimit(selectedLimit);
-    formRef.current?.submit();
-  };
-
-  const submitHandler = (e: FormEvent) => {
-    e.preventDefault();
-    const { page } = params;
-    localStorage.setItem('searchStr', keyword);
+  const submitHandler = () => {
+    localStorage.setItem('searchStr', localKeyword);
+    setKeyword(localKeyword);
     navigate(`&game=${keyword}&page=${page}`);
   };
 
@@ -41,8 +26,8 @@ export function SearchForm() {
       onSubmit={submitHandler}
       className={classes.search_form}
     >
-      <Input searchStr={keyword} onChange={handleKeywordChange} />
-      <SelectInput onChange={handleLimitChange} value={limit} />
+      <Input {...{ setLocalKeyword, localKeyword }} />
+      <SelectInput {...formRef} />
       <Button buttonText={'Search'} />
     </Form>
   );

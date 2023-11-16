@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import classes from './Pagination.module.scss';
-import { LoaderResults } from '../../types';
-import { Link, useAsyncValue, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { AppContext } from '../Context/Context';
 
 export default function Pagination() {
-  const data = useAsyncValue() as LoaderResults;
+  const { data, keyword } = useContext(AppContext);
   const searchParams = useParams();
-  const { next, previous } = data.response;
-  const { page, game } = searchParams;
+  const { next, previous } = data;
+  const { page } = searchParams;
   const pageNumber = Number(page) || 1;
   const [currentPage, setPage] = useState(pageNumber);
 
@@ -23,21 +23,25 @@ export default function Pagination() {
     <div className={classes.wrapper}>
       {previous && (
         <Link
-          to={`/&game=${game || 'all'}&page=${currentPage - 1}`}
+          to={`/&game=${keyword || 'all'}&page=${currentPage - 1}`}
           className={classes.pagination_button}
           onClick={clickPrevHandler}
+          data-testid="previous"
         >
           &lt;
         </Link>
       )}
 
-      <a className={`${classes.pagination_button} ${classes.count}`}>{page}</a>
+      <a className={`${classes.pagination_button} ${classes.count}`}>
+        {pageNumber}
+      </a>
 
       {next && (
         <Link
-          to={`/&game=${game || 'all'}&page=${currentPage + 1}`}
+          to={`/&game=${keyword || 'all'}&page=${currentPage + 1}`}
           className={classes.pagination_button}
           onClick={clickNextHandler}
+          data-testid="next"
         >
           &gt;
         </Link>

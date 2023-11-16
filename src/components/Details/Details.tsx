@@ -1,36 +1,39 @@
-import {
-  Await,
-  LoaderFunctionArgs,
-  defer,
-  useLoaderData,
-  useNavigate
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { makeDetailsRequest } from '../../api/apiClient';
 import classes from './Details.module.scss';
-import { DeferData, DetailsItem } from '../../types';
-import { MouseEvent, Suspense } from 'react';
+import { MouseEvent, useContext, useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
 import { removeTags } from '../../utils/helpers';
 import platformsSlugData from '../../utils/platformsSlugData';
+import { AppContext } from '../Context/Context';
 
-export async function detailsLoader({ request }: LoaderFunctionArgs) {
-  const searchParams = new URLSearchParams(request.url);
-  const itemId = searchParams.get('item');
+export default function Details() {
+  const { itemData, setItemData } = useContext(AppContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const { cardId } = useParams();
 
-  return defer({
-    data: makeDetailsRequest(itemId!)
-  });
-}
-
-export function Details() {
-  const deferData = useLoaderData() as DeferData<DetailsItem>;
-  const data = deferData.data;
   const navigate = useNavigate();
+  useEffect(() => {
+    const itemLoader = async () => {
+      try {
+        setIsLoading(true);
+        const itemData = await makeDetailsRequest(cardId);
+        setIsLoading(false);
+        setItemData(itemData);
+      } catch (e) {
+        setIsLoading(false);
+        throw e;
+      }
+    };
+    itemLoader();
+  }, [cardId, setItemData]);
 
   const closeDetails = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
       navigate('..');
+      setIsOpen(false);
     }
   };
 
@@ -44,52 +47,54 @@ export function Details() {
   return (
     <div className={classes.overlay} onClick={closeDetails}>
       <div className={classes.details}>
-        <Suspense fallback={<Loader />}>
-          <Await resolve={data}>
-            {(resolvedData: DetailsItem) => {
-              return (
-                <div className={classes.container}>
-                  <div onClick={closeDetails} className={classes.exit_button} />
-                  <div className={classes.image_container}>
-                    <img
-                      className={classes.image}
-                      src={resolvedData.background_image || '/fallback.png'}
-                      alt={`${resolvedData.name}_image`}
-                    />
-                  </div>
-                  <div className={classes.text_content}>
-                    <h2>{resolvedData.name}</h2>
-                    <h3>Description:</h3>
-                    <p>
-                      {removeTags(resolvedData.description) ||
-                        'Description not provided'}
-                    </p>
-                    <h3>
-                      Released: {resolvedData.released || 'No data availiable'}
-                    </h3>
-                    <div className={`${classes.platforms_wrapper}`}>
-                      {resolvedData.platforms &&
-                        resolvedData.platforms.map((platform) => {
-                          const currentClassName = changeClassName(
-                            platform.platform.slug,
-                            classes
-                          );
+        {isLoading ? (
+          <Loader />
+        ) : (
+          isOpen && (
+            <>
+              <div className={classes.container} data-testid="details">
+                <div
+                  onClick={closeDetails}
+                  className={classes.exit_button}
+                  data-testid="exit_btn"
+                />
+                <div className={classes.image_container}>
+                  <img
+                    className={classes.image}
+                    src={itemData.background_image || '/fallback.png'}
+                    alt={`${itemData.name}_image`}
+                  />
+                </div>
+                <div className={classes.text_content}>
+                  <h2>{itemData.name}</h2>
+                  <h3>Description:</h3>
+                  <p>
+                    {removeTags(itemData.description) ||
+                      'Description not provided'}
+                  </p>
+                  <h3>Released: {itemData.released || 'No data availiable'}</h3>
+                  <div className={`${classes.platforms_wrapper}`}>
+                    {itemData.platforms &&
+                      itemData.platforms.map((platform) => {
+                        const currentClassName = changeClassName(
+                          platform.platform.slug,
+                          classes
+                        );
 
-                          return (
-                            <div
-                              className={currentClassName}
-                              data-platform={platform.platform.slug}
-                              key={platform.platform.id}
-                            />
-                          );
-                        })}
-                    </div>
+                        return (
+                          <div
+                            className={currentClassName}
+                            data-platform={platform.platform.slug}
+                            key={platform.platform.id}
+                          />
+                        );
+                      })}
                   </div>
                 </div>
-              );
-            }}
-          </Await>
-        </Suspense>
+              </div>
+            </>
+          )
+        )}
       </div>
     </div>
   );

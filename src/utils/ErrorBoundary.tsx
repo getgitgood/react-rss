@@ -1,4 +1,5 @@
 import { Component, ReactNode } from 'react';
+import ErrorPage from '../layouts/ErrorPage/ErrorPage';
 
 export default class ErrorBoundary extends Component<{ children: ReactNode }> {
   state = {
@@ -15,16 +16,7 @@ export default class ErrorBoundary extends Component<{ children: ReactNode }> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <>
-          <header>
-            <h1>Something went wrong!</h1>
-          </header>
-          <main className="error_occured">
-            <button onClick={this.clickHandler}>Restore the App</button>
-          </main>
-        </>
-      );
+      return <ErrorPage />;
     }
 
     return this.props.children;

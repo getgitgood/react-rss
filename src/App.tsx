@@ -10,33 +10,35 @@ import {
 } from 'react-router-dom';
 
 import { RootLayout } from './layouts/Root/RootLayout';
-import { Content, contentLoader } from './components/Content/Content';
-import { Details, detailsLoader } from './components/Details/Details';
-import NotFound from './layouts/NotFound/NotFound';
+import ContentItems from './components/ContentItems/ContentItems';
+import Details from './components/Details/Details';
+import ErrorPage from './layouts/ErrorPage/ErrorPage';
+import { AppContextProvider } from './components/Context/Context';
+import Page404 from './layouts/Page404/Page404';
 
 const initialSearch = localStorage.getItem('searchStr') || 'all';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path={'/'} element={<RootLayout />} errorElement={<NotFound />}>
-      <Route
-        index
-        element={<Navigate to={`&game=${initialSearch}&page=1`} replace />}
-      />
-      <Route
-        path="&game=:gameId&page=:page"
-        element={<Content />}
-        loader={contentLoader}
-      >
+    <>
+      <Route path={'/'} element={<RootLayout />} errorElement={<ErrorPage />}>
         <Route
-          path="&item=:cardId"
-          element={<Details />}
-          loader={detailsLoader}
+          index
+          element={<Navigate to={`&game=${initialSearch}&page=1`} replace />}
         />
+        <Route path="&game=:gameId&page=:page" element={<ContentItems />}>
+          <Route path="&item=:cardId" element={<Details />} />
+        </Route>
       </Route>
-    </Route>
+      <Route path={'*'} element={<Page404 />} />
+    </>
   )
 );
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AppContextProvider>
+      <RouterProvider router={router} />;
+    </AppContextProvider>
+  );
 }

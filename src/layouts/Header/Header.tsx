@@ -14,7 +14,7 @@ export default function Header() {
         <br /> videogames highest-ranked by Metacritic&apos;s site.
       </h1>
       <SearchForm />
-      <ErrorButton buttonText="Throw an error" />
+      <ErrorButton />
     </header>
   );
 }
