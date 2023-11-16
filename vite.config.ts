@@ -5,10 +5,8 @@ import react from '@vitejs/plugin-react';
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
-  server: {
-    port: 8000
-  },
   plugins: [react(), checker({ typescript: true })],
+  base: '/',
   test: {
     globals: true,
     environment: 'jsdom',

@@ -40,3 +40,7 @@ type Genres = {
 interface Platforms<T> {
   platform: T;
 }
+
+export interface FetchCardsHelper extends FetchParams {
+  pageSize: string;
+}
