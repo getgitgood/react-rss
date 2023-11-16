@@ -2,10 +2,11 @@ import '@testing-library/jest-dom';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { AppContextProvider } from '../components/Context/Context';
 import Page404 from '../layouts/Page404/Page404';
 import App from '../App';
 import { vi } from 'vitest';
+import { Provider } from 'react-redux';
+import { mockStore } from './mocks/mockStore';
 
 const url = 'https://rawg.io/api/games?game=game20&page_size=10';
 
@@ -33,9 +34,9 @@ describe('404 Page component:', () => {
       { initialEntries: ['/somebadpath'] }
     );
     render(
-      <AppContextProvider>
+      <Provider store={mockStore}>
         <RouterProvider router={router} />
-      </AppContextProvider>
+      </Provider>
     );
     expect(screen.queryByTestId('page-404')).toBeInTheDocument();
   });

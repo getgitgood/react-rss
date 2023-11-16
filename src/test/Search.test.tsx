@@ -3,7 +3,10 @@ import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CreateContextMemoryRouter } from './helpers/Routers';
 import { userEvent } from '@testing-library/user-event';
 import { vi } from 'vitest';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import App from '../App';
+import { mockStore } from './mocks/mockStore';
 
 const user = userEvent.setup();
 
@@ -20,7 +23,7 @@ beforeAll(() => {
   vi.clearAllMocks();
 });
 
-describe('Pagination component', () => {
+describe('Tests for the Search component:', () => {
   it('Verify that clicking the Search button saves the entered value to the local storage', async () => {
     CreateContextMemoryRouter([<SearchForm key={1} />]);
     const search = screen.getByPlaceholderText('Search');
@@ -35,7 +38,11 @@ describe('Pagination component', () => {
   });
 
   it('Check that the component retrieves the value from the local storage upon mounting', async () => {
-    CreateContextMemoryRouter([<SearchForm key={1} />]);
+    render(
+      <Provider store={mockStore}>
+        <App />
+      </Provider>
+    );
     expect(window.localStorage.getItem).toHaveBeenCalled();
   });
 });

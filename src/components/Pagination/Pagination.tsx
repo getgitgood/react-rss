@@ -2,9 +2,11 @@ import { useContext, useState } from 'react';
 import classes from './Pagination.module.scss';
 import { Link, useParams } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
+import { useAppSelector } from '../../hooks';
 
 export default function Pagination() {
-  const { gamesData, keyword } = useContext(AppContext);
+  const { gamesData } = useContext(AppContext);
+  const keyword = useAppSelector((state) => state.searchStr);
   const searchParams = useParams();
   const { next, previous } = gamesData;
   const { page } = searchParams;

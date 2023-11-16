@@ -33,14 +33,9 @@ const initialItemData: DetailsItem = {
 
 const initialAppContext: AppContextProps = {
   setSingleGameData: (initialItemData: DetailsItem) => initialItemData,
-  handlePageLimitChange: (selectedLimit: string) => selectedLimit,
-  setKeyword: (newKeyword: string) => newKeyword,
   setGamesData: (initialResponse) => initialResponse,
-  setPageLimit: (newLimit: string) => newLimit,
   singleGameData: <DetailsItem>{},
-  gamesData: initialResponse,
-  keyword: '',
-  pageLimit: ''
+  gamesData: initialResponse
 };
 
 export { initialResponse, initialNavData, initialAppContext, initialItemData };

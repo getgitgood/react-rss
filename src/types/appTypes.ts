@@ -14,13 +14,8 @@ export type InputProps = {
 };
 
 export type AppContextProps = {
-  handlePageLimitChange: (selectedLimit: string) => void;
-  setKeyword: (newKeyword: string) => void;
-  setPageLimit: (limit: string) => void;
   setGamesData: (newData: ApiResponse) => void;
   setSingleGameData: (newDate: DetailsItem) => void;
   singleGameData: DetailsItem;
   gamesData: ApiResponse;
-  keyword: string;
-  pageLimit: string;
 };

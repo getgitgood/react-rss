@@ -5,7 +5,7 @@ import {
 } from '../utils/helpers';
 
 export async function makeFetchRequest({ queryStr, pageNumber }: FetchParams) {
-  const pageSize = localStorage.getItem('pageLimit') || '20';
+  const pageSize = localStorage.getItem('pageSize') || '20'; // TODO: replace with store pageSize
   const url = fetchCardsUrlHelper({ queryStr, pageNumber, pageSize });
 
   try {

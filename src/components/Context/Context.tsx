@@ -13,32 +13,14 @@ export type ContextProps = {
 export const AppContext = createContext<AppContextProps>(initialAppContext);
 
 export function AppContextProvider({ children }: ContextProps) {
-  const [keyword, setKeyword] = useState(
-    localStorage.getItem('searchStr') || ''
-  );
-
-  const [pageLimit, setPageLimit] = useState(
-    localStorage.getItem('pageLimit') || '30'
-  );
-
   const [gamesData, setGamesData] = useState(initialResponse);
 
   const [singleGameData, setSingleGameData] = useState(initialItemData);
 
-  const handlePageLimitChange = (selectedPageLimit: string) => {
-    localStorage.setItem('pageLimit', selectedPageLimit);
-    setPageLimit(selectedPageLimit);
-  };
-
   const values = {
-    handlePageLimitChange,
     setSingleGameData,
-    setKeyword,
-    setPageLimit,
     setGamesData,
     singleGameData,
-    keyword,
-    pageLimit,
     gamesData
   };
 

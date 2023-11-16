@@ -7,6 +7,8 @@ import { vi } from 'vitest';
 import { RouterContextComponent } from './helpers/Routers';
 import ContentItems from '../components/ContentItems/ContentItems';
 import App from '../App';
+import { Provider } from 'react-redux';
+import { mockStore } from './mocks/mockStore';
 
 const url = 'https://rawg.io/api/games?game=specific_game&page_size=1';
 const id = 'https://rawg.io/api/games?game=specific_game&name=zelda';
@@ -38,7 +40,13 @@ describe('Tests for the Card component:', () => {
   const user = userEvent.setup();
 
   it('Ensure that the card component renders the relevant card data', async () => {
-    render(RouterContextComponent(<ContentItems />));
+    render(
+      RouterContextComponent(
+        <Provider store={mockStore}>
+          <ContentItems />
+        </Provider>
+      )
+    );
 
     await waitFor(async () => {
       const card = await screen.findByTestId('cardItem');

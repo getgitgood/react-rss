@@ -9,6 +9,8 @@ import { afterEach, describe, it, vi } from 'vitest';
 import { RouterContextComponent } from './helpers/Routers';
 import Details from '../components/Details/Details';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { mockStore } from './mocks/mockStore';
 
 const id = 'https://rawg.io/api/games?game=specific_game&name=zelda';
 
@@ -39,14 +41,26 @@ describe('Tests for the Detailed Card component:', () => {
   });
 
   it('Check that a loading indicator is displayed while fetching data', async () => {
-    render(RouterContextComponent(<Details />));
+    render(
+      RouterContextComponent(
+        <Provider store={mockStore}>
+          <Details />
+        </Provider>
+      )
+    );
 
     const loader = screen.getByTestId('loader');
     await waitForElementToBeRemoved(loader);
   });
 
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
-    render(RouterContextComponent(<Details />));
+    render(
+      RouterContextComponent(
+        <Provider store={mockStore}>
+          <Details />
+        </Provider>
+      )
+    );
     await waitFor(() => {
       const details = screen.getByTestId('details');
       expect(details).toBeInTheDocument();
@@ -57,7 +71,13 @@ describe('Tests for the Detailed Card component:', () => {
   });
 
   it('Ensure that clicking the close button hides the component.', async () => {
-    render(RouterContextComponent(<Details />));
+    render(
+      RouterContextComponent(
+        <Provider store={mockStore}>
+          <Details />
+        </Provider>
+      )
+    );
     const user = userEvent.setup();
 
     await waitFor(async () => {

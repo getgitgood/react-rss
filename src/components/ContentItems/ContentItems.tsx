@@ -8,9 +8,11 @@ import Loader from '../Loader/Loader';
 import PaginationSkeleton from '../../layouts/PaginationSkeleton/PaginationSkeleton';
 import Item from '../Item/Item';
 import NoResults from '../../layouts/NoResults/NoResults';
+import { useAppSelector } from '../../hooks';
 
 export default function ContentItems() {
-  const { keyword, setGamesData, gamesData } = useContext(AppContext);
+  const { setGamesData, gamesData } = useContext(AppContext);
+  const keyword = useAppSelector((state) => state.searchStr);
   const [isLoading, setIsLoading] = useState(false);
   const { page } = useParams();
   useEffect(() => {
