@@ -5,46 +5,46 @@ import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../Context/Context';
 import { makeFetchRequest } from '../../api/apiClient';
 import Loader from '../Loader/Loader';
-import Fader from '../../layouts/Fallbacks/Fader';
+import PaginationSkeleton from '../../layouts/PaginationSkeleton/PaginationSkeleton';
 import Item from '../Item/Item';
 import NoResults from '../../layouts/NoResults/NoResults';
 
 export default function ContentItems() {
-  const { keyword, setData, data } = useContext(AppContext);
+  const { keyword, setGamesData, gamesData } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
   const { page } = useParams();
   useEffect(() => {
     const contentLoader = async () => {
       setIsLoading(true);
       try {
-        const data = await makeFetchRequest({
+        const gamesList = await makeFetchRequest({
           queryStr: keyword,
           pageNumber: page || '1'
         });
-        setIsLoading(false);
-        setData(data);
+        setGamesData(gamesList);
       } catch (e) {
-        setIsLoading(false);
         throw e;
+      } finally {
+        setIsLoading(false);
       }
     };
     contentLoader();
-  }, [keyword, page, setData]);
+  }, [keyword, page, setGamesData]);
 
   return (
     <section className={classes.content}>
       <div className={classes.content_items}>
         {isLoading ? (
           <Loader />
-        ) : data.count ? (
-          data.results.map((item) => <Item key={item.id} {...item} />)
+        ) : gamesData.count ? (
+          gamesData.results.map((item) => <Item key={item.id} {...item} />)
         ) : (
           <NoResults />
         )}
       </div>
 
       <div className={classes.pagination_container}>
-        {isLoading ? <Fader /> : <Pagination />}
+        {isLoading ? <PaginationSkeleton /> : <Pagination />}
       </div>
       <Outlet />
     </section>

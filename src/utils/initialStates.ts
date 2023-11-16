@@ -32,15 +32,15 @@ const initialItemData: DetailsItem = {
 };
 
 const initialAppContext: AppContextProps = {
-  setItemData: (initialItemData: DetailsItem) => initialItemData,
-  handleLimitChange: (selectedLimit: string) => selectedLimit,
+  setSingleGameData: (initialItemData: DetailsItem) => initialItemData,
+  handlePageLimitChange: (selectedLimit: string) => selectedLimit,
   setKeyword: (newKeyword: string) => newKeyword,
-  setData: (initialResponse) => initialResponse,
-  setLimit: (newLimit: string) => newLimit,
-  itemData: <DetailsItem>{},
-  data: initialResponse,
+  setGamesData: (initialResponse) => initialResponse,
+  setPageLimit: (newLimit: string) => newLimit,
+  singleGameData: <DetailsItem>{},
+  gamesData: initialResponse,
   keyword: '',
-  limit: ''
+  pageLimit: ''
 };
 
 export { initialResponse, initialNavData, initialAppContext, initialItemData };

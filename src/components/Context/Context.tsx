@@ -17,27 +17,29 @@ export function AppContextProvider({ children }: ContextProps) {
     localStorage.getItem('searchStr') || ''
   );
 
-  const [limit, setLimit] = useState(localStorage.getItem('pageLimit') || '30');
+  const [pageLimit, setPageLimit] = useState(
+    localStorage.getItem('pageLimit') || '30'
+  );
 
-  const [data, setData] = useState(initialResponse);
+  const [gamesData, setGamesData] = useState(initialResponse);
 
-  const [itemData, setItemData] = useState(initialItemData);
+  const [singleGameData, setSingleGameData] = useState(initialItemData);
 
-  const handleLimitChange = (selectedLimit: string) => {
-    localStorage.setItem('pageLimit', selectedLimit);
-    setLimit(selectedLimit);
+  const handlePageLimitChange = (selectedPageLimit: string) => {
+    localStorage.setItem('pageLimit', selectedPageLimit);
+    setPageLimit(selectedPageLimit);
   };
 
   const values = {
-    handleLimitChange,
-    setItemData,
+    handlePageLimitChange,
+    setSingleGameData,
     setKeyword,
-    setLimit,
-    setData,
-    itemData,
+    setPageLimit,
+    setGamesData,
+    singleGameData,
     keyword,
-    limit,
-    data
+    pageLimit,
+    gamesData
   };
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;

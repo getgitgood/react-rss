@@ -14,13 +14,13 @@ export type InputProps = {
 };
 
 export type AppContextProps = {
-  handleLimitChange: (selectedLimit: string) => void;
+  handlePageLimitChange: (selectedLimit: string) => void;
   setKeyword: (newKeyword: string) => void;
-  setLimit: (limit: string) => void;
-  setData: (newData: ApiResponse) => void;
-  setItemData: (newDate: DetailsItem) => void;
-  itemData: DetailsItem;
-  data: ApiResponse;
+  setPageLimit: (limit: string) => void;
+  setGamesData: (newData: ApiResponse) => void;
+  setSingleGameData: (newDate: DetailsItem) => void;
+  singleGameData: DetailsItem;
+  gamesData: ApiResponse;
   keyword: string;
-  limit: string;
+  pageLimit: string;
 };

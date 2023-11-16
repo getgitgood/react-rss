@@ -4,9 +4,9 @@ import { Link, useParams } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
 
 export default function Pagination() {
-  const { data, keyword } = useContext(AppContext);
+  const { gamesData, keyword } = useContext(AppContext);
   const searchParams = useParams();
-  const { next, previous } = data;
+  const { next, previous } = gamesData;
   const { page } = searchParams;
   const pageNumber = Number(page) || 1;
   const [currentPage, setPage] = useState(pageNumber);

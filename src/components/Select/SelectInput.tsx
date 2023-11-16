@@ -2,9 +2,9 @@ import { ChangeEvent, useContext } from 'react';
 import { AppContext } from '../Context/Context';
 
 export default function SelectInput(formRef: React.RefObject<HTMLFormElement>) {
-  const { handleLimitChange, limit } = useContext(AppContext);
+  const { handlePageLimitChange, pageLimit } = useContext(AppContext);
   const changeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    handleLimitChange(e.target.value);
+    handlePageLimitChange(e.target.value);
     formRef.current?.submit();
   };
 
@@ -13,7 +13,7 @@ export default function SelectInput(formRef: React.RefObject<HTMLFormElement>) {
       onChange={changeHandler}
       name="limit"
       aria-label="items per page"
-      value={limit}
+      value={pageLimit}
       data-testid={'count'}
     >
       <option value={'10'}>10</option>

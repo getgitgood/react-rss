@@ -1,8 +1,8 @@
-import classes from './Fader.module.scss';
+import classes from './PaginationSkeleton.module.scss';
 
-export default function Fader() {
+export default function PaginationSkeleton() {
   return (
-    <div className={classes.fadeout}>
+    <div className={classes.skeleton}>
       <div className={classes.items}></div>
       <div className={classes.items}></div>
       <div className={classes.items}></div>

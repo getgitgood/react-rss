@@ -9,7 +9,7 @@ import platformsSlugData from '../../utils/platformsSlugData';
 import { AppContext } from '../Context/Context';
 
 export default function Details() {
-  const { itemData, setItemData } = useContext(AppContext);
+  const { singleGameData, setSingleGameData } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const { cardId } = useParams();
@@ -17,18 +17,18 @@ export default function Details() {
   const navigate = useNavigate();
   useEffect(() => {
     const itemLoader = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
-        const itemData = await makeDetailsRequest(cardId);
-        setIsLoading(false);
-        setItemData(itemData);
+        const singleGameData = await makeDetailsRequest(cardId);
+        setSingleGameData(singleGameData);
       } catch (e) {
-        setIsLoading(false);
         throw e;
+      } finally {
+        setIsLoading(false);
       }
     };
     itemLoader();
-  }, [cardId, setItemData]);
+  }, [cardId, setSingleGameData]);
 
   const closeDetails = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
@@ -61,21 +61,23 @@ export default function Details() {
                 <div className={classes.image_container}>
                   <img
                     className={classes.image}
-                    src={itemData.background_image || '/fallback.png'}
-                    alt={`${itemData.name}_image`}
+                    src={singleGameData.background_image || '/fallback.png'}
+                    alt={`${singleGameData.name}_image`}
                   />
                 </div>
                 <div className={classes.text_content}>
-                  <h2>{itemData.name}</h2>
+                  <h2>{singleGameData.name}</h2>
                   <h3>Description:</h3>
                   <p>
-                    {removeTags(itemData.description) ||
+                    {removeTags(singleGameData.description) ||
                       'Description not provided'}
                   </p>
-                  <h3>Released: {itemData.released || 'No data availiable'}</h3>
+                  <h3>
+                    Released: {singleGameData.released || 'No data available'}
+                  </h3>
                   <div className={`${classes.platforms_wrapper}`}>
-                    {itemData.platforms &&
-                      itemData.platforms.map((platform) => {
+                    {singleGameData.platforms &&
+                      singleGameData.platforms.map((platform) => {
                         const currentClassName = changeClassName(
                           platform.platform.slug,
                           classes
