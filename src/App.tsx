@@ -16,6 +16,9 @@ import ErrorPage from './layouts/ErrorPage/ErrorPage';
 import { AppContextProvider } from './components/Context/Context';
 import Page404 from './layouts/Page404/Page404';
 
+import { store } from './store';
+import { Provider } from 'react-redux';
+
 const initialSearch = localStorage.getItem('searchStr') || 'all';
 
 const router = createBrowserRouter(
@@ -37,8 +40,10 @@ const router = createBrowserRouter(
 
 export default function App() {
   return (
-    <AppContextProvider>
-      <RouterProvider router={router} />;
-    </AppContextProvider>
+    <Provider store={store}>
+      <AppContextProvider>
+        <RouterProvider router={router} />;
+      </AppContextProvider>
+    </Provider>
   );
 }
