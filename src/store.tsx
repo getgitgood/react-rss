@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import userSearchReducer from './features/userSearch';
-import userPageSizeReducer from './features/userPageSize';
+import userSearchReducer from './features/userInputs/userSearch';
+import userPageSizeReducer from './features/userInputs/userPageSize';
 
 export const store = configureStore({
   reducer: {
