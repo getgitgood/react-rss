@@ -1,54 +1,55 @@
 import classes from './ContentItems.module.scss';
 import Pagination from '../Pagination/Pagination';
 import { Outlet, useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../Context/Context';
-import { makeFetchRequest } from '../../api/apiClient';
 import Loader from '../Loader/Loader';
 import PaginationSkeleton from '../../layouts/PaginationSkeleton/PaginationSkeleton';
 import Item from '../Item/Item';
 import NoResults from '../../layouts/NoResults/NoResults';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
+import { useGetGamesQuery } from '../../features/api/apiSlice';
+import ErrorPage from '../../layouts/ErrorPage/ErrorPage';
+import { cardListUpdated } from '../../features/cardsData/cardsListSlice';
+import { useEffect } from 'react';
 
 export default function ContentItems() {
-  const { setGamesData, gamesData } = useContext(AppContext);
-  const keyword = useAppSelector((state) => state.searchStr);
-  const [isLoading, setIsLoading] = useState(false);
+  const { searchStr, pageSize } = useAppSelector((state) => state.userInputs);
   const { page } = useParams();
+  const { data, isFetching, isError, error } = useGetGamesQuery({
+    searchStr,
+    page,
+    pageSize
+  });
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    const contentLoader = async () => {
-      setIsLoading(true);
-      try {
-        const gamesList = await makeFetchRequest({
-          queryStr: keyword,
-          pageNumber: page || '1'
-        });
-        setGamesData(gamesList);
-      } catch (e) {
-        throw e;
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    contentLoader();
-  }, [keyword, page, setGamesData]);
+    if (data) {
+      dispatch(cardListUpdated(data));
+    }
+  }, [data, dispatch]);
 
-  return (
-    <section className={classes.content}>
-      <div className={classes.content_items}>
-        {isLoading ? (
-          <Loader />
-        ) : gamesData.count ? (
-          gamesData.results.map((item) => <Item key={item.id} {...item} />)
-        ) : (
-          <NoResults />
-        )}
-      </div>
+  if (isError && error instanceof Error) {
+    return <ErrorPage message={error.message} />;
+  }
 
-      <div className={classes.pagination_container}>
-        {isLoading ? <PaginationSkeleton /> : <Pagination />}
-      </div>
-      <Outlet />
-    </section>
-  );
+  if (data) {
+    return (
+      <section className={classes.content}>
+        <div className={classes.content_items}>
+          {isFetching ? (
+            <Loader />
+          ) : data.count ? (
+            data.results.map((item) => <Item key={item.id} {...item} />)
+          ) : (
+            <NoResults />
+          )}
+        </div>
+
+        <div className={classes.pagination_container}>
+          {isFetching ? <PaginationSkeleton /> : <Pagination />}
+        </div>
+        <Outlet />
+      </section>
+    );
+  }
 }

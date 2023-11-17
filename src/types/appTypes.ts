@@ -1,4 +1,4 @@
-import { ApiResponse, DetailsItem } from './apiTypes';
+import { DetailsItem } from './apiTypes';
 
 export type PlatformsSlug = {
   [key: string]: string;
@@ -14,8 +14,10 @@ export type InputProps = {
 };
 
 export type AppContextProps = {
-  setGamesData: (newData: ApiResponse) => void;
   setSingleGameData: (newDate: DetailsItem) => void;
   singleGameData: DetailsItem;
-  gamesData: ApiResponse;
+};
+
+export type ErrorPageProps = {
+  message?: string;
 };

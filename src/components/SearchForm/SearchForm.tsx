@@ -4,25 +4,30 @@ import Input from '../Input/Input';
 import classes from './SearchForm.module.scss';
 import { Form, useNavigate } from 'react-router-dom';
 import SelectInput from '../Select/SelectInput';
-import { searchStrUpdated } from '../../features/userInputs/userSearch';
+import { searchStrUpdated } from '../../features/userInputs/userInputsSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 export function SearchForm() {
-  const keyword = useAppSelector((state) => state.searchStr);
-  const [localKeyword, setLocalKeyword] = useState(keyword);
+  const { searchStr } = useAppSelector((state) => state.userInputs);
+  const [localKeyword, setLocalKeyword] = useState(searchStr);
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const inputValue = gameInputHandler(e);
+    dispatch(searchStrUpdated(inputValue));
+    localStorage.setItem('searchStr', localKeyword);
+    navigate(`&game=${inputValue}&page=1`);
+  };
+
+  const gameInputHandler = (e: FormEvent<HTMLFormElement>): string => {
     const form = e.currentTarget;
     const gameInput = form.elements.namedItem('game') as HTMLInputElement;
     const currentGameInputValue = gameInput.value || 'all';
-    dispatch(searchStrUpdated(localKeyword));
-    localStorage.setItem('searchStr', localKeyword);
-    navigate(`&game=${currentGameInputValue}&page=1`);
+    return currentGameInputValue;
   };
 
   return (

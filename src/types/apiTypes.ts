@@ -44,3 +44,9 @@ interface Platforms<T> {
 export interface FetchCardsHelper extends FetchParams {
   pageSize: string;
 }
+
+export type BaseQueryFn = {
+  searchStr: string;
+  page: string | undefined;
+  pageSize: string;
+};

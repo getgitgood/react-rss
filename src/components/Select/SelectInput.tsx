@@ -1,9 +1,9 @@
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { pageSizeUpdated } from '../../features/userInputs/userPageSize';
+import { pageSizeUpdated } from '../../features/userInputs/userInputsSlice';
 
 export default function SelectInput(formRef: React.RefObject<HTMLFormElement>) {
-  const pageSize = useAppSelector((state) => state.pageSize);
+  const { pageSize } = useAppSelector((state) => state.userInputs);
   const dispatch = useAppDispatch();
   const changeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     const pageSize = e.target.value;

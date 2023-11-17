@@ -1,6 +1,6 @@
-import { ApiResponse, AppContextProps, DetailsItem, NavData } from '../types';
+import { AppContextProps, DetailsItem, NavData } from '../types';
 
-const initialResponse: ApiResponse = {
+const initialResponse = {
   user_platforms: false,
   previous: null,
   results: [],
@@ -33,9 +33,7 @@ const initialItemData: DetailsItem = {
 
 const initialAppContext: AppContextProps = {
   setSingleGameData: (initialItemData: DetailsItem) => initialItemData,
-  setGamesData: (initialResponse) => initialResponse,
-  singleGameData: <DetailsItem>{},
-  gamesData: initialResponse
+  singleGameData: <DetailsItem>{}
 };
 
 export { initialResponse, initialNavData, initialAppContext, initialItemData };
