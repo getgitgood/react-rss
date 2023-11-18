@@ -6,7 +6,7 @@ import Page404 from '../layouts/Page404/Page404';
 import App from '../App';
 import { vi } from 'vitest';
 import { Provider } from 'react-redux';
-import { mockStore } from './mocks/mockStore';
+import { mockStore } from './helpers/mocks/mockStore';
 
 const url = 'https://rawg.io/api/games?game=game20&page_size=10';
 

@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { apiSlice } from '../../features/api/apiSlice';
-import userInputsReducer from '../../features/userInputs/userInputsSlice';
-import cardsListReducer from '../../features/cards/cardsListSlice';
+import { apiSlice } from '../../../features/api/apiSlice';
+import userInputsReducer from '../../../features/userInputs/userInputsSlice';
+import cardsListReducer from '../../../features/cards/cardsListSlice';
 
 export const mockStore = configureStore({
   reducer: {

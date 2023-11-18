@@ -52,5 +52,5 @@ export type CardsListQueryFn = {
 };
 
 export type SingleCardQueryFn = {
-  id: string;
+  id: string | undefined;
 };

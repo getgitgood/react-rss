@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userInputsReducer from './features/userInputs/userInputsSlice';
 import cardsListReducer from './features/cards/cardsListSlice';
 import singleCardReducer from './features/cards/singleCardSlice';
+import loadersReducer from './features/loadings/loadersSlice';
 
 import { apiSlice } from './features/api/apiSlice';
 
@@ -11,6 +12,7 @@ export const store = configureStore({
     userInputs: userInputsReducer,
     cardsList: cardsListReducer,
     singleCard: singleCardReducer,
+    loadings: loadersReducer,
     [apiSlice.reducerPath]: apiSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>

@@ -30,7 +30,7 @@ const router = createBrowserRouter(
           element={<Navigate to={`&game=${initialSearch}&page=1`} replace />}
         />
         <Route path="&game=:gameId&page=:page" element={<CardsList />}>
-          <Route path="&item=:cardId" element={<Details />} />
+          <Route path="&item=:id" element={<Details />} />
         </Route>
       </Route>
       <Route path={'*'} element={<Page404 />} />
@@ -42,7 +42,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <AppContextProvider>
-        <RouterProvider router={router} />;
+        <RouterProvider router={router} />
       </AppContextProvider>
     </Provider>
   );

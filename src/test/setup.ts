@@ -1,4 +1,4 @@
-import { server } from './mocks/server';
+import { server } from './helpers/mocks/server';
 import { beforeAll, afterAll, afterEach } from 'vitest';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));

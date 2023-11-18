@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, it, vi } from 'vitest';
 import App from '../App';
-import { mockStore } from './mocks/mockStore';
+import { mockStore } from './helpers/mocks/mockStore';
 import { Provider } from 'react-redux';
 
 const url = 'https://rawg.io/api/games?game=game20&page_size=10';

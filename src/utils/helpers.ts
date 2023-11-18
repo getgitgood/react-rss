@@ -1,4 +1,6 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { FetchCardsHelper } from '../types';
+import platformsSlugData from './platformsSlugData';
 
 export const removeTags = (text: string) => {
   if (!text) return false;
@@ -40,4 +42,30 @@ export const fetchSingleCardUrlHelper = (id: string) => {
     return `${FETCH_SINGLE_CARD_FUNC}?id=${id}`;
   }
   return `${RESOURCE_URL}/${id}?key=${API_KEY}`;
+};
+
+export function changeClassName(slug: string, classes: Record<string, string>) {
+  const platformsSlug = platformsSlugData;
+  const currentClassName = platformsSlug[slug];
+
+  return `${classes.platform_logo} ${currentClassName}`;
+}
+
+export const errorMessageMiddleware = (error: FetchBaseQueryError) => {
+  let errorMessage = 'An unknown error occurred';
+  if ('status' in error) {
+    const errorStatus = error.status;
+    switch (errorStatus) {
+      case 'PARSING_ERROR':
+        errorMessage = 'Error while parsing response';
+        break;
+      case 'FETCH_ERROR':
+        errorMessage = 'Network error';
+        break;
+      case 'TIMEOUT_ERROR':
+        errorMessage = 'Timeout error';
+        break;
+    }
+  }
+  return typeof error === 'string' ? error : errorMessage;
 };

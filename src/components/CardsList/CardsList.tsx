@@ -11,6 +11,15 @@ import { useGetGamesQuery } from '../../features/api/apiSlice';
 import ErrorPage from '../../layouts/ErrorPage/ErrorPage';
 import { cardListUpdated } from '../../features/cards/cardsListSlice';
 import { useEffect } from 'react';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { errorMessageMiddleware } from '../../utils/helpers';
+import Page404 from '../../layouts/Page404/Page404';
+import { cardsListLoadingUpdated } from '../../features/loadings/loadersSlice';
+
+export type CustomError = {
+  message: string;
+  stack: string;
+};
 
 export default function CardsList() {
   const { searchStr, pageSize } = useAppSelector((state) => state.userInputs);
@@ -23,33 +32,47 @@ export default function CardsList() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (data) {
+    dispatch(cardsListLoadingUpdated(isFetching));
+    if (data && !isError) {
       dispatch(cardListUpdated(data));
     }
-  }, [data, dispatch]);
+  }, [dispatch, isFetching, data, isError]);
 
-  if (isError && error instanceof Error) {
-    return <ErrorPage message={error.message} />;
+  if (isError) {
+    if ('status' in error && error.status === 404) {
+      return <Page404 />;
+    }
+    const message = errorMessageMiddleware(error as FetchBaseQueryError);
+    return <ErrorPage message={message} />;
   }
 
-  if (data) {
+  if (isFetching || data === undefined) {
     return (
       <section className={classes.content}>
         <div className={classes.content_items}>
-          {isFetching ? (
-            <Loader />
-          ) : data.count ? (
-            data.results.map((item) => <Card key={item.id} {...item} />)
-          ) : (
-            <NoResults />
-          )}
+          <Loader />
         </div>
-
         <div className={classes.pagination_container}>
-          {isFetching ? <PaginationSkeleton /> : <Pagination />}
+          <PaginationSkeleton />
         </div>
-        <Outlet />
       </section>
     );
   }
+
+  return (
+    <section className={classes.content}>
+      <div className={classes.content_items}>
+        {data.count ? (
+          data.results.map((item) => <Card key={item.id} {...item} />)
+        ) : (
+          <NoResults />
+        )}
+      </div>
+
+      <div className={classes.pagination_container}>
+        <Pagination />
+      </div>
+      <Outlet />
+    </section>
+  );
 }

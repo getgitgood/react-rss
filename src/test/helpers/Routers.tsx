@@ -7,7 +7,7 @@ import { AppContextProvider } from '../../components/Context/Context';
 import { ReactNode } from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { mockStore } from '../mocks/mockStore';
+import { mockStore } from './mocks/mockStore';
 
 const RouterContextComponent = (children: ReactNode) => {
   return (

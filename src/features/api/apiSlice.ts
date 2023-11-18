@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
   ApiResponse,
   CardsListQueryFn,
-  SingleCardResponse,
+  DetailedCardResponse,
   SingleCardQueryFn
 } from '../../types';
 const BASE_URL = import.meta.env.VITE_RESOURCE_URL;
@@ -16,8 +16,8 @@ export const apiSlice = createApi({
       query: ({ searchStr, page, pageSize }) =>
         `?key=${API_KEY}&search=${searchStr}&page=${page}&page_size=${pageSize}&ordering=-metacritic`
     }),
-    getGameById: builder.query<SingleCardResponse, SingleCardQueryFn>({
-      query: (id) => `/${id}?key=${API_KEY}`
+    getGameById: builder.query<DetailedCardResponse, SingleCardQueryFn>({
+      query: ({ id }) => `/${id}?key=${API_KEY}`
     })
   })
 });

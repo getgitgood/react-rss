@@ -20,13 +20,17 @@ export function SearchForm() {
     const inputValue = gameInputHandler(e);
     dispatch(searchStrUpdated(inputValue));
     localStorage.setItem('searchStr', localKeyword);
-    navigate(`&game=${inputValue}&page=1`);
+    if (inputValue) {
+      navigate(`&game=${inputValue}&page=1`);
+    } else {
+      navigate(`&game=all&page=1`);
+    }
   };
 
   const gameInputHandler = (e: FormEvent<HTMLFormElement>): string => {
     const form = e.currentTarget;
     const gameInput = form.elements.namedItem('game') as HTMLInputElement;
-    const currentGameInputValue = gameInput.value || 'all';
+    const currentGameInputValue = gameInput.value;
     return currentGameInputValue;
   };
 

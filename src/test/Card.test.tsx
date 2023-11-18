@@ -8,7 +8,7 @@ import { RouterContextComponent } from './helpers/Routers';
 import CardsList from '../components/CardsList/CardsList';
 import App from '../App';
 import { Provider } from 'react-redux';
-import { mockStore } from './mocks/mockStore';
+import { mockStore } from './helpers/mocks/mockStore';
 
 const url = 'https://rawg.io/api/games?game=specific_game&page_size=1';
 const id = 'https://rawg.io/api/games?game=specific_game&name=zelda';

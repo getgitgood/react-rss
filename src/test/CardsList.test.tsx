@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import CardsList from '../components/CardsList/CardsList.js';
 import { RouterContextComponent } from './helpers/Routers.js';
 import { Provider } from 'react-redux';
-import { mockStore } from './mocks/mockStore.js';
+import { mockStore } from './helpers/mocks/mockStore.js';
 
 let url = ``;
 

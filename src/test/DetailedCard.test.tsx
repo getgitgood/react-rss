@@ -10,7 +10,7 @@ import { RouterContextComponent } from './helpers/Routers';
 import Details from '../components/Details/Details';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { mockStore } from './mocks/mockStore';
+import { mockStore } from './helpers/mocks/mockStore';
 
 const id = 'https://rawg.io/api/games?game=specific_game&name=zelda';
 
