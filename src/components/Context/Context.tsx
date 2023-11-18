@@ -1,5 +1,8 @@
 import { ReactNode, createContext, useState } from 'react';
-import { initialAppContext, initialItemData } from '../../utils/initialStates';
+import {
+  initialAppContext,
+  initialSingleCardData
+} from '../../utils/initialStates';
 import { AppContextProps } from '../../types';
 
 export type ContextProps = {
@@ -9,7 +12,7 @@ export type ContextProps = {
 export const AppContext = createContext<AppContextProps>(initialAppContext);
 
 export function AppContextProvider({ children }: ContextProps) {
-  const [singleGameData, setSingleGameData] = useState(initialItemData);
+  const [singleGameData, setSingleGameData] = useState(initialSingleCardData);
 
   const values = {
     setSingleGameData,

@@ -28,7 +28,7 @@ vi.mock('../api/apiClient.ts', async () => {
   };
 });
 
-const detailsContentExample = {
+const detailedCard = {
   title: 'The Legend of Zelda: Ocarina of Time',
   description:
     'As a young boy, Link is tricked by Ganondorf, the King of the Gerudo Thieves. The evil human uses Link to gain access to the Sacred Realm, where he places his tainted hands on Triforce and transforms the beautiful Hyrulean landscape into a barren wasteland. Link is determined to fix the problems he helped to create, so with the help of Rauru he travels through time gathering the powers of the Seven Sages.',
@@ -64,9 +64,9 @@ describe('Tests for the Detailed Card component:', () => {
     await waitFor(() => {
       const details = screen.getByTestId('details');
       expect(details).toBeInTheDocument();
-      expect(details).toHaveTextContent(detailsContentExample.title);
-      expect(details).toHaveTextContent(detailsContentExample.description);
-      expect(details).toHaveTextContent(detailsContentExample.released);
+      expect(details).toHaveTextContent(detailedCard.title);
+      expect(details).toHaveTextContent(detailedCard.description);
+      expect(details).toHaveTextContent(detailedCard.released);
     });
   });
 

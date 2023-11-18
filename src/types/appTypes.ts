@@ -1,4 +1,4 @@
-import { DetailsItem } from './apiTypes';
+import { DetailedCardResponse } from './apiTypes';
 
 export type PlatformsSlug = {
   [key: string]: string;
@@ -14,8 +14,8 @@ export type InputProps = {
 };
 
 export type AppContextProps = {
-  setSingleGameData: (newDate: DetailsItem) => void;
-  singleGameData: DetailsItem;
+  setSingleGameData: (newDate: DetailedCardResponse) => void;
+  singleGameData: DetailedCardResponse;
 };
 
 export type ErrorPageProps = {

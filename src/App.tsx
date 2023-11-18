@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { RootLayout } from './layouts/Root/RootLayout';
-import ContentItems from './components/ContentItems/ContentItems';
+import CardsList from './components/CardsList/CardsList';
 import Details from './components/Details/Details';
 import ErrorPage from './layouts/ErrorPage/ErrorPage';
 import { AppContextProvider } from './components/Context/Context';
@@ -29,7 +29,7 @@ const router = createBrowserRouter(
           index
           element={<Navigate to={`&game=${initialSearch}&page=1`} replace />}
         />
-        <Route path="&game=:gameId&page=:page" element={<ContentItems />}>
+        <Route path="&game=:gameId&page=:page" element={<CardsList />}>
           <Route path="&item=:cardId" element={<Details />} />
         </Route>
       </Route>

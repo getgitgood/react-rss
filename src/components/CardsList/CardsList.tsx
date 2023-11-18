@@ -1,18 +1,18 @@
-import classes from './ContentItems.module.scss';
+import classes from './CardsList.module.scss';
 import Pagination from '../Pagination/Pagination';
 import { Outlet, useParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import PaginationSkeleton from '../../layouts/PaginationSkeleton/PaginationSkeleton';
-import Item from '../Item/Item';
+import Card from '../Card/Card';
 import NoResults from '../../layouts/NoResults/NoResults';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { useGetGamesQuery } from '../../features/api/apiSlice';
 import ErrorPage from '../../layouts/ErrorPage/ErrorPage';
-import { cardListUpdated } from '../../features/cardsData/cardsListSlice';
+import { cardListUpdated } from '../../features/cards/cardsListSlice';
 import { useEffect } from 'react';
 
-export default function ContentItems() {
+export default function CardsList() {
   const { searchStr, pageSize } = useAppSelector((state) => state.userInputs);
   const { page } = useParams();
   const { data, isFetching, isError, error } = useGetGamesQuery({
@@ -39,7 +39,7 @@ export default function ContentItems() {
           {isFetching ? (
             <Loader />
           ) : data.count ? (
-            data.results.map((item) => <Item key={item.id} {...item} />)
+            data.results.map((item) => <Card key={item.id} {...item} />)
           ) : (
             <NoResults />
           )}

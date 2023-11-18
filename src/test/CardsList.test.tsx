@@ -1,10 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import ContentItems from '../components/ContentItems/ContentItems.js';
+import CardsList from '../components/CardsList/CardsList.js';
 import { RouterContextComponent } from './helpers/Routers.js';
 import { Provider } from 'react-redux';
 import { mockStore } from './mocks/mockStore.js';
+
 let url = ``;
 
 vi.mock('../api/apiClient.ts', () => ({
@@ -22,13 +23,13 @@ describe('Tests for the Card List component:', () => {
     render(
       RouterContextComponent(
         <Provider store={mockStore}>
-          <ContentItems />
+          <CardsList />
         </Provider>
       )
     );
 
     await waitFor(async () => {
-      const cards = await screen.findAllByTestId('cardItem');
+      const cards = await screen.findAllByTestId('card');
       expect(cards).toHaveLength(10);
     });
   });
@@ -39,13 +40,13 @@ describe('Tests for the Card List component:', () => {
     render(
       RouterContextComponent(
         <Provider store={mockStore}>
-          <ContentItems />
+          <CardsList />
         </Provider>
       )
     );
 
     await waitFor(async () => {
-      const cards = await screen.findAllByTestId('cardItem');
+      const cards = await screen.findAllByTestId('card');
       expect(cards).toHaveLength(20);
     });
   });
@@ -56,7 +57,7 @@ describe('Tests for the Card List component:', () => {
     render(
       RouterContextComponent(
         <Provider store={mockStore}>
-          <ContentItems />
+          <CardsList />
         </Provider>
       )
     );

@@ -1,4 +1,4 @@
-import { AppContextProps, DetailsItem, NavData } from '../types';
+import { AppContextProps, DetailedCardResponse, NavData } from '../types';
 
 const initialResponse = {
   user_platforms: false,
@@ -16,7 +16,7 @@ const initialNavData: NavData = {
   name: ''
 };
 
-const initialItemData: DetailsItem = {
+const initialSingleCardData: DetailedCardResponse = {
   reddit_description: '',
   background_image: '',
   metacritic_url: '',
@@ -32,8 +32,13 @@ const initialItemData: DetailsItem = {
 };
 
 const initialAppContext: AppContextProps = {
-  setSingleGameData: (initialItemData: DetailsItem) => initialItemData,
-  singleGameData: <DetailsItem>{}
+  setSingleGameData: (initialItemData: DetailedCardResponse) => initialItemData,
+  singleGameData: <DetailedCardResponse>{}
 };
 
-export { initialResponse, initialNavData, initialAppContext, initialItemData };
+export {
+  initialResponse,
+  initialNavData,
+  initialAppContext,
+  initialSingleCardData
+};

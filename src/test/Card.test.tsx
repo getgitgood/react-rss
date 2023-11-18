@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { RouterContextComponent } from './helpers/Routers';
-import ContentItems from '../components/ContentItems/ContentItems';
+import CardsList from '../components/CardsList/CardsList';
 import App from '../App';
 import { Provider } from 'react-redux';
 import { mockStore } from './mocks/mockStore';
@@ -26,7 +26,7 @@ vi.mock('../api/apiClient.ts', () => ({
   })
 }));
 
-const cardContentExample = {
+const cardDetails = {
   title: 'The Legend of Zelda: Ocarina of Time',
   rating: '99 / 100',
   genres: ['Action', 'RPG', 'Adventure']
@@ -43,20 +43,20 @@ describe('Tests for the Card component:', () => {
     render(
       RouterContextComponent(
         <Provider store={mockStore}>
-          <ContentItems />
+          <CardsList />
         </Provider>
       )
     );
 
     await waitFor(async () => {
-      const card = await screen.findByTestId('cardItem');
+      const card = await screen.findByTestId('card');
       expect(card).toBeInTheDocument();
 
-      expect(card).toHaveTextContent(cardContentExample.title);
+      expect(card).toHaveTextContent(cardDetails.title);
 
-      expect(card).toHaveTextContent(cardContentExample.rating);
+      expect(card).toHaveTextContent(cardDetails.rating);
 
-      cardContentExample.genres.forEach((str) => {
+      cardDetails.genres.forEach((str) => {
         expect(card).toHaveTextContent(str);
       });
     });
@@ -66,13 +66,13 @@ describe('Tests for the Card component:', () => {
     render(<App />);
 
     await waitFor(async () => {
-      const card = await screen.findByTestId('cardItem');
+      const card = await screen.findByTestId('card');
       expect(card).toBeInTheDocument();
       await user.click(card);
 
       const details = await screen.findByTestId('details');
       expect(details).toBeInTheDocument();
-      expect(details).toHaveTextContent(cardContentExample.title);
+      expect(details).toHaveTextContent(cardDetails.title);
     });
   });
 
@@ -81,9 +81,9 @@ describe('Tests for the Card component:', () => {
 
     render(<App />);
 
-    await waitFor(async () => expect(fetchSpy).toBeCalled());
+    await waitFor(async () => expect(fetchSpy).toHaveBeenCalled());
     await waitFor(async () => {
-      const card = await screen.findByTestId('cardItem');
+      const card = await screen.findByTestId('card');
       await user.click(card);
     });
   });
