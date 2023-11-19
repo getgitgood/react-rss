@@ -4,7 +4,7 @@ import * as mockData from './responses';
 export const handlers = [
   http.get(`https://rawg.io/api/games`, async ({ request }) => {
     const url = new URL(request.url);
-    const search = url.searchParams.get('game');
+    const search = url.searchParams.get('search');
     const param =
       url.searchParams.get('page_size') ??
       url.searchParams.get('name') ??

@@ -1,32 +1,13 @@
 import {
-  render,
   screen,
   waitFor,
   waitForElementToBeRemoved
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { afterEach, describe, it, vi } from 'vitest';
-import { RouterContextComponent } from './helpers/Routers';
-import Details from '../components/Details/Details';
+import { describe, it } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { Provider } from 'react-redux';
-import { mockStore } from './helpers/mocks/mockStore';
-
-const id = 'https://rawg.io/api/games?game=specific_game&name=zelda';
-
-vi.mock('../api/apiClient.ts', async () => {
-  const actual = await vi.importActual<typeof import('../api/apiClient')>(
-    '../api/apiClient.ts'
-  );
-  return {
-    ...actual,
-    makeDetailsRequest: vi.fn(async () => {
-      const request = await fetch(id);
-      const response = await request.json();
-      return response;
-    })
-  };
-});
+import App from '../App';
+import { renderWithProviders } from './helpers/renderWithProviders';
 
 const detailedCard = {
   title: 'The Legend of Zelda: Ocarina of Time',
@@ -36,31 +17,29 @@ const detailedCard = {
 };
 
 describe('Tests for the Detailed Card component:', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it('Check that a loading indicator is displayed while fetching data', async () => {
-    render(
-      RouterContextComponent(
-        <Provider store={mockStore}>
-          <Details />
-        </Provider>
-      )
-    );
+    const preloadedState = {
+      userInputs: {
+        searchStr: 'specific_game',
+        pageSize: '1'
+      },
+      id: 25097
+    };
+    renderWithProviders(<App />, { preloadedState });
 
     const loader = screen.getByTestId('loader');
     await waitForElementToBeRemoved(loader);
   });
 
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
-    render(
-      RouterContextComponent(
-        <Provider store={mockStore}>
-          <Details />
-        </Provider>
-      )
-    );
+    const preloadedState = {
+      userInputs: {
+        searchStr: 'specific_game',
+        pageSize: '1'
+      },
+      id: 25097
+    };
+    renderWithProviders(<App />, { preloadedState });
     await waitFor(() => {
       const details = screen.getByTestId('details');
       expect(details).toBeInTheDocument();
@@ -71,13 +50,14 @@ describe('Tests for the Detailed Card component:', () => {
   });
 
   it('Ensure that clicking the close button hides the component.', async () => {
-    render(
-      RouterContextComponent(
-        <Provider store={mockStore}>
-          <Details />
-        </Provider>
-      )
-    );
+    const preloadedState = {
+      userInputs: {
+        searchStr: 'specific_game',
+        pageSize: '1'
+      },
+      id: 25097
+    };
+    renderWithProviders(<App />, { preloadedState });
     const user = userEvent.setup();
 
     await waitFor(async () => {

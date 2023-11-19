@@ -3,10 +3,9 @@ import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CreateContextMemoryRouter } from './helpers/Routers';
 import { userEvent } from '@testing-library/user-event';
 import { vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import { screen } from '@testing-library/react';
 import App from '../App';
-import { mockStore } from './helpers/mocks/mockStore';
+import { renderWithProviders } from './helpers/renderWithProviders';
 
 const user = userEvent.setup();
 
@@ -38,11 +37,14 @@ describe('Tests for the Search component:', () => {
   });
 
   it('Check that the component retrieves the value from the local storage upon mounting', async () => {
-    render(
-      <Provider store={mockStore}>
-        <App />
-      </Provider>
-    );
+    const preloadedState = {
+      userInputs: {
+        searchStr: 'specific_game',
+        pageSize: '1'
+      },
+      id: 25097
+    };
+    renderWithProviders(<App />, { preloadedState });
     expect(window.localStorage.getItem).toHaveBeenCalled();
   });
 });

@@ -7,7 +7,8 @@ import { AppContextProvider } from '../../components/Context/Context';
 import { ReactNode } from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { mockStore } from './mocks/mockStore';
+import { setupStore } from '../../store';
+const store = setupStore();
 
 const RouterContextComponent = (children: ReactNode) => {
   return (
@@ -37,7 +38,7 @@ const CreateContextMemoryRouter = (
   );
 
   return render(
-    <Provider store={mockStore}>
+    <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
   );

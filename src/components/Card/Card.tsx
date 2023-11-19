@@ -1,12 +1,20 @@
+import { singleCardIdUpdated } from '../../features/id/cardIdSlice';
+import { useAppDispatch } from '../../hooks';
 import { SingleCardResponse } from '../../types';
 import classes from './Card.module.scss';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Card(props: SingleCardResponse) {
   const { id, name, metacritic, genres, background_image } = props;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const dispatchId = () => {
+    dispatch(singleCardIdUpdated(id));
+    navigate(`&item=${id}`);
+  };
 
   return (
-    <Link to={`&item=${id}`} className={classes.item} data-testid="card">
+    <div onClick={dispatchId} className={classes.item} data-testid="card">
       <div className={classes.item_image_wrapper}>
         <img
           className={classes.item_image}
@@ -38,6 +46,6 @@ export default function Card(props: SingleCardResponse) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

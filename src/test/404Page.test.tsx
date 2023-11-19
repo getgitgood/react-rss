@@ -1,12 +1,9 @@
 import '@testing-library/jest-dom';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Page404 from '../layouts/Page404/Page404';
 import App from '../App';
 import { vi } from 'vitest';
-import { Provider } from 'react-redux';
-import { mockStore } from './helpers/mocks/mockStore';
+import { renderWithProviders } from './helpers/renderWithProviders';
 
 const url = 'https://rawg.io/api/games?game=game20&page_size=10';
 
@@ -20,24 +17,14 @@ vi.mock('../api/apiClient.ts', () => ({
 
 describe('404 Page component:', () => {
   it('Ensure that the 404 page is displayed when navigating to an invalid route', async () => {
-    const router = createMemoryRouter(
-      [
-        {
-          path: '/',
-          element: <App />
-        },
-        {
-          path: '*',
-          element: <Page404 />
-        }
-      ],
-      { initialEntries: ['/somebadpath'] }
-    );
-    render(
-      <Provider store={mockStore}>
-        <RouterProvider router={router} />
-      </Provider>
-    );
+    const preloadedState = {
+      userInputs: {
+        searchStr: 'specific_game',
+        pageSize: '1'
+      },
+      id: 25097
+    };
+    renderWithProviders(<App />, { preloadedState });
     expect(screen.queryByTestId('page-404')).toBeInTheDocument();
   });
 

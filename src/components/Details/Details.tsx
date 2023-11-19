@@ -1,10 +1,10 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import classes from './Details.module.scss';
 import { MouseEvent, useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
 import { errorMessageMiddleware, removeTags } from '../../utils/helpers';
 import { changeClassName } from '../../utils/helpers';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useGetGameByIdQuery } from '../../features/api/apiSlice';
 import { singleCardUpdated } from '../../features/cards/singleCardSlice';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
@@ -15,9 +15,8 @@ export default function Details() {
   const [isOpen, setIsOpen] = useState(true);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
-
-  const { data, isFetching, isError, error } = useGetGameByIdQuery({ id });
+  const id = useAppSelector((state) => state.id);
+  const { data, isFetching, isError, error } = useGetGameByIdQuery(id);
 
   useEffect(() => {
     dispatch(detailsLoadingUpdated(isFetching));

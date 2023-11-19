@@ -1,31 +1,25 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import CardsList from '../components/CardsList/CardsList.js';
-import { RouterContextComponent } from './helpers/Routers.js';
-import { Provider } from 'react-redux';
-import { mockStore } from './helpers/mocks/mockStore.js';
-
-let url = ``;
-
-vi.mock('../api/apiClient.ts', () => ({
-  makeFetchRequest: vi.fn(async () => {
-    const request = await fetch(`${url}`);
-    const response = await request.json();
-    return response;
-  })
-}));
+import { renderWithProviders } from './helpers/renderWithProviders.js';
+import * as dummies from './helpers/mocks/responses.js';
+import serverUse from './helpers/serverUse.js';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Tests for the Card List component:', () => {
   it('Verify that the component renders the specified number of cards (10)', async () => {
-    url = 'https://rawg.io/api/games?game=game10&page_size=10';
-
-    render(
-      RouterContextComponent(
-        <Provider store={mockStore}>
-          <CardsList />
-        </Provider>
-      )
+    const preloadedState = {
+      userInputs: {
+        searchStr: 'game10',
+        pageSize: '10'
+      }
+    };
+    renderWithProviders(
+      <MemoryRouter>
+        <CardsList />
+      </MemoryRouter>,
+      { preloadedState }
     );
 
     await waitFor(async () => {
@@ -35,16 +29,18 @@ describe('Tests for the Card List component:', () => {
   });
 
   it('Verify that the component renders the specified number of cards (20)', async () => {
-    url = 'https://rawg.io/api/games?game=game20&page_size=20';
-
-    render(
-      RouterContextComponent(
-        <Provider store={mockStore}>
-          <CardsList />
-        </Provider>
-      )
+    const preloadedState = {
+      userInputs: {
+        searchStr: 'game20&20',
+        pageSize: '20'
+      }
+    };
+    renderWithProviders(
+      <MemoryRouter>
+        <CardsList />
+      </MemoryRouter>,
+      { preloadedState }
     );
-
     await waitFor(async () => {
       const cards = await screen.findAllByTestId('card');
       expect(cards).toHaveLength(20);
@@ -52,15 +48,9 @@ describe('Tests for the Card List component:', () => {
   });
 
   it('Check that an appropriate message is displayed if no cards are present.', async () => {
-    url = `https://rawg.io/api/games?game=nothing&page_size=whatever`;
+    serverUse(dummies.noResults, 200);
 
-    render(
-      RouterContextComponent(
-        <Provider store={mockStore}>
-          <CardsList />
-        </Provider>
-      )
-    );
+    renderWithProviders(<CardsList />);
 
     await waitFor(async () => {
       const notFoundPage = screen.getByTestId('no-results');

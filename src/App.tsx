@@ -16,10 +16,12 @@ import ErrorPage from './layouts/ErrorPage/ErrorPage';
 import { AppContextProvider } from './components/Context/Context';
 import Page404 from './layouts/Page404/Page404';
 
-import { store } from './store';
+import { setupStore } from './store';
 import { Provider } from 'react-redux';
 
 const initialSearch = localStorage.getItem('searchStr') || 'all';
+
+const store = setupStore();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
