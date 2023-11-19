@@ -1,35 +1,27 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import { vi } from 'vitest';
-import { renderWithProviders } from './helpers/renderWithProviders';
-
-const url = 'https://rawg.io/api/games?game=game20&page_size=10';
-
-vi.mock('../api/apiClient.ts', () => ({
-  makeFetchRequest: vi.fn(async () => {
-    const request = await fetch(`${url}`);
-    const response = await request.json();
-    return response;
-  })
-}));
+import {
+  renderWithProviders,
+  renderWithProvidersAndRouter
+} from './helpers/renderWithProviders';
+import Page404 from '../layouts/Page404/Page404';
+import { server } from './helpers/mocks/server';
 
 describe('404 Page component:', () => {
   it('Ensure that the 404 page is displayed when navigating to an invalid route', async () => {
-    const preloadedState = {
-      userInputs: {
-        searchStr: 'specific_game',
-        pageSize: '1'
-      },
-      id: 25097
-    };
-    renderWithProviders(<App />, { preloadedState });
+    renderWithProvidersAndRouter(
+      {},
+      [<App key={1} />, <Page404 key={2} />],
+      ['/somebadpath', '*']
+    );
     expect(screen.queryByTestId('page-404')).toBeInTheDocument();
+    server.close();
   });
 
   it('Ensure that the 404 page is displayed when navigating to an invalid route via button click', async () => {
-    render(<App />);
+    renderWithProviders(<App />);
 
     const throwButton = screen.getByTestId('throw404');
     expect(throwButton).toBeInTheDocument();
@@ -39,5 +31,6 @@ describe('404 Page component:', () => {
 
     await user.click(throwButton);
     expect(screen.queryByTestId('page-404')).toBeInTheDocument();
+    server.close();
   });
 });

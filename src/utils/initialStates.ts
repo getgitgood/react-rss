@@ -1,16 +1,9 @@
-import { AppContextProps, DetailedCardResponse, NavData } from '../types';
+import { DetailedCardResponse } from '../types';
 
 const initialResponse = {
   user_platforms: false,
   previous: null,
   results: [],
-  next: null,
-  count: 0,
-  name: ''
-};
-
-const initialNavData: NavData = {
-  previous: null,
   next: null,
   count: 0,
   name: ''
@@ -31,14 +24,4 @@ const initialSingleCardData: DetailedCardResponse = {
   id: 0
 };
 
-const initialAppContext: AppContextProps = {
-  setSingleGameData: (initialItemData: DetailedCardResponse) => initialItemData,
-  singleGameData: <DetailedCardResponse>{}
-};
-
-export {
-  initialResponse,
-  initialNavData,
-  initialAppContext,
-  initialSingleCardData
-};
+export { initialResponse, initialSingleCardData };

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { RootState, setupStore } from '../../store';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { PreloadedState } from '@reduxjs/toolkit';
+import { MemoryRouterWrapper } from './Routers';
 
 export function renderWithProviders(
   ui: ReactElement,
@@ -23,23 +24,23 @@ export function renderWithProviders(
 }
 
 export function renderWithProvidersAndRouter(
-  ui: ReactElement,
   {
     preloadedState = {} as MockPreloadState,
-    store = setupStore(preloadedState),
-    ...renderOptions
-  } = {}
+    store = setupStore(preloadedState)
+  } = {},
+  [...args]: ReactNode[],
+  initialEntries?: string[]
 ) {
   setupListeners(store.dispatch);
-
-  function Wrapper({ children }: { children: ReactNode }) {
-    return <Provider store={store}>{children}</Provider>;
+  const router = MemoryRouterWrapper([...args], initialEntries);
+  function Wrapper() {
+    return <Provider store={store}>{router}</Provider>;
   }
 
-  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+  return { store, ...render(Wrapper()) };
 }
 
 export type MockPreloadState = Pick<
   PreloadedState<RootState>,
-  'userInputs' | 'singleCard'
+  'userInputs' | 'singleCard' | 'cardsList' | 'id'
 >;

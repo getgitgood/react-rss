@@ -5,7 +5,7 @@ import {
   DetailedCardResponse,
   SingleCardQueryFn
 } from '../../types';
-const BASE_URL = import.meta.env.VITE_RESOURCE_URL;
+const BASE_URL = 'https://rawg.io/api/games';
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export const apiSlice = createApi({

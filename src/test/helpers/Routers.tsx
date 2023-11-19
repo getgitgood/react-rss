@@ -1,47 +1,27 @@
-import {
-  MemoryRouter,
-  RouterProvider,
-  createMemoryRouter
-} from 'react-router-dom';
-import { AppContextProvider } from '../../components/Context/Context';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { ReactNode } from 'react';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { setupStore } from '../../store';
-const store = setupStore();
 
-const RouterContextComponent = (children: ReactNode) => {
-  return (
-    <MemoryRouter>
-      <AppContextProvider>{children}</AppContextProvider>
-    </MemoryRouter>
-  );
-};
-
-const CreateContextMemoryRouter = (
+const MemoryRouterWrapper = (
   [...args]: ReactNode[],
+  [...entries] = ['/', '*'],
   initialEntry = '/'
 ) => {
   const [arg1, arg2] = [...args];
-  const router = createMemoryRouter(
-    [
-      {
-        path: '/',
-        element: arg1
-      },
-      {
-        path: '*',
-        element: arg2 ?? <div />
-      }
-    ],
-    { initialEntries: [initialEntry] }
-  );
+  const [entry1, entry2] = [...entries];
+  const routes = [
+    {
+      path: entry1,
+      element: arg1
+    },
+    {
+      path: entry2,
+      element: arg2 ?? <div />
+    }
+  ];
 
-  return render(
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  );
+  const router = createMemoryRouter(routes, { initialEntries: [initialEntry] });
+
+  return <RouterProvider router={router} />;
 };
 
-export { RouterContextComponent, CreateContextMemoryRouter };
+export { MemoryRouterWrapper };

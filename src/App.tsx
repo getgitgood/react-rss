@@ -13,15 +13,9 @@ import { RootLayout } from './layouts/Root/RootLayout';
 import CardsList from './components/CardsList/CardsList';
 import Details from './components/Details/Details';
 import ErrorPage from './layouts/ErrorPage/ErrorPage';
-import { AppContextProvider } from './components/Context/Context';
 import Page404 from './layouts/Page404/Page404';
 
-import { setupStore } from './store';
-import { Provider } from 'react-redux';
-
 const initialSearch = localStorage.getItem('searchStr') || 'all';
-
-const store = setupStore();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,11 +35,5 @@ const router = createBrowserRouter(
 );
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <AppContextProvider>
-        <RouterProvider router={router} />
-      </AppContextProvider>
-    </Provider>
-  );
+  return <RouterProvider router={router} />;
 }

@@ -8,6 +8,8 @@ import { describe, it } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithProviders } from './helpers/renderWithProviders';
+import Details from '../components/Details/Details';
+import { MemoryRouter } from 'react-router-dom';
 
 const detailedCard = {
   title: 'The Legend of Zelda: Ocarina of Time',
@@ -22,8 +24,7 @@ describe('Tests for the Detailed Card component:', () => {
       userInputs: {
         searchStr: 'specific_game',
         pageSize: '1'
-      },
-      id: 25097
+      }
     };
     renderWithProviders(<App />, { preloadedState });
 
@@ -33,13 +34,16 @@ describe('Tests for the Detailed Card component:', () => {
 
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
     const preloadedState = {
-      userInputs: {
-        searchStr: 'specific_game',
-        pageSize: '1'
-      },
-      id: 25097
+      id: {
+        id: '25097'
+      }
     };
-    renderWithProviders(<App />, { preloadedState });
+    renderWithProviders(
+      <MemoryRouter>
+        <Details />
+      </MemoryRouter>,
+      { preloadedState }
+    );
     await waitFor(() => {
       const details = screen.getByTestId('details');
       expect(details).toBeInTheDocument();
@@ -51,13 +55,16 @@ describe('Tests for the Detailed Card component:', () => {
 
   it('Ensure that clicking the close button hides the component.', async () => {
     const preloadedState = {
-      userInputs: {
-        searchStr: 'specific_game',
-        pageSize: '1'
-      },
-      id: 25097
+      id: {
+        id: '25097'
+      }
     };
-    renderWithProviders(<App />, { preloadedState });
+    renderWithProviders(
+      <MemoryRouter>
+        <Details />
+      </MemoryRouter>,
+      { preloadedState }
+    );
     const user = userEvent.setup();
 
     await waitFor(async () => {

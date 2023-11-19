@@ -36,14 +36,14 @@ export const handlers = [
           status: 200
         });
       }
-      case 'specific_game&zelda': {
-        return new Response(JSON.stringify(mockData.specificGame), {
-          status: 200
-        });
-      }
       default: {
         return new Response(JSON.stringify('nothing'), { status: 404 });
       }
     }
+  }),
+  http.get(`https://rawg.io/api/games/25097`, async () => {
+    return new Response(JSON.stringify(mockData.specificGame), {
+      status: 200
+    });
   })
 ];

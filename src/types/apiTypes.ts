@@ -1,19 +1,11 @@
-export interface ApiResponse extends NavData {
+export interface ApiResponse {
   results: SingleCardResponse[] | [];
   user_platforms: boolean;
-}
-
-export type NavData = {
   count: number;
   next: string | null;
   previous: string | null;
   name: string;
-};
-
-export type FetchParams = {
-  queryStr: string;
-  pageNumber: string;
-};
+}
 
 export interface SingleCardResponse extends Genres {
   description: string;
@@ -39,10 +31,6 @@ type Genres = {
 
 interface Platforms<T> {
   platform: T;
-}
-
-export interface FetchCardsHelper extends FetchParams {
-  pageSize: string;
 }
 
 export type CardsListQueryFn = {
