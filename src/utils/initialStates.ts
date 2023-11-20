@@ -1,6 +1,6 @@
-import { ApiResponse, AppContextProps, DetailsItem, NavData } from '../types';
+import { DetailedCardResponse } from '../types';
 
-const initialResponse: ApiResponse = {
+const initialResponse = {
   user_platforms: false,
   previous: null,
   results: [],
@@ -9,14 +9,7 @@ const initialResponse: ApiResponse = {
   name: ''
 };
 
-const initialNavData: NavData = {
-  previous: null,
-  next: null,
-  count: 0,
-  name: ''
-};
-
-const initialItemData: DetailsItem = {
+const initialSingleCardData: DetailedCardResponse = {
   reddit_description: '',
   background_image: '',
   metacritic_url: '',
@@ -31,16 +24,4 @@ const initialItemData: DetailsItem = {
   id: 0
 };
 
-const initialAppContext: AppContextProps = {
-  setItemData: (initialItemData: DetailsItem) => initialItemData,
-  handleLimitChange: (selectedLimit: string) => selectedLimit,
-  setKeyword: (newKeyword: string) => newKeyword,
-  setData: (initialResponse) => initialResponse,
-  setLimit: (newLimit: string) => newLimit,
-  itemData: <DetailsItem>{},
-  data: initialResponse,
-  keyword: '',
-  limit: ''
-};
-
-export { initialResponse, initialNavData, initialAppContext, initialItemData };
+export { initialResponse, initialSingleCardData };

@@ -1,34 +1,29 @@
-import { useNavigate, useParams } from 'react-router-dom';
-
-import { makeDetailsRequest } from '../../api/apiClient';
+import { useNavigate } from 'react-router-dom';
 import classes from './Details.module.scss';
-import { MouseEvent, useContext, useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
-import { removeTags } from '../../utils/helpers';
-import platformsSlugData from '../../utils/platformsSlugData';
-import { AppContext } from '../Context/Context';
+import { errorMessageMiddleware, removeTags } from '../../utils/helpers';
+import { changeClassName } from '../../utils/helpers';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useGetGameByIdQuery } from '../../features/api/apiSlice';
+import { singleCardUpdated } from '../../features/cards/singleCardSlice';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import ErrorPage from '../../layouts/ErrorPage/ErrorPage';
+import { detailsLoadingUpdated } from '../../features/loadings/loadersSlice';
 
 export default function Details() {
-  const { itemData, setItemData } = useContext(AppContext);
-  const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
-  const { cardId } = useParams();
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const id = useAppSelector((state) => state.id);
+  const { data, isFetching, isError, error } = useGetGameByIdQuery(id);
+
   useEffect(() => {
-    const itemLoader = async () => {
-      try {
-        setIsLoading(true);
-        const itemData = await makeDetailsRequest(cardId);
-        setIsLoading(false);
-        setItemData(itemData);
-      } catch (e) {
-        setIsLoading(false);
-        throw e;
-      }
-    };
-    itemLoader();
-  }, [cardId, setItemData]);
+    dispatch(detailsLoadingUpdated(isFetching));
+    if (data) {
+      dispatch(singleCardUpdated(data));
+    }
+  }, [dispatch, isFetching, data, isError, error]);
 
   const closeDetails = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
@@ -37,63 +32,65 @@ export default function Details() {
     }
   };
 
-  const changeClassName = (slug: string, classes: Record<string, string>) => {
-    const platformsSlug = platformsSlugData;
-    const currentClassName = platformsSlug[slug];
+  if (isError && 'status' in error && error.status !== 404) {
+    const message = errorMessageMiddleware(error as FetchBaseQueryError);
+    return <ErrorPage message={message} />;
+  }
 
-    return `${classes.platform_logo} ${currentClassName}`;
-  };
+  if (isFetching) {
+    return (
+      <div className={classes.overlay} onClick={closeDetails}>
+        <div className={classes.details}>
+          <Loader />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={classes.overlay} onClick={closeDetails}>
       <div className={classes.details}>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          isOpen && (
-            <>
-              <div className={classes.container} data-testid="details">
-                <div
-                  onClick={closeDetails}
-                  className={classes.exit_button}
-                  data-testid="exit_btn"
-                />
-                <div className={classes.image_container}>
-                  <img
-                    className={classes.image}
-                    src={itemData.background_image || '/fallback.png'}
-                    alt={`${itemData.name}_image`}
-                  />
-                </div>
-                <div className={classes.text_content}>
-                  <h2>{itemData.name}</h2>
-                  <h3>Description:</h3>
-                  <p>
-                    {removeTags(itemData.description) ||
-                      'Description not provided'}
-                  </p>
-                  <h3>Released: {itemData.released || 'No data availiable'}</h3>
-                  <div className={`${classes.platforms_wrapper}`}>
-                    {itemData.platforms &&
-                      itemData.platforms.map((platform) => {
-                        const currentClassName = changeClassName(
-                          platform.platform.slug,
-                          classes
-                        );
+        {isOpen && (
+          <div className={classes.container} data-testid="details">
+            <div
+              onClick={closeDetails}
+              className={classes.exit_button}
+              data-testid="exit_btn"
+            />
+            <div className={classes.image_container}>
+              <img
+                className={classes.image}
+                src={data?.background_image || '/fallback.png'}
+                alt={`${data?.name}_image`}
+              />
+            </div>
+            <div className={classes.text_content}>
+              <h2>{data?.name}</h2>
+              <h3>Description:</h3>
+              <p>
+                {data?.description
+                  ? removeTags(data?.description)
+                  : 'Description not provided'}
+              </p>
+              <h3>Released: {data?.released || 'No data available'}</h3>
+              <div className={`${classes.platforms_wrapper}`}>
+                {data?.platforms?.map((platform) => {
+                  const currentClassName = changeClassName(
+                    platform.platform.slug,
+                    classes
+                  );
 
-                        return (
-                          <div
-                            className={currentClassName}
-                            data-platform={platform.platform.slug}
-                            key={platform.platform.id}
-                          />
-                        );
-                      })}
-                  </div>
-                </div>
+                  return (
+                    <div
+                      className={currentClassName}
+                      data-platform={platform.platform.slug}
+                      key={platform.platform.id}
+                    />
+                  );
+                })}
               </div>
-            </>
-          )
+            </div>
+          </div>
         )}
       </div>
     </div>

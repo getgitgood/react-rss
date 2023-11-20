@@ -1,19 +1,23 @@
-import { ChangeEvent, useContext } from 'react';
-import { AppContext } from '../Context/Context';
+import { ChangeEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { pageSizeUpdated } from '../../features/userInputs/userInputsSlice';
 
 export default function SelectInput(formRef: React.RefObject<HTMLFormElement>) {
-  const { handleLimitChange, limit } = useContext(AppContext);
+  const { pageSize } = useAppSelector((state) => state.userInputs);
+  const dispatch = useAppDispatch();
   const changeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    handleLimitChange(e.target.value);
+    const pageSize = e.target.value;
+    localStorage.setItem('pageSize', pageSize);
+    dispatch(pageSizeUpdated(pageSize));
     formRef.current?.submit();
   };
 
   return (
     <select
       onChange={changeHandler}
-      name="limit"
+      name="pageSize"
       aria-label="items per page"
-      value={limit}
+      value={pageSize}
       data-testid={'count'}
     >
       <option value={'10'}>10</option>
