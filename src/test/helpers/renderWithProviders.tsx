@@ -42,5 +42,5 @@ export function renderWithProvidersAndRouter(
 
 export type MockPreloadState = Pick<
   PreloadedState<RootState>,
-  'userInputs' | 'singleCard' | 'cardsList' | 'id'
+  'userInputs' | 'cards'
 >;

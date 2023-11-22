@@ -4,8 +4,7 @@ import { useAppSelector } from '../../hooks';
 
 export default function Pagination() {
   const { searchStr } = useAppSelector((state) => state.userInputs);
-  const cardsList = useAppSelector((state) => state.cardsList);
-  const { next, previous } = cardsList;
+  const { next, previous } = useAppSelector((state) => state.cards.cardsList);
   const { page } = useParams();
   const pageNumber = Number(page) || 1;
 

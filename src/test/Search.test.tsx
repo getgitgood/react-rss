@@ -4,6 +4,7 @@ import { userEvent } from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { renderWithProvidersAndRouter } from './helpers/renderWithProviders';
+import setUserInputState from './helpers/preloadedStates';
 
 const user = userEvent.setup();
 
@@ -35,12 +36,10 @@ describe('Tests for the Search component:', () => {
   });
 
   it('Check that the component retrieves the value from the local storage upon mounting', async () => {
-    const preloadedState = {
-      userInputs: {
-        searchStr: localStorage.getItem('searchStr') as string,
-        pageSize: '1'
-      }
-    };
+    const preloadedState = setUserInputState(
+      localStorage.getItem('searchStr') as string,
+      '1'
+    );
     renderWithProvidersAndRouter({ preloadedState }, [<SearchForm key={1} />]);
     expect(window.localStorage.getItem).toHaveBeenCalled();
   });

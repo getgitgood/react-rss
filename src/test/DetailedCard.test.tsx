@@ -10,6 +10,9 @@ import App from '../App';
 import { renderWithProviders } from './helpers/renderWithProviders';
 import Details from '../components/Details/Details';
 import { MemoryRouter } from 'react-router-dom';
+import setUserInputState, {
+  preloadedCardsState
+} from './helpers/preloadedStates';
 
 const detailedCard = {
   title: 'The Legend of Zelda: Ocarina of Time',
@@ -20,12 +23,7 @@ const detailedCard = {
 
 describe('Tests for the Detailed Card component:', () => {
   it('Check that a loading indicator is displayed while fetching data', async () => {
-    const preloadedState = {
-      userInputs: {
-        searchStr: 'specific_game',
-        pageSize: '1'
-      }
-    };
+    const preloadedState = setUserInputState('specific_game', '1');
     renderWithProviders(<App />, { preloadedState });
 
     const loader = screen.getByTestId('loader');
@@ -34,7 +32,8 @@ describe('Tests for the Detailed Card component:', () => {
 
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
     const preloadedState = {
-      id: {
+      cards: {
+        ...preloadedCardsState,
         id: '25097'
       }
     };
@@ -44,7 +43,7 @@ describe('Tests for the Detailed Card component:', () => {
       </MemoryRouter>,
       { preloadedState }
     );
-    await waitFor(() => {
+    await waitFor(async () => {
       const details = screen.getByTestId('details');
       expect(details).toBeInTheDocument();
       expect(details).toHaveTextContent(detailedCard.title);
@@ -54,16 +53,10 @@ describe('Tests for the Detailed Card component:', () => {
   });
 
   it('Ensure that clicking the close button hides the component.', async () => {
-    const preloadedState = {
-      id: {
-        id: '25097'
-      }
-    };
     renderWithProviders(
       <MemoryRouter>
         <Details />
-      </MemoryRouter>,
-      { preloadedState }
+      </MemoryRouter>
     );
     const user = userEvent.setup();
 

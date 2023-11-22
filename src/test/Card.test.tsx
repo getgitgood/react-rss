@@ -11,6 +11,7 @@ import { MemoryRouter } from 'react-router-dom';
 import Details from '../components/Details/Details';
 import { vi } from 'vitest';
 import * as spyOnIdQuery from '../features/api/apiSlice';
+import setUserInputState from './helpers/preloadedStates';
 
 const cardDetails = {
   title: 'The Legend of Zelda: Ocarina of Time',
@@ -22,12 +23,8 @@ describe('Tests for the Card component:', () => {
   const user = userEvent.setup();
 
   it('Ensure that the card component renders the relevant card data', async () => {
-    const preloadedState = {
-      userInputs: {
-        searchStr: 'specific_game',
-        pageSize: '1'
-      }
-    };
+    const preloadedState = setUserInputState('specific_game', '1');
+
     renderWithProviders(
       <MemoryRouter>
         <CardsList />
@@ -50,12 +47,8 @@ describe('Tests for the Card component:', () => {
   });
 
   it('Validate that clicking on a card opens a detailed card component', async () => {
-    const preloadedState = {
-      userInputs: {
-        searchStr: 'specific_game',
-        pageSize: '1'
-      }
-    };
+    const preloadedState = setUserInputState('specific_game', '1');
+
     renderWithProvidersAndRouter({ preloadedState }, [
       <CardsList key={1} />,
       <Details key={2} />
@@ -73,12 +66,7 @@ describe('Tests for the Card component:', () => {
 
   it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
     const spy = vi.spyOn(spyOnIdQuery, 'useGetGameByIdQuery');
-    const preloadedState = {
-      userInputs: {
-        searchStr: 'specific_game',
-        pageSize: '1'
-      }
-    };
+    const preloadedState = setUserInputState('specific_game', '1');
 
     renderWithProvidersAndRouter({ preloadedState }, [
       <CardsList key={1} />,

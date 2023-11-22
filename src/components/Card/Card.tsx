@@ -1,4 +1,4 @@
-import { singleCardIdUpdated } from '../../features/id/cardIdSlice';
+import { updateSingleCardId } from '../../features/cards/cardsSlice';
 import { useAppDispatch } from '../../hooks';
 import { SingleCardResponse } from '../../types';
 import classes from './Card.module.scss';
@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom';
 export default function Card(props: SingleCardResponse) {
   const { id, name, metacritic, genres, background_image } = props;
   const dispatch = useAppDispatch();
-  const dispatchId = () => {
-    dispatch(singleCardIdUpdated(id));
+  const setCurrentId = () => {
+    dispatch(updateSingleCardId(id));
   };
 
   return (
     <Link
       to={`&item=${id}`}
-      onClick={dispatchId}
+      onClick={setCurrentId}
       className={classes.item}
       data-testid="card"
     >

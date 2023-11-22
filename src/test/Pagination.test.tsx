@@ -5,6 +5,7 @@ import { describe, it } from 'vitest';
 import { renderWithProviders } from './helpers/renderWithProviders';
 import CardsList from '../components/CardsList/CardsList';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
+import setUserInputState from './helpers/preloadedStates';
 
 const user = userEvent.setup();
 
@@ -15,12 +16,7 @@ const GetCurrentPath = () => {
 
 describe('Tests for the Pagination component:', () => {
   it('Make sure the component updates URL query parameter when page changes.', async () => {
-    const preloadedState = {
-      userInputs: {
-        searchStr: 'game20',
-        pageSize: '20'
-      }
-    };
+    const preloadedState = setUserInputState('game20', '20');
     renderWithProviders(
       <MemoryRouter>
         <CardsList />

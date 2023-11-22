@@ -6,15 +6,16 @@ import PaginationSkeleton from '../../layouts/PaginationSkeleton/PaginationSkele
 import Card from '../Card/Card';
 import NoResults from '../../layouts/NoResults/NoResults';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-
 import { useGetGamesQuery } from '../../features/api/apiSlice';
 import ErrorPage from '../../layouts/ErrorPage/ErrorPage';
-import { cardListUpdated } from '../../features/cards/cardsListSlice';
+import {
+  updateCardsList,
+  updateCardListLoading
+} from '../../features/cards/cardsSlice';
 import { useEffect } from 'react';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { errorMessageMiddleware } from '../../utils/helpers';
 import Page404 from '../../layouts/Page404/Page404';
-import { cardsListLoadingUpdated } from '../../features/loadings/loadersSlice';
 
 export type CustomError = {
   message: string;
@@ -32,9 +33,9 @@ export default function CardsList() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(cardsListLoadingUpdated(isFetching));
+    dispatch(updateCardListLoading(isFetching));
     if (data && !isError) {
-      dispatch(cardListUpdated(data));
+      dispatch(updateCardsList(data));
     }
   }, [dispatch, isFetching, data, isError]);
 

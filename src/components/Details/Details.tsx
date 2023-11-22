@@ -6,22 +6,24 @@ import { errorMessageMiddleware, removeTags } from '../../utils/helpers';
 import { changeClassName } from '../../utils/helpers';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useGetGameByIdQuery } from '../../features/api/apiSlice';
-import { singleCardUpdated } from '../../features/cards/singleCardSlice';
+import {
+  updateSingleCard,
+  updateSingleCardLoading
+} from '../../features/cards/cardsSlice';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import ErrorPage from '../../layouts/ErrorPage/ErrorPage';
-import { detailsLoadingUpdated } from '../../features/loadings/loadersSlice';
 
 export default function Details() {
   const [isOpen, setIsOpen] = useState(true);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const id = useAppSelector((state) => state.id);
-  const { data, isFetching, isError, error } = useGetGameByIdQuery(id);
+  const id = useAppSelector((state) => state.cards.id);
+  const { data, isFetching, isError, error } = useGetGameByIdQuery({ id });
 
   useEffect(() => {
-    dispatch(detailsLoadingUpdated(isFetching));
+    dispatch(updateSingleCardLoading(isFetching));
     if (data) {
-      dispatch(singleCardUpdated(data));
+      dispatch(updateSingleCard(data));
     }
   }, [dispatch, isFetching, data, isError, error]);
 
