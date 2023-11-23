@@ -2,7 +2,7 @@ import { updateSingleCardId } from '../../features/cards/cardsSlice';
 import { useAppDispatch } from '../../hooks';
 import { SingleCardResponse } from '../../types';
 import classes from './Card.module.scss';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function Card(props: SingleCardResponse) {
   const { id, name, metacritic, genres, background_image } = props;
@@ -13,7 +13,7 @@ export default function Card(props: SingleCardResponse) {
 
   return (
     <Link
-      to={`&item=${id}`}
+      href={`&item=${id}`}
       onClick={setCurrentId}
       className={classes.item}
       data-testid="card"

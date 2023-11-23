@@ -1,16 +1,16 @@
 import { MouseEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export default function ErrorButton() {
   const [isError, setError] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
   const clickErrorHandler = () => {
     setError(true);
   };
 
   const clickPage404Handler = (e: MouseEvent) => {
     e.preventDefault();
-    navigate('/someverybadaddress');
+    router.push('/someverybadaddress');
   };
 
   if (isError) {
