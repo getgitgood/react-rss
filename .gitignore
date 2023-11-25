@@ -27,5 +27,4 @@ dist-ssr
 .env
 .eslintignore
 coverage
-
-.netlify
+.next

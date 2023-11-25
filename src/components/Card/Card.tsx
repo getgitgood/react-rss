@@ -1,20 +1,27 @@
-import { updateSingleCardId } from '../../features/cards/cardsSlice';
-import { useAppDispatch } from '../../hooks';
+import { useRouter } from 'next/router';
 import { SingleCardResponse } from '../../types';
 import classes from './Card.module.scss';
 import Link from 'next/link';
 
 export default function Card(props: SingleCardResponse) {
   const { id, name, metacritic, genres, background_image } = props;
-  const dispatch = useAppDispatch();
-  const setCurrentId = () => {
-    dispatch(updateSingleCardId(id));
-  };
 
+  const router = useRouter();
+
+  const { search, page, page_size } = router.query;
   return (
     <Link
-      href={`&item=${id}`}
-      onClick={setCurrentId}
+      href={{
+        pathname: `/`,
+        query: {
+          id: id,
+          search: search,
+          page: page,
+          page_size: page_size || '20'
+        }
+      }}
+      scroll={false}
+      as={`/games/${search || 'all'}?id=${id}`}
       className={classes.item}
       data-testid="card"
     >

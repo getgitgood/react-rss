@@ -1,27 +1,36 @@
 import React from 'react';
 import CardsList from '../components/CardsList/CardsList';
-import { apiSlice } from '../features/api/apiSlice';
+import classes from '../components/CardsList/CardsList.module.scss';
 import { wrapper } from '../store';
-import { ApiResponse } from '../types';
+import { ApiResponse, DetailedCardResponse } from '../types';
+import Details from '../components/Details/Details';
+import fetchServerSideProps from './_utils/fetchServerSideProps';
 
-export default function Index({ gameData }: { gameData: ApiResponse }) {
-  return <CardsList gameData={gameData} />;
+export default function Index({
+  gameData,
+  detailsData
+}: {
+  gameData: ApiResponse;
+  detailsData?: DetailedCardResponse;
+}) {
+  return (
+    <section className={classes.content}>
+      <div className={classes.content_items}>
+        <CardsList gameData={gameData} />
+      </div>
+      {detailsData && <Details detailsData={detailsData} />}
+    </section>
+  );
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    const { data: gameData } = await store.dispatch(
-      apiSlice.endpoints.getGames.initiate({
-        searchStr: '',
-        pageSize: '20',
-        page: '1'
-      })
-    );
-    await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
-
+  (store) => async (context) => {
+    const data = await fetchServerSideProps(store, context);
+    const { gameData, detailsData } = data.props;
     return {
       props: {
-        gameData
+        gameData,
+        detailsData
       }
     };
   }

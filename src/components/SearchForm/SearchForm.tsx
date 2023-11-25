@@ -19,10 +19,9 @@ export function SearchForm() {
     const inputValue = gameInputHandler(e);
     const isEmptySearch = inputValue === '';
     dispatch(updateSearchStr(inputValue));
-    localStorage.setItem('searchStr', localKeyword);
     router.push(
       {
-        pathname: `/games/[search]`,
+        pathname: `/`,
         query: {
           search: inputValue,
           page: '1',

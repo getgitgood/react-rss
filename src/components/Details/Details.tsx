@@ -1,58 +1,42 @@
-import { useNavigate } from 'react-router-dom';
 import classes from './Details.module.scss';
-import { MouseEvent, useEffect, useState } from 'react';
-import Loader from '../Loader/Loader';
-import { errorMessageMiddleware, removeTags } from '../../utils/helpers';
+import { MouseEvent, useState } from 'react';
+import { removeTags } from '../../utils/helpers';
 import { changeClassName } from '../../utils/helpers';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useGetGameByIdQuery } from '../../features/api/apiSlice';
-import {
-  updateSingleCard,
-  updateSingleCardLoading
-} from '../../features/cards/cardsSlice';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import ErrorPage from '../../layouts/ErrorPage/ErrorPage';
+import { DetailedCardResponse } from '../../types';
+import { useRouter } from 'next/router';
 
-export default function Details() {
+export default function Details({
+  detailsData
+}: {
+  detailsData: DetailedCardResponse;
+}) {
   const [isOpen, setIsOpen] = useState(true);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const id = useAppSelector((state) => state.cards.id);
-  const { data, isFetching, isError, error } = useGetGameByIdQuery({ id });
+  const router = useRouter();
 
-  useEffect(() => {
-    dispatch(updateSingleCardLoading(isFetching));
-    if (data) {
-      dispatch(updateSingleCard(data));
-    }
-  }, [dispatch, isFetching, data, isError, error]);
+  const { search, page, page_size } = router.query;
 
   const closeDetails = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
-      navigate('..');
       setIsOpen(false);
+      router.push(
+        {
+          pathname: `/`,
+          query: {
+            search: search || 'all',
+            page: page || '1',
+            page_size: page_size || '20'
+          }
+        },
+        `/games/${search || 'all'}?page=${page || '1'}`,
+        { scroll: false }
+      );
     }
   };
 
-  if (isError && 'status' in error && error.status !== 404) {
-    const message = errorMessageMiddleware(error as FetchBaseQueryError);
-    return <ErrorPage message={message} />;
-  }
-
-  if (isFetching) {
-    return (
+  return (
+    isOpen && (
       <div className={classes.overlay} onClick={closeDetails}>
         <div className={classes.details}>
-          <Loader />
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className={classes.overlay} onClick={closeDetails}>
-      <div className={classes.details}>
-        {isOpen && (
           <div className={classes.container} data-testid="details">
             <div
               onClick={closeDetails}
@@ -62,21 +46,21 @@ export default function Details() {
             <div className={classes.image_container}>
               <img
                 className={classes.image}
-                src={data?.background_image || '/fallback.png'}
-                alt={`${data?.name}_image`}
+                src={detailsData?.background_image || '/fallback.png'}
+                alt={`${detailsData?.name}_image`}
               />
             </div>
             <div className={classes.text_content}>
-              <h2>{data?.name}</h2>
+              <h2>{detailsData?.name}</h2>
               <h3>Description:</h3>
               <p>
-                {data?.description
-                  ? removeTags(data?.description)
+                {detailsData?.description
+                  ? removeTags(detailsData?.description)
                   : 'Description not provided'}
               </p>
-              <h3>Released: {data?.released || 'No data available'}</h3>
+              <h3>Released: {detailsData?.released || 'No data available'}</h3>
               <div className={`${classes.platforms_wrapper}`}>
-                {data?.platforms?.map((platform) => {
+                {detailsData?.platforms?.map((platform) => {
                   const currentClassName = changeClassName(
                     platform.platform.slug,
                     classes
@@ -93,8 +77,8 @@ export default function Details() {
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
-    </div>
+    )
   );
 }

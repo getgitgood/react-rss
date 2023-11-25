@@ -14,7 +14,8 @@ export default function ErrorButton() {
   };
 
   if (isError) {
-    throw new Error('Ooops');
+    router.push('/500');
+    setError(false);
   }
 
   return (

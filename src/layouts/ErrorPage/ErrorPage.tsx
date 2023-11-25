@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import classes from './ErrorPage.module.scss';
 
-export default function ErrorPage(error: Error) {
+export default function ErrorPage({ error }: { error?: Error }) {
   return (
     <div className={classes.error_wrapper} data-testid="error-page">
       <h1 className={classes.error_title}>AN ERROR HAS OCCURRED</h1>

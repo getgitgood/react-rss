@@ -14,7 +14,7 @@ export default function Pagination({ gameData }: { gameData: ApiResponse }) {
       {previous && (
         <Link
           href={{
-            pathname: '/games/[search]',
+            pathname: '/',
             query: {
               search: search,
               page: `${pageNumber - 1}`,
@@ -36,7 +36,7 @@ export default function Pagination({ gameData }: { gameData: ApiResponse }) {
       {next && (
         <Link
           href={{
-            pathname: '/games/[search]',
+            pathname: '/',
             query: {
               search: search,
               page: `${pageNumber + 1}`,

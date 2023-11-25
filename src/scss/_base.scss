@@ -27,9 +27,9 @@ header {
   gap: 1rem;
 }
 
-.error_occured {
-  text-align: center;
-  margin: 1rem 0;
+.loading-overlay {
+  pointer-events: none;
+  background-color: rgba($color: $header-color, $alpha: 0.2);
 }
 
 a {

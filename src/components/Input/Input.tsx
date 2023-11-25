@@ -4,7 +4,6 @@ import { InputProps } from '../../types';
 export default function Input({ setLocalKeyword, localKeyword }: InputProps) {
   const handleLocalInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newKeyword = e.target.value;
-    localStorage.setItem('searchStr', newKeyword);
     setLocalKeyword(newKeyword);
   };
 

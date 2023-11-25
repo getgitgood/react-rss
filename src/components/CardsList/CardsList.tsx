@@ -11,7 +11,7 @@ export type CustomError = {
 
 export default function CardsList({ gameData }: { gameData: ApiResponse }) {
   return (
-    <section className={classes.content}>
+    <>
       <div className={classes.content_items}>
         {gameData.count ? (
           gameData.results.map((item) => <Card key={item.id} {...item} />)
@@ -23,6 +23,6 @@ export default function CardsList({ gameData }: { gameData: ApiResponse }) {
       <div className={classes.pagination_container}>
         <Pagination gameData={gameData} />
       </div>
-    </section>
+    </>
   );
 }

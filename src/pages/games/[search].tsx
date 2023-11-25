@@ -1,33 +1,35 @@
-import { wrapper } from '../../store';
-import { apiSlice } from '../../features/api/apiSlice';
-import { ApiResponse } from '../../types';
-import CardsList from '../../components/CardsList/CardsList';
+import React from 'react';
 
-export default function Page({ gameData }: { gameData: ApiResponse }) {
-  return <CardsList gameData={gameData} />;
+import classes from '../../components/CardsList/CardsList.module.scss';
+import { ApiResponse, DetailedCardResponse } from '../../types';
+import CardsList from '../../components/CardsList/CardsList';
+import Details from '../../components/Details/Details';
+import { wrapper } from '../../store';
+import fetchServerSideProps from '../_utils/fetchServerSideProps';
+
+export default function Games({
+  gameData,
+  detailsData
+}: {
+  gameData: ApiResponse;
+  detailsData?: DetailedCardResponse;
+}) {
+  return (
+    <section className={classes.content}>
+      <CardsList gameData={gameData} />
+      {detailsData && <Details detailsData={detailsData} />}
+    </section>
+  );
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    let search = context?.query.search;
-    const { page, isEmpty, page_size } = context?.query;
-    console.log(context?.query);
-    if (isEmpty === 'true' || (!isEmpty && search === 'all')) {
-      search = '';
-    }
-    const { data: gameData } = await store.dispatch(
-      apiSlice.endpoints.getGames.initiate({
-        searchStr: search as string,
-        pageSize: (page_size as string) || '20',
-        page: page as string
-      })
-    );
-
-    await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
-
+    const data = await fetchServerSideProps(store, context);
+    const { gameData, detailsData } = data.props;
     return {
       props: {
-        gameData
+        gameData,
+        detailsData
       }
     };
   }

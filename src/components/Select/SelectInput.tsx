@@ -7,7 +7,6 @@ export default function SelectInput() {
   const dispatch = useAppDispatch();
   const changeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     const pageSize = e.target.value;
-    localStorage.setItem('pageSize', pageSize);
     dispatch(updatePageSize(pageSize));
   };
 

@@ -8,7 +8,7 @@ import {
 import { HYDRATE } from 'next-redux-wrapper';
 const BASE_URL = 'https://rawg.io/api/games';
 
-const API_KEY = '9f5fcf156e3c425c9c39e0aaab1a182f';
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 export const apiSlice = createApi({
   reducerPath: 'gamesApi',
