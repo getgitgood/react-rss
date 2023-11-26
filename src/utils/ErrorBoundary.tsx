@@ -15,10 +15,6 @@ export default class ErrorBoundary extends Component<
     return { hasError: true, error };
   }
 
-  clickHandler = () => {
-    this.setState({ hasError: false });
-  };
-
   render() {
     if (this.state.error) {
       return <ErrorPage error={this.state.error} />;

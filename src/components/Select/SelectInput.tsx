@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updatePageSize } from '../../features/userInputs/userInputsSlice';
 
 export default function SelectInput() {
-  const { pageSize } = useAppSelector((state) => state.userInputs);
   const dispatch = useAppDispatch();
+  const { pageSize } = useAppSelector((state) => state.userInputs);
   const changeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     const pageSize = e.target.value;
     dispatch(updatePageSize(pageSize));

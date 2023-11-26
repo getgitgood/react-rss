@@ -28,3 +28,4 @@ dist-ssr
 .eslintignore
 coverage
 .next
+src/layouts/PaginationSkeleton

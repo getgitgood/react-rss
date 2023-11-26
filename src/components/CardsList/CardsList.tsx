@@ -4,24 +4,23 @@ import NoResults from '../../layouts/NoResults/NoResults';
 import { ApiResponse } from '../../types';
 import Pagination from '../Pagination/Pagination';
 
-export type CustomError = {
-  message: string;
-  stack: string;
-};
-
-export default function CardsList({ gameData }: { gameData: ApiResponse }) {
+export default function CardsList({
+  cardListData
+}: {
+  cardListData: ApiResponse;
+}) {
   return (
     <>
       <div className={classes.content_items}>
-        {gameData.count ? (
-          gameData.results.map((item) => <Card key={item.id} {...item} />)
+        {cardListData.count ? (
+          cardListData.results.map((item) => <Card key={item.id} {...item} />)
         ) : (
           <NoResults />
         )}
       </div>
 
       <div className={classes.pagination_container}>
-        <Pagination gameData={gameData} />
+        <Pagination cardListData={cardListData} />
       </div>
     </>
   );

@@ -1,5 +1,5 @@
-import { server } from './helpers/mocks/server';
-import { beforeAll, afterAll, afterEach } from 'vitest';
+import { server } from './server/setupServer';
+import { beforeAll, afterAll, afterEach, vi } from 'vitest';
 
 beforeAll(() => {
   server.resetHandlers();
@@ -11,3 +11,16 @@ afterEach(() => {
 });
 
 afterAll(() => server.close());
+
+vi.mock('next/router', () => {
+  return {
+    useRouter: () => ({
+      query: {},
+      push: () => {}
+    })
+  };
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});

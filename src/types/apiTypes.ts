@@ -42,3 +42,8 @@ export type CardsListQueryFn = {
 export type SingleCardQueryFn = {
   id: string | undefined;
 };
+
+export type LayoutProps = {
+  cardListData: ApiResponse;
+  detailsData?: DetailedCardResponse;
+};

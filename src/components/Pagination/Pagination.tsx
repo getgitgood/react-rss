@@ -3,8 +3,12 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ApiResponse } from '../../types';
 
-export default function Pagination({ gameData }: { gameData: ApiResponse }) {
-  const { next, previous } = gameData;
+export default function Pagination({
+  cardListData
+}: {
+  cardListData: ApiResponse;
+}) {
+  const { next, previous } = cardListData;
   const router = useRouter();
   const { search, page, page_size } = router.query;
   const pageNumber = Number(page) || 1;

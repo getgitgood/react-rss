@@ -7,6 +7,7 @@ import Header from '../layouts/Header/Header';
 import ErrorBoundary from '../utils/ErrorBoundary';
 import { NextPage } from 'next';
 import router from 'next/router';
+import Loader from '../components/Loader/Loader';
 
 const store = setupStore();
 
@@ -29,14 +30,13 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [isDebounced, setDebounced]);
 
   return (
-    <Provider store={store}>
-      <ErrorBoundary>
-        <div className={isDebounced ? 'loading-overlay' : ''}>
-          <Header />
-          <Component {...pageProps} />
-        </div>
-      </ErrorBoundary>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        {isDebounced && <Loader />}
+        <Header />
+        <Component {...pageProps} />
+      </Provider>
+    </ErrorBoundary>
   );
 }
 

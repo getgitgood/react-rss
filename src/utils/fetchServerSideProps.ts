@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext, PreviewData } from 'next/types';
-import { AppStore } from '../../store';
+import { AppStore } from '../store';
 import type { NextParsedUrlQuery } from 'next/dist/server/request-meta';
-import { apiSlice } from '../../features/api/apiSlice';
+import { apiSlice } from '../features/api/apiSlice';
 
 export default async function fetchServerSideProps(
   store: AppStore,
@@ -12,7 +12,7 @@ export default async function fetchServerSideProps(
   if (isEmpty === 'true' || (!isEmpty && search === 'all')) {
     search = '';
   }
-  const { data: gameData } = await store.dispatch(
+  const { data: cardListData } = await store.dispatch(
     apiSlice.endpoints.getGames.initiate({
       searchStr: (search as string) || '',
       pageSize: (page_size as string) || '20',
@@ -35,7 +35,7 @@ export default async function fetchServerSideProps(
   await Promise.all(store.dispatch(apiSlice.util.getRunningQueriesThunk()));
   return {
     props: {
-      gameData,
+      cardListData,
       detailsData
     }
   };

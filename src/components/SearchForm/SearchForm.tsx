@@ -1,24 +1,20 @@
 import Button from '../Button/Button';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import Input from '../Input/Input';
 import classes from './SearchForm.module.scss';
 import SelectInput from '../Select/SelectInput';
-import { updateSearchStr } from '../../features/userInputs/userInputsSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useRouter } from 'next/router';
+import { useAppSelector } from '../../hooks';
 
 export function SearchForm() {
-  const { searchStr, pageSize } = useAppSelector((state) => state.userInputs);
-  const [localKeyword, setLocalKeyword] = useState(searchStr);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [localKeyword, setLocalKeyword] = useState('');
+  const { pageSize } = useAppSelector((state) => state.userInputs);
   const router = useRouter();
 
-  const dispatch = useAppDispatch();
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const inputValue = gameInputHandler(e);
     const isEmptySearch = inputValue === '';
-    dispatch(updateSearchStr(inputValue));
     router.push(
       {
         pathname: `/`,
@@ -41,11 +37,7 @@ export function SearchForm() {
   };
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={submitHandler}
-      className={classes.search_form}
-    >
+    <form onSubmit={submitHandler} className={classes.search_form}>
       <Input {...{ setLocalKeyword, localKeyword }} />
       <SelectInput />
       <Button buttonText={'Search'} />
