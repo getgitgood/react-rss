@@ -1,4 +1,4 @@
-export async function redirects() {
+export default async function redirects() {
   return [
     {
       source: '/games',
