@@ -1,4 +1,3 @@
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import platformsSlugData from './platformsSlugData';
 
 export const removeTags = (text: string) => {
@@ -23,22 +22,3 @@ export function changeClassName(slug: string, classes: Record<string, string>) {
 
   return `${classes.platform_logo} ${currentClassName}`;
 }
-
-export const errorMessageMiddleware = (error: FetchBaseQueryError) => {
-  let errorMessage = 'An unknown error occurred';
-  if ('status' in error) {
-    const errorStatus = error.status;
-    switch (errorStatus) {
-      case 'PARSING_ERROR':
-        errorMessage = 'Error while parsing response';
-        break;
-      case 'FETCH_ERROR':
-        errorMessage = 'Network error';
-        break;
-      case 'TIMEOUT_ERROR':
-        errorMessage = 'Timeout error';
-        break;
-    }
-  }
-  return typeof error === 'string' ? error : errorMessage;
-};

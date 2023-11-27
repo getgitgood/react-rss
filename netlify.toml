@@ -1,12 +1,10 @@
 [build]
   command = "npm run build"
-  publish = "dist"
+  publish = ".next"
   functions = "netlify/functions"
 
 [functions]
   node_bundler = "esbuild"
-  [functions.fetchCards]
-  path = "netlify/functions/fetchCards.mts"
 
-  [functions.fetchSingleCard]
-  path = "netlify/functions/fetchSingleCard.mts"
+[[plugins]]
+package = "@netlify/plugin-nextjs"

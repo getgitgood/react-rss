@@ -17,12 +17,12 @@
 .loader {
   box-sizing: content-box;
   position: relative;
-  width: 1em;
-  height: 1em;
+  width: 2em;
+  height: 2em;
   color: inherit;
   vertical-align: middle;
   pointer-events: none;
-  border: 0.2em solid transparent;
+  border: 0.3em solid transparent;
   border-top-color: currentcolor;
   border-radius: 50%;
   animation: 1s loading linear infinite;
@@ -32,9 +32,9 @@
     width: inherit;
     height: inherit;
     position: absolute;
-    top: -0.2em;
-    left: -0.2em;
-    border: 0.2em solid currentcolor;
+    top: -0.3em;
+    left: -0.3em;
+    border: 0.3em solid currentcolor;
     border-radius: 50%;
     opacity: 0.5;
   }

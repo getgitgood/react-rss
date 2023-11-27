@@ -1,15 +1,13 @@
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { pageSizeUpdated } from '../../features/userInputs/userInputsSlice';
+import { updatePageSize } from '../../features/userInputs/userInputsSlice';
 
-export default function SelectInput(formRef: React.RefObject<HTMLFormElement>) {
-  const { pageSize } = useAppSelector((state) => state.userInputs);
+export default function SelectInput() {
   const dispatch = useAppDispatch();
+  const { pageSize } = useAppSelector((state) => state.userInputs);
   const changeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     const pageSize = e.target.value;
-    localStorage.setItem('pageSize', pageSize);
-    dispatch(pageSizeUpdated(pageSize));
-    formRef.current?.submit();
+    dispatch(updatePageSize(pageSize));
   };
 
   return (

@@ -1,23 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  pageSize: localStorage.getItem('pageSize') || '20',
-  searchStr: localStorage.getItem('searchStr') || ''
+  pageSize: '20',
+  searchStr: ''
 };
 
 const userInputsSlice = createSlice({
   name: 'userInputs',
   initialState,
   reducers: {
-    pageSizeUpdated(state, action) {
+    updatePageSize(state, action) {
       state.pageSize = action.payload;
     },
-    searchStrUpdated(state, action) {
+    updateSearchStr(state, action) {
       state.searchStr = action.payload;
     }
   }
 });
 
-export const { searchStrUpdated, pageSizeUpdated } = userInputsSlice.actions;
+export const { updateSearchStr, updatePageSize } = userInputsSlice.actions;
 
 export default userInputsSlice.reducer;

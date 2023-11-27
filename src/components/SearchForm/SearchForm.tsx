@@ -1,30 +1,32 @@
 import Button from '../Button/Button';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import Input from '../Input/Input';
 import classes from './SearchForm.module.scss';
-import { Form, useNavigate } from 'react-router-dom';
 import SelectInput from '../Select/SelectInput';
-import { searchStrUpdated } from '../../features/userInputs/userInputsSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useRouter } from 'next/router';
+import { useAppSelector } from '../../hooks';
 
 export function SearchForm() {
-  const { searchStr } = useAppSelector((state) => state.userInputs);
-  const [localKeyword, setLocalKeyword] = useState(searchStr);
-  const formRef = useRef<HTMLFormElement>(null);
-  const navigate = useNavigate();
-
-  const dispatch = useAppDispatch();
+  const [localKeyword, setLocalKeyword] = useState('');
+  const { pageSize } = useAppSelector((state) => state.userInputs);
+  const router = useRouter();
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const inputValue = gameInputHandler(e);
-    dispatch(searchStrUpdated(inputValue));
-    localStorage.setItem('searchStr', localKeyword);
-    if (inputValue) {
-      navigate(`&game=${inputValue}&page=1`);
-    } else {
-      navigate(`&game=all&page=1`);
-    }
+    const isEmptySearch = inputValue === '';
+    router.push(
+      {
+        pathname: `/`,
+        query: {
+          search: inputValue,
+          page: '1',
+          isEmpty: isEmptySearch,
+          page_size: pageSize
+        }
+      },
+      `/games/${inputValue || 'all'}?page=1`
+    );
   };
 
   const gameInputHandler = (e: FormEvent<HTMLFormElement>): string => {
@@ -35,14 +37,10 @@ export function SearchForm() {
   };
 
   return (
-    <Form
-      ref={formRef}
-      onSubmit={submitHandler}
-      className={classes.search_form}
-    >
+    <form onSubmit={submitHandler} className={classes.search_form}>
       <Input {...{ setLocalKeyword, localKeyword }} />
-      <SelectInput {...formRef} />
+      <SelectInput />
       <Button buttonText={'Search'} />
-    </Form>
+    </form>
   );
 }

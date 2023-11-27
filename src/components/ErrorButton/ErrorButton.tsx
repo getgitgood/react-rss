@@ -1,32 +1,14 @@
-import { MouseEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export default function ErrorButton() {
-  const [isError, setError] = useState(false);
-  const navigate = useNavigate();
-  const clickErrorHandler = () => {
-    setError(true);
-  };
-
-  const clickPage404Handler = (e: MouseEvent) => {
-    e.preventDefault();
-    navigate('/someverybadaddress');
-  };
-
-  if (isError) {
-    throw new Error('Ooops');
-  }
+  const router = useRouter();
 
   return (
     <div>
-      <button type="submit" onClick={clickErrorHandler}>
+      <button type="submit" onClick={() => router.push('/500')}>
         Throw an Error.
       </button>
-      <button
-        type="submit"
-        onClick={clickPage404Handler}
-        data-testid="throw404"
-      >
+      <button type="submit" onClick={() => router.push('/someverybadaddress')}>
         Go to 404 Page.
       </button>
     </div>

@@ -12,5 +12,11 @@ export type InputProps = {
 };
 
 export type ErrorPageProps = {
+  error: Error;
   message?: string;
 };
+
+export interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}

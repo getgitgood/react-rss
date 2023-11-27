@@ -1,20 +1,27 @@
-import { singleCardIdUpdated } from '../../features/id/cardIdSlice';
-import { useAppDispatch } from '../../hooks';
+import { useRouter } from 'next/router';
 import { SingleCardResponse } from '../../types';
 import classes from './Card.module.scss';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function Card(props: SingleCardResponse) {
   const { id, name, metacritic, genres, background_image } = props;
-  const dispatch = useAppDispatch();
-  const dispatchId = () => {
-    dispatch(singleCardIdUpdated(id));
-  };
 
+  const router = useRouter();
+
+  const { search, page, page_size } = router.query;
   return (
     <Link
-      to={`&item=${id}`}
-      onClick={dispatchId}
+      href={{
+        pathname: `/`,
+        query: {
+          id: id,
+          search: search,
+          page: page,
+          page_size: page_size || '20'
+        }
+      }}
+      scroll={false}
+      as={`/games/${search || 'all'}?id=${id}`}
       className={classes.item}
       data-testid="card"
     >

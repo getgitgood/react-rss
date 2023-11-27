@@ -1,22 +1,23 @@
 import { Component, ReactNode } from 'react';
 import ErrorPage from '../layouts/ErrorPage/ErrorPage';
+import { ErrorBoundaryState } from '../types';
 
-export default class ErrorBoundary extends Component<{ children: ReactNode }> {
+export default class ErrorBoundary extends Component<
+  { children: ReactNode },
+  ErrorBoundaryState
+> {
   state = {
-    hasError: false
+    hasError: false,
+    error: undefined
   };
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
   }
 
-  clickHandler = () => {
-    this.setState({ hasError: false });
-  };
-
   render() {
-    if (this.state.hasError) {
-      return <ErrorPage />;
+    if (this.state.error) {
+      return <ErrorPage error={this.state.error} />;
     }
 
     return this.props.children;
