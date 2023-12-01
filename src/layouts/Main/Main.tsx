@@ -1,6 +1,6 @@
 import classes from './Main.module.scss';
-import UncontrolFormInfo from '../../components/UncontrolFormInfo/UncontrolFormInfo';
-import ReactFormInfo from '../../components/ReactFormInfo/ReactFormInfo';
+import UncontrolFormInfo from '../../components/Forms/UncontrolFormInfo';
+import ReactFormInfo from '../../components/Forms/ReactFormInfo';
 
 export default function Main() {
   return (
