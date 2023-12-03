@@ -8,6 +8,7 @@ export type SubmittedFormData = {
   userAgreement: boolean;
   file: string;
   country: string;
+  isNew: boolean;
 };
 
 export interface FieldError {

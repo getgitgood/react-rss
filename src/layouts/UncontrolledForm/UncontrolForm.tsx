@@ -3,16 +3,18 @@ import formSchema, { Form } from '../../components/Forms/formSchema';
 import CountryAutocomplete from '../../components/CountryAutocomplete/CountryAutocomplete';
 import { useAppDispatch } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
-import { FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { ValidationErrors } from '../../types/types';
 import { ValidationError } from 'yup';
 import { convertFileToBase64String } from '../../helpers/fileTo64baseConverter';
 import { updateUncontrolFormsSubmissions } from '../../features/uncontrolFormSlice';
+import PasswordStrengthDisplay from '../../components/PasswordStraightDisplay/PasswordStrengthDisplay';
 
 export default function UncontrolForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({} as ValidationErrors);
+  const [password, setPassword] = useState('');
   const [isAllFieldsFilled, setIsAllFieldsFilled] = useState(false);
   const dispatch = useAppDispatch();
   const mapFormDataToObject = (formData: FormData): Form => {
@@ -128,8 +130,12 @@ export default function UncontrolForm() {
             name="password"
             id="password"
             type="text"
-            onChange={checkAllFieldsFilled}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setPassword(e.target.value);
+              checkAllFieldsFilled;
+            }}
           />
+          {password && <PasswordStrengthDisplay password={password} />}
           {errors.password && (
             <p className={classes.form_error}>{errors.password.message}</p>
           )}

@@ -7,6 +7,8 @@ import { useAppDispatch } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { convertFileToBase64String } from '../../helpers/fileTo64baseConverter';
 import { updateReactFormSubmissions } from '../../features/reactFormSlice';
+import { ChangeEvent, useState } from 'react';
+import PasswordStrengthDisplay from '../../components/PasswordStraightDisplay/PasswordStrengthDisplay';
 
 export default function UncontrolForm() {
   const {
@@ -21,6 +23,7 @@ export default function UncontrolForm() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [password, setPassword] = useState('');
 
   const onSubmit = async (data: FieldValues) => {
     const inputFile = data.file.item(0);
@@ -28,6 +31,13 @@ export default function UncontrolForm() {
     const submissionData = { ...data, file };
     dispatch(updateReactFormSubmissions(submissionData));
     navigate('/');
+  };
+
+  const passwordRegistration = register('password');
+
+  const passwordChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    passwordRegistration.onChange(e);
   };
 
   return (
@@ -76,8 +86,12 @@ export default function UncontrolForm() {
           <input
             placeholder="1 number, 1 uppercase letter, 1 lowercased letter, 1 special character required"
             id="password"
-            {...register('password')}
+            onChange={(e) => passwordChangeHandler(e)}
+            ref={passwordRegistration.ref}
+            onBlur={passwordRegistration.onBlur}
+            name={passwordRegistration.name}
           />
+          {password && <PasswordStrengthDisplay password={password} />}
           {errors.password && (
             <p className={classes.form_error}>{errors.password.message}</p>
           )}

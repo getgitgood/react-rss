@@ -216,12 +216,8 @@ const countriesSlice = createSlice({
   reducers: {
     getCountries(state) {
       return state;
-    },
-    isCountrySet(state, { payload }) {
-      state.isCountrySet = payload;
     }
   }
 });
 
-export const { isCountrySet } = countriesSlice.actions;
 export default countriesSlice.reducer;

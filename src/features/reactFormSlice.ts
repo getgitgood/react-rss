@@ -8,7 +8,7 @@ const reactFormSlice = createSlice({
   initialState,
   reducers: {
     updateReactFormSubmissions(state, { payload }) {
-      state.push(payload);
+      state.push({ ...payload, isNew: true });
     }
   }
 });
