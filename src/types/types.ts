@@ -1,5 +1,5 @@
 export type SubmittedFormData = {
-  username: string;
+  name: string;
   age: number;
   email: string;
   password: string;
@@ -16,7 +16,7 @@ export interface FieldError {
 
 export type ValidationErrors = {
   [K in
-    | 'username'
+    | 'name'
     | 'age'
     | 'email'
     | 'password'

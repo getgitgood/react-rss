@@ -12,35 +12,35 @@ export default function ReactFormInfo() {
             <img src={item.file} className={classes.img} alt="image" />
             <div className={classes.text_content}>
               <p className={classes.title}>
-                name:
-                <span className={classes.subtitle}>{item.username}</span>
+                Name:
+                <span className={classes.subtitle}>{item.name}</span>
               </p>
               <p className={classes.title}>
-                age:
+                Age:
                 <span className={classes.subtitle}>{item.age}</span>
               </p>
               <p className={classes.title}>
-                email:
+                Email:
                 <span className={classes.subtitle}>{item.email}</span>
               </p>
               <p className={classes.title}>
-                password:
+                Password:
                 <span className={classes.subtitle}>{item.password}</span>
               </p>
               <p className={classes.title}>
-                confirmation:
+                Password confirmation:
                 <span className={classes.subtitle}>{item.confirmPassword}</span>
               </p>
               <p className={classes.title}>
-                gender:
+                Gender:
                 <span className={classes.subtitle}>{item.gender}</span>
               </p>
               <p className={classes.title}>
-                country:
+                Country:
                 <span className={classes.subtitle}>{item.country}</span>
               </p>
               <p className={classes.title}>
-                user agreement:
+                Agreement:
                 <span
                   className={classes.subtitle}
                 >{`${item.userAgreement}`}</span>

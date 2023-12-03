@@ -1,7 +1,7 @@
 import { InferType, boolean, mixed, number, object, ref, string } from 'yup';
 
 const formSchema = object({
-  username: string()
+  name: string()
     .min(1, 'Name must be at least one character long')
     .required('Name required.')
     .test(
@@ -11,16 +11,8 @@ const formSchema = object({
     ),
   age: number()
     .required('age is required')
-    .test('isInteger', 'Only integer numbers.', (value) => {
-      return typeof value === 'number' && !/[eE+-]/.test(value.toString());
-    })
-    .transform((value: string | number, inputValue: string) => {
-      return typeof value === 'string' && inputValue.trim() === ''
-        ? undefined
-        : value;
-    })
     .positive('Age must be a positive number.')
-    .min(18)
+    .typeError('Amount must be a number')
     .max(125),
   email: string().email().required(),
   password: string()
@@ -44,22 +36,32 @@ const formSchema = object({
 
   file: mixed<File>()
     .required()
+    .test('isSizeValid', 'File required!', (file) => {
+      let fileSize;
+      let fileName;
+      if (file instanceof FileList) fileSize = file.item(0)?.size;
+      if (file instanceof FileList) fileName = file.item(0)?.name;
+      if (file instanceof File) fileSize = file.size;
+      if (file instanceof File) fileName = file.name;
+
+      return Boolean(fileSize && fileName);
+    })
     .test('isSizeValid', 'File is too big!', (file) => {
-      if (file instanceof FileList) {
-        const fileSize = file.item(0)?.size;
-        return Boolean(!fileSize || (fileSize && fileSize <= 1024 * 5120));
-      }
-      const fileSize = file.size;
+      let fileSize;
+      if (file instanceof FileList) fileSize = file.item(0)?.size;
+      if (file instanceof File) fileSize = file.size;
+
       return Boolean(!fileSize || (fileSize && fileSize <= 1024 * 5120));
     })
     .test('isExtensionValid', 'Only .jpeg and .png allowed!', (file) => {
       const regExp = /\jpe?g|png$/i;
-      if (file instanceof FileList) {
-        const fileExtension = file.item(0)?.type;
-        return Boolean(!file || (fileExtension && regExp.test(fileExtension)));
-      }
-      const fileExtension = file.type;
-      return Boolean(!file || (fileExtension && regExp.test(fileExtension)));
+      let fileExtension;
+      if (file instanceof FileList) fileExtension = file.item(0)?.type;
+      if (file instanceof File) fileExtension = file.type;
+
+      return Boolean(
+        !fileExtension || (fileExtension && regExp.test(fileExtension))
+      );
     }),
   country: string().required('you must provide the country to proceed')
 });

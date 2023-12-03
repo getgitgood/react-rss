@@ -4,21 +4,26 @@ import { useAppSelector } from '../../hooks';
 export type CountryAutocomplete = {
   value: string;
   onChange?: (value: string) => void;
+  checkAllFieldsFilled?: () => void;
 };
 
 const CountryAutocomplete = forwardRef(
   (
-    { value = '', onChange }: CountryAutocomplete,
+    { value = '', onChange, checkAllFieldsFilled }: CountryAutocomplete,
     ref: Ref<HTMLInputElement>
   ) => {
     const { countries } = useAppSelector((state) => state.countries);
     const [inputValue, setValue] = useState(value);
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
       if (onChange) {
-        onChange(e.target.value);
+        onChange(value);
         return;
       }
-      setValue(e.target.value);
+      if (checkAllFieldsFilled) {
+        checkAllFieldsFilled();
+      }
+      setValue(value);
     };
 
     const filteredCountries = countries.filter((country) =>
@@ -26,9 +31,10 @@ const CountryAutocomplete = forwardRef(
     );
 
     return (
-      <div>
+      <>
         <input
           type="text"
+          placeholder="Enter your country"
           onChange={handleInputChange}
           value={onChange ? value : inputValue}
           list="countries"
@@ -41,7 +47,7 @@ const CountryAutocomplete = forwardRef(
             <option key={i} value={value} />
           ))}
         </datalist>
-      </div>
+      </>
     );
   }
 );

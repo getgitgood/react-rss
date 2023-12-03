@@ -13,7 +13,7 @@ export default function UncontrolForm() {
     register,
     control,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm({
     resolver: yupResolver(formSchema),
     mode: 'onChange'
@@ -24,7 +24,6 @@ export default function UncontrolForm() {
 
   const onSubmit = async (data: FieldValues) => {
     const inputFile = data.file.item(0);
-    console.log(inputFile);
     const file = await convertFileToBase64String(inputFile as File);
     const submissionData = { ...data, file };
     dispatch(updateReactFormSubmissions(submissionData));
@@ -33,96 +32,147 @@ export default function UncontrolForm() {
 
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      <div className={classes.input_container}>
-        <label htmlFor="username">name</label>
-        <input id="username" {...register('username')} />
-      </div>
-      {errors.username && <p>{errors.username.message}</p>}
-
-      <div className={classes.input_container}>
-        <label htmlFor="age">age</label>
-        <input type="number" id="age" {...register('age')} />
-      </div>
-      {errors.age && <p>{errors.age.message}</p>}
-
-      <div className={classes.input_container}>
-        <label htmlFor="email">email</label>
-        <input id="email" {...register('email')} />
-      </div>
-      {errors.email && <p>{errors.email.message}</p>}
-
-      <div className={classes.input_container}>
-        <label htmlFor="password">enter password</label>
-        <input id="password" {...register('password')} />
-      </div>
-      {errors.password && <p>{errors.password.message}</p>}
-
-      <div className={classes.input_container}>
-        <label htmlFor="confirmPassword">confirm password</label>
-        <input id="confirmPassword" {...register('confirmPassword')} />
-      </div>
-      {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
-
-      <fieldset id="gender">
-        <legend>gender</legend>
-        <p>
-          Male
+      <fieldset>
+        <legend>Briefly about yourself</legend>
+        <div className={classes.input_container}>
+          <label htmlFor="name">Enter your name:</label>
           <input
-            {...register('gender')}
-            name="gender"
-            type="radio"
-            value={'male'}
+            placeholder="Must starts with a capital letter"
+            id="name"
+            {...register('name')}
           />
-        </p>
-        <p>
-          Female
-          <input
-            {...register('gender')}
-            name="gender"
-            type="radio"
-            value={'female'}
-          />
-        </p>
+          {errors.name && (
+            <p className={classes.form_error}>{errors.name.message}</p>
+          )}
+        </div>
 
-        <p>
-          Not selected
+        <div className={classes.input_container}>
+          <label htmlFor="age">Enter your age:</label>
           <input
-            {...register('gender')}
-            name="gender"
-            type="radio"
-            value={'not selected'}
+            placeholder="Between 18 and 125"
+            type="number"
+            id="age"
+            {...register('age')}
           />
-        </p>
-        {errors.gender && <p>gender is required</p>}
+          {errors.age && (
+            <p className={classes.form_error}>{errors.age.message}</p>
+          )}
+        </div>
+
+        <div className={classes.input_container}>
+          <label htmlFor="email">Enter your email:</label>
+          <input
+            placeholder="Must be a valid email"
+            id="email"
+            {...register('email')}
+          />
+          {errors.email && (
+            <p className={classes.form_error}>{errors.email.message}</p>
+          )}
+        </div>
+
+        <div className={classes.input_container}>
+          <label htmlFor="password">Enter your password:</label>
+          <input
+            placeholder="1 number, 1 uppercase letter, 1 lowercased letter, 1 special character required"
+            id="password"
+            {...register('password')}
+          />
+          {errors.password && (
+            <p className={classes.form_error}>{errors.password.message}</p>
+          )}
+        </div>
+
+        <div className={classes.input_container}>
+          <label htmlFor="confirmPassword">Confirm your password:</label>
+          <input
+            placeholder="Must be the same as password above"
+            id="confirmPassword"
+            {...register('confirmPassword')}
+          />
+          {errors.confirmPassword && (
+            <p className={classes.form_error}>
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
+
+        <div className={classes.input_container}>
+          <label htmlFor="country">You are from:</label>
+          <Controller
+            name="country"
+            control={control}
+            render={({ field }) => <CountryAutocomplete {...field} />}
+          />
+          {errors.country && (
+            <p className={classes.form_error}>{errors.country.message}</p>
+          )}
+        </div>
       </fieldset>
-      <div className={classes.input_container}>
-        <label htmlFor="agreement">
-          I have read and accept the terms and conditions
-        </label>
-        <input {...register('userAgreement')} id="agreement" type="checkbox" />
-      </div>
-      {errors.userAgreement && <p>{errors.userAgreement.message}</p>}
 
-      <div className={classes.input_container}>
-        Provide your image.
-        <input {...register('file')} type="file" />
-      </div>
-      {errors.file && <p>{errors.file.message}</p>}
-
-      <div className={classes.input_container}>
-        <label htmlFor="country"> Provide your country.</label>
-        <Controller
-          name="country"
-          control={control}
-          render={({ field }) => <CountryAutocomplete {...field} />}
+      <fieldset className={classes.gender_fieldset} id="gender" name="gender">
+        <legend>Select your gender:</legend>
+        <label htmlFor="gender">Male</label>
+        <input
+          {...register('gender')}
+          name="gender"
+          type="radio"
+          value={'male'}
         />
+        <label htmlFor="gender">Female</label>
+        <input
+          {...register('gender')}
+          name="gender"
+          type="radio"
+          value={'female'}
+        />
+
+        <label htmlFor="gender">Not selected</label>
+        <input
+          {...register('gender')}
+          name="gender"
+          type="radio"
+          value={'not selected'}
+        />
+        {errors.gender && (
+          <p className={classes.form_error}>gender is required</p>
+        )}
+      </fieldset>
+
+      <fieldset className={`${classes.input_container}`}>
+        <legend>Provide your image.</legend>
+        <label htmlFor="file"></label>
+        <input
+          {...register('file')}
+          type="file"
+          className={classes.input_file}
+        />
+        {errors.file && (
+          <p className={classes.form_error}>{errors.file.message}</p>
+        )}
+      </fieldset>
+
+      <div className={`${classes.input_container} ${classes.input_inline}`}>
+        <label htmlFor="agreement">
+          I have read and accept the terms and conditions:
+        </label>
+        <input
+          {...register('userAgreement')}
+          className={classes.input_agreement}
+          id="agreement"
+          type="checkbox"
+        />
+        {errors.userAgreement && (
+          <p className={classes.form_error}>{errors.userAgreement.message}</p>
+        )}
       </div>
-      {errors.country && <p>{errors.country.message}</p>}
+
       <div className={classes.input_container}>
         <button
           formAction="submit"
           className={classes.submit_btn}
           type="submit"
+          disabled={!isValid}
         >
           Submit
         </button>
