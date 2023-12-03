@@ -1,18 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { SubmittedFormData } from '../types/types';
 
-export type UncontrolFormData = {
-  username: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  userAgreement: boolean;
-  file: string;
-  country: string;
-};
-
-const initialState: UncontrolFormData[] = [];
+const initialState: SubmittedFormData[] = [];
 
 const uncontrolFormSlice = createSlice({
   name: 'uncontrolForm',

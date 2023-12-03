@@ -1,12 +1,12 @@
+import classes from '../../styles/Form.module.scss';
 import formSchema from '../../components/Forms/formSchema';
-import classes from './ReactForm.module.scss';
 import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CountryAutocomplete from '../../components/CountryAutocomplete/CountryAutocomplete';
 import { useAppDispatch } from '../../hooks';
-import { updateUncontrolFormsSubmissions } from '../../features/uncontrolFormSlice';
 import { useNavigate } from 'react-router-dom';
 import { convertFileToBase64String } from '../../helpers/fileTo64baseConverter';
+import { updateReactFormSubmissions } from '../../features/reactFormSlice';
 
 export default function UncontrolForm() {
   const {
@@ -24,16 +24,17 @@ export default function UncontrolForm() {
 
   const onSubmit = async (data: FieldValues) => {
     const inputFile = data.file.item(0);
+    console.log(inputFile);
     const file = await convertFileToBase64String(inputFile as File);
     const submissionData = { ...data, file };
-    dispatch(updateUncontrolFormsSubmissions(submissionData));
+    dispatch(updateReactFormSubmissions(submissionData));
     navigate('/');
   };
 
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.input_container}>
-        <label htmlFor="username">username</label>
+        <label htmlFor="username">name</label>
         <input id="username" {...register('username')} />
       </div>
       {errors.username && <p>{errors.username.message}</p>}
@@ -103,13 +104,13 @@ export default function UncontrolForm() {
       {errors.userAgreement && <p>{errors.userAgreement.message}</p>}
 
       <div className={classes.input_container}>
-        Provide your image. It`s obligatory.
+        Provide your image.
         <input {...register('file')} type="file" />
       </div>
       {errors.file && <p>{errors.file.message}</p>}
 
       <div className={classes.input_container}>
-        <label htmlFor="country"> Provide your country. It`s obligatory.</label>
+        <label htmlFor="country"> Provide your country.</label>
         <Controller
           name="country"
           control={control}

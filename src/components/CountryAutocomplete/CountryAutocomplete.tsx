@@ -1,9 +1,9 @@
-import { ChangeEvent, Ref, forwardRef } from 'react';
+import { ChangeEvent, Ref, forwardRef, useState } from 'react';
 import { useAppSelector } from '../../hooks';
 
 export type CountryAutocomplete = {
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 };
 
 const CountryAutocomplete = forwardRef(
@@ -11,9 +11,14 @@ const CountryAutocomplete = forwardRef(
     { value = '', onChange }: CountryAutocomplete,
     ref: Ref<HTMLInputElement>
   ) => {
-    const { countries } = useAppSelector((state) => state);
+    const { countries } = useAppSelector((state) => state.countries);
+    const [inputValue, setValue] = useState(value);
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
+      if (onChange) {
+        onChange(e.target.value);
+        return;
+      }
+      setValue(e.target.value);
     };
 
     const filteredCountries = countries.filter((country) =>
@@ -25,9 +30,10 @@ const CountryAutocomplete = forwardRef(
         <input
           type="text"
           onChange={handleInputChange}
-          value={value}
+          value={onChange ? value : inputValue}
           list="countries"
           id="country"
+          name="country"
           ref={ref}
         />
         <datalist id="countries">

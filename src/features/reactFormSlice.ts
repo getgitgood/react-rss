@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { SubmittedFormData } from '../types/types';
 
-const initialState = {};
+const initialState: SubmittedFormData[] = [];
 
-const reactFromSlice = createSlice({
+const reactFormSlice = createSlice({
   name: 'reactForm',
   initialState,
   reducers: {
-    updateReactFormState(_, action) {
-      return action.payload;
+    updateReactFormSubmissions(state, { payload }) {
+      state.push(payload);
     }
   }
 });
 
-export default reactFromSlice.reducer;
+export const { updateReactFormSubmissions } = reactFormSlice.actions;
+
+export default reactFormSlice.reducer;

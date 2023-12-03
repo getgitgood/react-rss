@@ -10,11 +10,15 @@ const formSchema = object({
       (value) => value !== '' && value[0].toUpperCase() === value[0]
     ),
   age: number()
-    .nullable()
     .required('age is required')
-    .transform((value: string, inputValue: string) =>
-      inputValue.trim() === '' ? undefined : value
-    )
+    .test('isInteger', 'Only integer numbers.', (value) => {
+      return typeof value === 'number' && !/[eE+-]/.test(value.toString());
+    })
+    .transform((value: string | number, inputValue: string) => {
+      return typeof value === 'string' && inputValue.trim() === ''
+        ? undefined
+        : value;
+    })
     .positive('Age must be a positive number.')
     .min(18)
     .max(125),
@@ -38,16 +42,23 @@ const formSchema = object({
       (value: boolean) => value
     ),
 
-  file: mixed<FileList>()
-    .nullable()
-    .required('File required')
+  file: mixed<File>()
+    .required()
     .test('isSizeValid', 'File is too big!', (file) => {
-      const fileSize = file?.item(0)?.size;
+      if (file instanceof FileList) {
+        const fileSize = file.item(0)?.size;
+        return Boolean(!fileSize || (fileSize && fileSize <= 1024 * 5120));
+      }
+      const fileSize = file.size;
       return Boolean(!fileSize || (fileSize && fileSize <= 1024 * 5120));
     })
     .test('isExtensionValid', 'Only .jpeg and .png allowed!', (file) => {
       const regExp = /\jpe?g|png$/i;
-      const fileExtension = file?.item(0)?.type;
+      if (file instanceof FileList) {
+        const fileExtension = file.item(0)?.type;
+        return Boolean(!file || (fileExtension && regExp.test(fileExtension)));
+      }
+      const fileExtension = file.type;
       return Boolean(!file || (fileExtension && regExp.test(fileExtension)));
     }),
   country: string().required('you must provide the country to proceed')

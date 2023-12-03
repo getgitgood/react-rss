@@ -1,19 +1,34 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import classes from './Header.module.scss';
 
 export default function Header() {
   return (
     <header className={classes.header}>
       <nav className={classes.nav_bar}>
-        <Link to={'/'} className={classes.link}>
+        <NavLink
+          to={'/'}
+          className={({ isActive }) =>
+            isActive ? `${classes.link} ${classes.link_active}` : classes.link
+          }
+        >
           Home
-        </Link>
-        <Link to={'/uncontrol-form'} className={classes.link}>
+        </NavLink>
+        <NavLink
+          to={'/uncontrol-form'}
+          className={({ isActive }) =>
+            isActive ? `${classes.link} ${classes.link_active}` : classes.link
+          }
+        >
           Uncontrol Form
-        </Link>
-        <Link to={'/react-form'} className={classes.link}>
+        </NavLink>
+        <NavLink
+          to={'/react-form'}
+          className={({ isActive }) =>
+            isActive ? `${classes.link} ${classes.link_active}` : classes.link
+          }
+        >
           React Form
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );
