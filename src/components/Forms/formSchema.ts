@@ -11,12 +11,16 @@ const formSchema = object({
     ),
   age: number()
     .nullable()
+    .required('age is required')
+    .transform((value: string, inputValue: string) =>
+      inputValue.trim() === '' ? undefined : value
+    )
     .positive('Age must be a positive number.')
     .min(18)
-    .max(125)
-    .transform((value: string | number) => (value === '' ? undefined : value)),
-  email: string().email(),
+    .max(125),
+  email: string().email().required(),
   password: string()
+    .required('please enter password')
     .required('Please, enter a password.')
     .matches(/[0-9]/, 'should contain one number.')
     .matches(/[a-z]/, 'should contain one lowercase.')
@@ -25,10 +29,18 @@ const formSchema = object({
   confirmPassword: string()
     .oneOf([ref('password')], 'password must match')
     .required('please confirm you password'),
-  gender: string().optional(),
-  userAgreement: boolean().required('Accept terms and conditions to proceed.'),
+  gender: string().required('gender is required'),
+  userAgreement: boolean()
+    .required('Accept terms and conditions to proceed.')
+    .test(
+      'userAgreement',
+      'You must accept terms and conditions to proceed',
+      (value: boolean) => value
+    ),
+
   file: mixed<FileList>()
     .nullable()
+    .required('File required')
     .test('isSizeValid', 'File is too big!', (file) => {
       const fileSize = file?.item(0)?.size;
       return Boolean(!fileSize || (fileSize && fileSize <= 1024 * 5120));
@@ -37,7 +49,8 @@ const formSchema = object({
       const regExp = /\jpe?g|png$/i;
       const fileExtension = file?.item(0)?.type;
       return Boolean(!file || (fileExtension && regExp.test(fileExtension)));
-    })
+    }),
+  country: string().required('you must provide the country to proceed')
 });
 
 export type Form = InferType<typeof formSchema>;

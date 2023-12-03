@@ -1,9 +1,9 @@
 import classes from '../../styles/FormInfo.module.scss';
 
-export default function UncontrolFormInfo() {
+export default function ReactFormInfo() {
   return (
     <div>
-      <h2 className={classes.void}>Uncontrol</h2>
+      <h2 className={classes.void}>ReactForm</h2>
     </div>
   );
 }

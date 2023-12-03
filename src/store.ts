@@ -6,10 +6,12 @@ import {
 
 import uncontrolFormReducer from './features/uncontrolFormSlice';
 import reactFormReducer from './features/reactFormSlice';
+import countriesReducer from './features/countriesSlice';
 
 const rootReducer = combineReducers({
   uncontrolForm: uncontrolFormReducer,
-  reactForm: reactFormReducer
+  reactForm: reactFormReducer,
+  countries: countriesReducer
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {
