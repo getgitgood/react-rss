@@ -3,13 +3,23 @@ import { useAppSelector } from '../../hooks';
 
 export type CountryAutocomplete = {
   value: string;
+  labelText?: string;
+  id: string;
   onChange?: (value: string) => void;
   checkAllFieldsFilled?: () => void;
+  placeholder?: string;
 };
 
 const CountryAutocomplete = forwardRef(
   (
-    { value = '', onChange, checkAllFieldsFilled }: CountryAutocomplete,
+    {
+      value = '',
+      onChange,
+      checkAllFieldsFilled,
+      labelText,
+      id,
+      placeholder
+    }: CountryAutocomplete,
     ref: Ref<HTMLInputElement>
   ) => {
     const { countries } = useAppSelector((state) => state.countries);
@@ -32,14 +42,14 @@ const CountryAutocomplete = forwardRef(
 
     return (
       <>
+        <label htmlFor={id}>{labelText}</label>
         <input
-          type="text"
-          placeholder="Enter your country"
+          placeholder={placeholder}
+          name={id}
           onChange={handleInputChange}
           value={onChange ? value : inputValue}
           list="countries"
-          id="country"
-          name="country"
+          id={id}
           ref={ref}
         />
         <datalist id="countries">

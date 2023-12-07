@@ -1,11 +1,16 @@
-import { useAppSelector } from '../../hooks';
+import { SubmittedFormData } from '../../types/types';
 import classes from '../../styles/Form.module.scss';
 
-export default function UncontrolFormInfo() {
-  const formSubmissions = useAppSelector((state) => state.uncontrolForm);
+export type FormInfo = {
+  formSubmissions: SubmittedFormData[];
+  heading: string;
+};
+
+export default function Submissions(props: FormInfo) {
+  const { formSubmissions, heading } = props;
   return (
     <div className={classes.container}>
-      <h2 className={classes.heading}>Uncontrolled form submissions</h2>
+      <h2 className={classes.heading}>{heading}</h2>
       <div className={classes.cards_container}>
         {formSubmissions.map((item, i) => (
           <div key={i} className={classes.card}>

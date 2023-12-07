@@ -39,18 +39,17 @@
   flex-direction: column;
   padding: 0.5rem;
   font-size: 1.4rem;
-
 }
 
 .title {
   display: inline-flex;
   justify-content: space-between;
   font-weight: 500;
-  color:darkgreen;
+  color: darkgreen;
   border-bottom: 1px dashed black;
   .subtitle {
     font-weight: 700;
-    color:rgb(64, 66, 67);
+    color: rgb(64, 66, 67);
   }
 }
 
@@ -95,7 +94,6 @@
     width: auto;
   }
 }
-
 
 .submit_btn {
   padding: 1rem;

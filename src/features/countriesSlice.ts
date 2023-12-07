@@ -8,7 +8,7 @@ const initialState = {
     'Andorra',
     'Angola',
     'Anguilla',
-    'Antigua &amp; Barbuda',
+    'Antigua & Barbuda',
     'Argentina',
     'Armenia',
     'Aruba',
@@ -26,7 +26,7 @@ const initialState = {
     'Bermuda',
     'Bhutan',
     'Bolivia',
-    'Bosnia &amp; Herzegovina',
+    'Bosnia & Herzegovina',
     'Botswana',
     'Brazil',
     'British Virgin Islands',
@@ -194,7 +194,7 @@ const initialState = {
     'Tunisia',
     'Turkey',
     'Turkmenistan',
-    'Turks &amp; Caicos',
+    'Turks & Caicos',
     'Uganda',
     'Ukraine',
     'United Arab Emirates',
@@ -207,8 +207,7 @@ const initialState = {
     'Yemen',
     'Zambia',
     'Zimbabwe'
-  ],
-  isCountrySet: false
+  ]
 };
 const countriesSlice = createSlice({
   name: 'countries',

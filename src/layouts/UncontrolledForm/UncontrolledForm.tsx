@@ -1,14 +1,18 @@
 import classes from '../../styles/Form.module.scss';
-import formSchema, { Form } from '../../components/Forms/formSchema';
-import CountryAutocomplete from '../../components/CountryAutocomplete/CountryAutocomplete';
+import formSchema, { Form } from '../../utils/formSchema';
+import CountryAutocomplete from '../../components/AutocompleteComponent/AutocompleteComponent';
 import { useAppDispatch } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { ValidationErrors } from '../../types/types';
 import { ValidationError } from 'yup';
-import { convertFileToBase64String } from '../../helpers/fileTo64baseConverter';
-import { updateUncontrolFormsSubmissions } from '../../features/uncontrolFormSlice';
-import PasswordStrengthDisplay from '../../components/PasswordStraightDisplay/PasswordStrengthDisplay';
+import { convertFileToBase64String } from '../../utils/fileTo64baseConverter';
+import { updateUncontrolledFormSubmissions } from '../../features/formSlice';
+import PasswordStrengthComponent from '../../components/PasswordStrengthComponent/PasswordStrengthComponent';
+import TextInput from '../../components/TextInput/TextInput';
+import InputErrors from '../../components/InputErrors/InputErrors';
+import PasswordInput from '../../components/PasswordInput/PasswordInput';
+import CheckboxInput from '../../components/Checkbox/Checkbox';
 
 export default function UncontrolForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -17,7 +21,9 @@ export default function UncontrolForm() {
   const [password, setPassword] = useState('');
   const [isAllFieldsFilled, setIsAllFieldsFilled] = useState(false);
   const dispatch = useAppDispatch();
+
   const mapFormDataToObject = (formData: FormData): Form => {
+    console.log(Boolean(formData.get('userAgreement')));
     return {
       name: formData.get('name') as string,
       age: Number(formData.get('age')),
@@ -25,7 +31,7 @@ export default function UncontrolForm() {
       password: formData.get('password') as string,
       confirmPassword: formData.get('confirmPassword') as string,
       gender: formData.get('gender') as string,
-      userAgreement: Boolean(formData.get('agreement')),
+      userAgreement: Boolean(formData.get('userAgreement')),
       file: formData.get('file') as unknown as File,
       country: formData.get('country') as string
     };
@@ -40,7 +46,7 @@ export default function UncontrolForm() {
       'password',
       'confirmPassword',
       'gender',
-      'agreement',
+      'userAgreement',
       'file',
       'country'
     ];
@@ -62,9 +68,10 @@ export default function UncontrolForm() {
       setErrors({} as ValidationErrors);
       const file = await convertFileToBase64String(formDataObject.file);
       const formSubmission = { ...formDataObject, file };
-      dispatch(updateUncontrolFormsSubmissions(formSubmission));
+      dispatch(updateUncontrolledFormSubmissions(formSubmission));
       navigate('/');
     } catch (e) {
+      console.log(e);
       if (e instanceof ValidationError) {
         const newErrors = e.inner.reduce((acc, currentError) => {
           const path = currentError.path as keyof ValidationErrors | undefined;
@@ -78,131 +85,127 @@ export default function UncontrolForm() {
     }
   };
 
+  const passwordChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    checkAllFieldsFilled();
+  };
+
   return (
-    <form ref={formRef} className={classes.form} onSubmit={handleSubmit}>
+    <form
+      ref={formRef}
+      className={classes.form}
+      onSubmit={handleSubmit}
+      autoComplete="true"
+    >
       <fieldset>
         <legend>Briefly about yourself</legend>
         <div className={classes.input_container}>
-          <label htmlFor="name">Enter your name:</label>
-          <input
-            placeholder="Must starts with a capital letter"
-            name="name"
-            id="name"
-            type="text"
+          <TextInput
+            placeholder={'Must starts with a capital letter'}
+            labelText={'Enter your name:'}
+            id={'name'}
+            name={'name'}
             onChange={checkAllFieldsFilled}
           />
-          {errors.name && (
-            <p className={classes.form_error}>{errors.name.message}</p>
-          )}
+          {errors.name && <InputErrors message={errors.name.message} />}
         </div>
 
         <div className={classes.input_container}>
-          <label htmlFor="age">Enter your age:</label>
-          <input
-            placeholder="Between 18 and 125"
+          <TextInput
+            placeholder="Positive number less than 125"
+            labelText={'Enter your age:'}
             name="age"
             type="number"
             id="age"
             onChange={checkAllFieldsFilled}
           />
-          {errors.age && (
-            <p className={classes.form_error}>{errors.age.message}</p>
-          )}
+          {errors.age && <InputErrors message={errors.age.message} />}
         </div>
 
         <div className={classes.input_container}>
-          <label htmlFor="email">Enter your email:</label>
-          <input
+          <TextInput
             placeholder="Must be a valid email"
+            labelText={'Enter your email:'}
             name="email"
             id="email"
             onChange={checkAllFieldsFilled}
           />
-          {errors.email && (
-            <p className={classes.form_error}>{errors.email.message}</p>
-          )}
+          {errors.email && <InputErrors message={errors.email.message} />}
         </div>
 
         <div className={classes.input_container}>
-          <label htmlFor="password">Enter your password:</label>
-          <input
+          <PasswordInput
             placeholder="1 number, 1 uppercase letter, 1 lowercased letter, 1 special character required"
-            name="password"
+            labelText={'Enter your password:'}
             id="password"
             type="text"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setPassword(e.target.value);
-              checkAllFieldsFilled;
-            }}
+            handler={passwordChangeHandler}
           />
-          {password && <PasswordStrengthDisplay password={password} />}
+          {password && <PasswordStrengthComponent password={password} />}
           {errors.password && (
             <p className={classes.form_error}>{errors.password.message}</p>
           )}
         </div>
 
         <div className={classes.input_container}>
-          <label htmlFor="confirmPassword">Confirm your password:</label>
-          <input
-            placeholder="Must be the same as password above"
+          <TextInput
+            placeholder={'Must be the same as password above'}
+            labelText={'Confirm your password:'}
             name="confirmPassword"
             id="confirmPassword"
             type="text"
             onChange={checkAllFieldsFilled}
           />
           {errors.confirmPassword && (
-            <p className={classes.form_error}>
-              {errors.confirmPassword.message}
-            </p>
+            <InputErrors message={errors.confirmPassword.message} />
           )}
         </div>
 
         <div className={classes.input_container}>
-          <label htmlFor="country">You are from:</label>
           <CountryAutocomplete
             value=""
+            labelText="You are from:"
+            placeholder="Enter your country"
+            id="country"
             checkAllFieldsFilled={checkAllFieldsFilled}
           />
-          {errors.country && (
-            <p className={classes.form_error}>{errors.country.message}</p>
-          )}
+          {errors.country && <InputErrors message={errors.country.message} />}
         </div>
       </fieldset>
 
       <fieldset className={classes.gender_fieldset} id="gender" name="gender">
         <legend>Select your gender:</legend>
-        <label htmlFor="gender">Male</label>
-        <input
+        <TextInput
+          labelText="Male"
+          id={'gender'}
           name="gender"
+          value="male"
           type="radio"
-          value={'male'}
+          onChange={checkAllFieldsFilled}
+        />
+        <TextInput
+          labelText="Female"
+          id={'gender'}
+          name="gender"
+          value="female"
+          type="radio"
+          onChange={checkAllFieldsFilled}
+        />
+        <TextInput
+          labelText="Not selected"
+          id={'gender'}
+          name="gender"
+          value="not selected"
+          type="radio"
           onChange={checkAllFieldsFilled}
         />
 
-        <label htmlFor="gender">Female</label>
-        <input
-          name="gender"
-          type="radio"
-          value={'female'}
-          onChange={checkAllFieldsFilled}
-        />
-
-        <label htmlFor="gender">Not selected</label>
-        <input
-          name="gender"
-          type="radio"
-          value={'not selected'}
-          onChange={checkAllFieldsFilled}
-        />
-
-        {errors.gender && (
-          <p className={classes.form_error}>gender is required</p>
-        )}
+        {errors.gender && <InputErrors message={errors.gender.message} />}
       </fieldset>
 
       <fieldset className={`${classes.input_container}`}>
         <legend>Provide your image.</legend>
-        <label htmlFor="file"></label>
+        <label htmlFor="file" />
 
         <input
           name="file"
@@ -210,18 +213,15 @@ export default function UncontrolForm() {
           className={classes.input_file}
           onChange={checkAllFieldsFilled}
         />
-        {errors.file && (
-          <p className={classes.form_error}>{errors.file.message}</p>
-        )}
+        {errors.file && <InputErrors message={errors.file.message} />}
       </fieldset>
+
       <div className={`${classes.input_container} ${classes.input_inline}`}>
-        <label htmlFor="agreement">
-          I have read and accept the terms and conditions
-        </label>
-        <input
+        <CheckboxInput
           className={classes.input_agreement}
-          name="agreement"
-          id="agreement"
+          labelText="I have read and accept the terms and conditions"
+          name="userAgreement"
+          id="userAgreement"
           type="checkbox"
           onChange={checkAllFieldsFilled}
         />

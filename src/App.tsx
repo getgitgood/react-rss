@@ -5,8 +5,8 @@ import {
   createRoutesFromElements
 } from 'react-router-dom';
 import Main from './layouts/Main/Main';
-import UncontrolForm from './layouts/UncontrolledForm/UncontrolForm';
-import ReactForm from './layouts/ReactForm/ReactForm';
+import UncontrolForm from './layouts/UncontrolledForm/UncontrolledForm';
+import ReactForm from './layouts/ControlledForm/ControlledForm';
 import Layout from './layouts/Layout/Layout';
 
 const router = createBrowserRouter(

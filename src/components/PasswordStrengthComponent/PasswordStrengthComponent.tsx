@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-import classes from './PasswordStrengthDisplay.module.scss';
+import classes from './PasswordStrengthComponent.module.scss';
 
-export default function PasswordStrengthDisplay({
+export default function PasswordStrengthComponent({
   password
 }: {
   password: string;
 }) {
   const [strengthCount, setStrengthCount] = useState(0);
-
   useEffect(() => {
     let strength = 0;
     if (password.match(/[a-z]+/)) strength += 1;
@@ -23,6 +22,7 @@ export default function PasswordStrengthDisplay({
     'Very Weak',
     'Weak',
     'Not so strong',
+    'Average',
     'Strong',
     'Very Strong'
   ][strengthCount];
