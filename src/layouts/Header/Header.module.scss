@@ -1,0 +1,29 @@
+@use '../../index.scss' as var;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.331);
+
+  .nav_bar {
+    padding: 0.3rem;
+    display: flex;
+    width: 30%;
+    justify-content: space-around;
+  }
+
+  .link {
+    padding: 0.5rem;
+    font-weight: 600;
+
+    background-color: rgba(255, 194, 80, 0.662);
+    border-radius: 5px;
+  }
+
+  .link_active {
+    background-color: rgba(255, 194, 80, 0.9);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    color: black;
+  }
+}
